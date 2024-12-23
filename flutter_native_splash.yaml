@@ -1,0 +1,13 @@
+flutter_native_splash:
+  ios: true
+  ios_content_mode: scaleAspectFit
+  color: '#F2F2F2'
+  icon_background_color: '#F2F2F2'
+  image: 'assets/images/spotify_logo.png'
+
+  android: true
+  android_gravity: center
+  android_12:
+    color: '#F2F2F2'
+    icon_background_color: '#F2F2F2'
+    image: 'assets/images/spotify_logo.png'

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "345257387035",
+    "project_id": "shop-bacsi-nguyentrongthuy",
+    "storage_bucket": "shop-bacsi-nguyentrongthuy.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345257387035:android:38863ff9c074ca336144be",
+        "android_client_info": {
+          "package_name": "com.example.shop_bacsi_nguyentrongthuy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCufqr4Oyr8CgNVTpwLJ2raYmJZWwHcZMs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
