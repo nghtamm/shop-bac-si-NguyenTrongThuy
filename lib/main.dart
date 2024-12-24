@@ -13,6 +13,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/bloc/auth_
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
 import 'package:shop_bacsi_nguyentrongthuy/firebase_options.dart';
 import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/xinchaochatgpt/views/pages/AI_chat.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
               theme: AppTheme.lightTheme,
               themeMode: ThemeMode.light,
               home: HomePage(displayName: authState.displayName),
+              //home: AiChat(),
             );
           } else {
             return MaterialApp(
