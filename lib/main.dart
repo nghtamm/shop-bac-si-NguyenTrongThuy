@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_theme.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/pages/get_started.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/xinchaochatgpt/views/pages/AI_chat.dart';
 import 'package:shop_bacsi_nguyentrongthuy/firebase_options.dart';
+import 'features/product_detail/views/pages/product_detail.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: 'Shop Bác sĩ Nguyễn Trọng Thủy',
       theme: AppTheme.lightTheme,
       themeMode: ThemeMode.light,
-      home: const GetStartedPage(),
+      home: const AiChat(),
     );
   }
 }
