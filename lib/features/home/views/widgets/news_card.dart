@@ -82,7 +82,7 @@ class NewsCard extends StatelessWidget {
                             backgroundColor: Color(0xFFB6EEF5),
                             radius: 20,
                             child: Icon(
-                              Icons.heart_broken_rounded,
+                              Icons.healing_rounded,
                               color: Colors.black,
                             ),
                           ),

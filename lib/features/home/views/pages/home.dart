@@ -353,6 +353,7 @@ class _FirstRowButtons extends StatelessWidget {
                 Icon(
                   Icons.shopping_cart_outlined,
                   color: Colors.black,
+                  size: 26,
                 ),
                 SizedBox(width: 10),
                 Text(
@@ -387,6 +388,7 @@ class _FirstRowButtons extends StatelessWidget {
             child: const Icon(
               Icons.medication_liquid_sharp,
               color: Colors.black,
+              size: 30,
             ),
           ),
         ),
@@ -419,6 +421,7 @@ class _SecondRowButtons extends StatelessWidget {
             child: const Icon(
               Icons.chat_bubble_outline_rounded,
               color: Colors.black,
+              size: 30,
             ),
           ),
         ),
@@ -439,6 +442,7 @@ class _SecondRowButtons extends StatelessWidget {
                 Icon(
                   Icons.receipt_outlined,
                   color: Colors.black,
+                  size: 26,
                 ),
                 SizedBox(width: 10),
                 Text(
