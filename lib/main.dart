@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
               theme: AppTheme.lightTheme,
               themeMode: ThemeMode.light,
               home: HomePage(displayName: authState.displayName),
-              //home: AiChat(),
+              // home: AiChat(),
             );
           } else {
             return MaterialApp(
