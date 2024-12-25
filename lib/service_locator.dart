@@ -7,10 +7,15 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/get_aut
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_in_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/repository/order.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/add_to_cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/repository/product_repository_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/sources/product_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/repository/product_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
+
+import 'package:shop_bacsi_nguyentrongthuy/features/order/sources/order_firebase_service.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -33,6 +38,10 @@ Future<void> initializeDependencies() async {
   serviceLocator
       .registerSingleton<ProductFirebaseService>(ProductFirebaseServiceImpl());
 
+  serviceLocator
+      .registerSingleton<OrderFirebaseService>(OrderFirebaseServiceImpl());
+
+  serviceLocator.registerSingleton<OrderRepository>(OrderRepositoryImpl());
   serviceLocator.registerSingleton<ProductRepository>(ProductRepositoryImpl());
 
   serviceLocator
@@ -40,4 +49,5 @@ Future<void> initializeDependencies() async {
 
   serviceLocator
       .registerSingleton<ResetPasswordUseCase>(ResetPasswordUseCase());
+  serviceLocator.registerSingleton<AddToCartUseCase>(AddToCartUseCase());
 }

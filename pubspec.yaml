@@ -47,6 +47,7 @@ dependencies:
   cloud_firestore: ^5.6.0
   chat_gpt_sdk: ^3.1.4
   dash_chat_2: ^0.0.21
+  dartz: ^0.10.1
 
 
 dev_dependencies:
