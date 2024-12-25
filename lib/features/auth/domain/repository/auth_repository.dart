@@ -9,4 +9,6 @@ abstract class AuthenticationRepository {
   Future<bool> getAuthState();
 
   Future<String> getDisplayName();
+
+  Future<Either> resetPassword(String email);
 }
