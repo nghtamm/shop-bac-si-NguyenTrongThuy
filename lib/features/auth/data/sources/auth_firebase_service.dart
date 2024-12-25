@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/auth_request.dart';
 
 abstract class AuthenticationFirebaseService {
@@ -12,6 +13,10 @@ abstract class AuthenticationFirebaseService {
   Future<String> getDisplayName();
 
   Future<Either> resetPassword(String email);
+
+  Future<Either> signOut();
+
+  Future<Either<String, User>> signInWithGoogle();
 }
 
 class AuthenticationFirebaseServiceImpl extends AuthenticationFirebaseService {
@@ -94,6 +99,46 @@ class AuthenticationFirebaseServiceImpl extends AuthenticationFirebaseService {
         errorMessage = 'Đã xảy ra lỗi không xác định.';
       }
       return Left(errorMessage);
+    }
+  }
+
+  @override
+  Future<Either> signOut() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      return const Right('Đăng xuất thành công!');
+    } on FirebaseAuthException catch (err) {
+      return Left(err.message ?? 'Đã xảy ra lỗi không xác định.');
+    }
+  }
+
+  @override
+  Future<Either<String, User>> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        return const Left('Đăng nhập bằng Google đã bị hủy.');
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      final User? user = userCredential.user;
+
+      if (user != null) {
+        return Right(user);
+      } else {
+        return const Left('Đăng nhập bằng Google thất bại.');
+      }
+    } on FirebaseAuthException catch (err) {
+      return Left(err.message ?? 'Đã xảy ra lỗi không xác định.');
     }
   }
 }

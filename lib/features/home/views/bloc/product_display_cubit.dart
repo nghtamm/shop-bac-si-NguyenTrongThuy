@@ -1,13 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/usecase/use_case.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_state.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
 
 class ProductDisplayCubit extends Cubit<ProductDisplayState> {
-  ProductDisplayCubit() : super(ProductInitialState());
+  final UseCase useCase;
+
+  ProductDisplayCubit({required this.useCase}) : super(ProductInitialState());
 
   void displayProducts({dynamic params}) async {
-    var productData = await serviceLocator<GetDoctorChoiceUseCase>().call();
+    emit(ProductLoading());
+
+    var productData = await useCase.call(params: params);
     productData.fold(
       (left) {
         emit(ProductLoadFailed());
@@ -16,5 +19,10 @@ class ProductDisplayCubit extends Cubit<ProductDisplayState> {
         emit(ProductLoaded(products: right));
       },
     );
+  }
+
+  void displayInitial() {
+    emit(ProductLoaded(products: []));
+    emit(ProductInitialState());
   }
 }
