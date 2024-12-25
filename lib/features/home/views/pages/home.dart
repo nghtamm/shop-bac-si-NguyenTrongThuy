@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/product_card.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
 
 class HomePage extends StatelessWidget {
   final String displayName;

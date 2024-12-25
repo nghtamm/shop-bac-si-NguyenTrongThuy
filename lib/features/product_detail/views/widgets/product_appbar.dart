@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/authentication.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/bloc/auth_state.dart';
 
 class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
   const ProductAppbar({Key? key}) : super(key: key);
@@ -12,6 +15,7 @@ class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
           left: 15,
           right: 15,
           child: AppBar(
+            backgroundColor: const Color(0xFFF0F1F2), // Add background color
             actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.ios_share),
@@ -20,7 +24,9 @@ class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
             ],
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
           ),
         ),
