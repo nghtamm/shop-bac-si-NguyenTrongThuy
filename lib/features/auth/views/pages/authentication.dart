@@ -111,19 +111,19 @@ class AuthenticationPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            'Thỏa thuận người dùng (EULA)',
+                            'ĐIỀU KHOẢN VÀ THỎA THUẬN NGƯỜI DÙNG',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 15),
                           const Text(
-                            'Nội dung thỏa thuận người dùng sẽ được hiển thị ở đây. '
-                            'Đảm bảo rằng người dùng đọc và hiểu các điều khoản.',
+                            'Chỗ này bao gồm nội dung của điều khoản và thỏa thuận người dùng. Người dùng cần đọc kỹ trước khi sử dụng ứng dụng.',
                             style: TextStyle(fontSize: 16),
+                            textAlign: TextAlign.justify,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 20),
                           Align(
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(

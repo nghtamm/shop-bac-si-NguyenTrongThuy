@@ -10,6 +10,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_ou
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/repository/order.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/sources/order_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/add_to_cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/news/data/repository/news_repository_impl.dart';
@@ -21,9 +22,10 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/data/sources/product
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/repository/product_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_all_product_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_products_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_state_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_product_by_title_usecase.dart';
-
-import 'package:shop_bacsi_nguyentrongthuy/features/order/sources/order_firebase_service.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/toggle_favorite_usecase.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -50,6 +52,7 @@ Future<void> initializeDependencies() async {
       .registerSingleton<OrderFirebaseService>(OrderFirebaseServiceImpl());
 
   serviceLocator.registerSingleton<OrderRepository>(OrderRepositoryImpl());
+
   serviceLocator.registerSingleton<ProductRepository>(ProductRepositoryImpl());
 
   serviceLocator
@@ -76,4 +79,13 @@ Future<void> initializeDependencies() async {
 
   serviceLocator
       .registerSingleton<GetAllProductUseCase>(GetAllProductUseCase());
+
+  serviceLocator
+      .registerSingleton<ToggleFavoriteUseCase>(ToggleFavoriteUseCase());
+
+  serviceLocator
+      .registerSingleton<GetFavoriteStateUseCase>(GetFavoriteStateUseCase());
+
+  serviceLocator.registerSingleton<GetFavoriteProductsUseCase>(
+      GetFavoriteProductsUseCase());
 }

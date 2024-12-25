@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/chatgpt_bot/views/pages/ai_chat.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/favorites/views/pages/my_favorites.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/pages/get_started.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/for_your_health.dart';
@@ -88,7 +89,13 @@ class HomePage extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const MyFavoritesPage(),
+                  ),
+                );
+              },
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),

@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/favorite_button.dart';
 
 class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const ProductAppbar({super.key});
+  final ProductEntity productEntity;
+  const ProductAppbar({
+    super.key,
+    required this.productEntity,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,8 +20,9 @@ class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
           child: AppBar(
             backgroundColor: Colors.white,
             actions: <Widget>[
+              FavoriteButton(productEntity: productEntity),
               IconButton(
-                icon: const Icon(Icons.ios_share),
+                icon: const Icon(Icons.share),
                 onPressed: () {},
               ),
             ],

@@ -5,6 +5,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_car
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/add_to_cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/button_state_cubit.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/toggle_favorite_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_appbar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_image.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_price.dart';
@@ -20,8 +21,16 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ButtonStateCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ButtonStateCubit(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              ToggleFavoriteCubit()..isFavorite(productEntity.productID),
+        ),
+      ],
       child: ProductDetailContent(productEntity: productEntity),
     );
   }
@@ -35,7 +44,7 @@ class ProductDetailContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: const ProductAppbar(),
+      appBar: ProductAppbar(productEntity: productEntity),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(bottom: 30),
@@ -102,7 +111,7 @@ class BottomSheetContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 8.0),
+              padding: const EdgeInsets.only(left: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
