@@ -47,6 +47,8 @@ dependencies:
   cloud_firestore: ^5.6.0
   chat_gpt_sdk: ^3.1.4
   dash_chat_2: ^0.0.21
+  google_sign_in: ^6.2.2
+  url_launcher: ^6.3.1
 
 
 dev_dependencies:
@@ -80,6 +82,7 @@ flutter:
     - assets/images/get_started_background.png
     - assets/images/sale_banner.jpg
     - assets/images/capybara.png
+    - assets/images/shop_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

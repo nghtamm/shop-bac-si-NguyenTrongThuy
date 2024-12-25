@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/auth_request.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/sources/auth_firebase_service.dart';
@@ -32,5 +33,15 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   Future<Either> resetPassword(String email) async {
     return await serviceLocator<AuthenticationFirebaseService>()
         .resetPassword(email);
+  }
+
+  @override
+  Future<Either> signOut() async {
+    return await serviceLocator<AuthenticationFirebaseService>().signOut();
+  }
+
+  @override
+  Future<Either<String, User>> signInWithGoogle() async {
+    return await serviceLocator<AuthenticationFirebaseService>().signInWithGoogle();
   }
 }
