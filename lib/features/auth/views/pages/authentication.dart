@@ -92,7 +92,63 @@ class AuthenticationPage extends StatelessWidget {
             _AuthenticationSocialButtons(),
             const Spacer(),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(20),
+                    ),
+                  ),
+                  builder: (BuildContext context) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 40,
+                        vertical: 30,
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Thỏa thuận người dùng (EULA)',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Nội dung thỏa thuận người dùng sẽ được hiển thị ở đây. '
+                            'Đảm bảo rằng người dùng đọc và hiểu các điều khoản.',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          const SizedBox(height: 16),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                minimumSize: const Size(100, 50),
+                              ),
+                              child: const Text(
+                                'TÔI ĐÃ HIỂU',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              },
               child: const Text(
                 'Thỏa thuận người dùng (EULA)',
                 style: TextStyle(
@@ -101,7 +157,7 @@ class AuthenticationPage extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
