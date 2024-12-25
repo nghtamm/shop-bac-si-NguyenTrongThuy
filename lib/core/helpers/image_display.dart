@@ -4,4 +4,8 @@ class ImageDisplayHelper {
   static String generateProductImageURL(String id) {
     return '${AppURL.productImage}$id.png${AppURL.alt}';
   }
+
+  static String generateNewsImageURL(String id) {
+    return '${AppURL.newsImage}$id.jpg${AppURL.alt}';
+  }
 }

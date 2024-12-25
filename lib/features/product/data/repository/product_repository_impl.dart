@@ -17,4 +17,30 @@ class ProductRepositoryImpl extends ProductRepository {
           .toList());
     });
   }
+
+  @override
+  Future<Either> getProductByTitle(String title) async {
+    var productData =
+        await serviceLocator<ProductFirebaseService>().getProductByTitle(title);
+    return productData.fold((left) {
+      return Left(left);
+    }, (right) {
+      return Right(List.from(right)
+          .map((e) => ProductModel.fromMap(e).toEntity())
+          .toList());
+    });
+  }
+
+  @override
+  Future<Either> getAllProduct() async {
+    var productData =
+        await serviceLocator<ProductFirebaseService>().getAllProduct();
+    return productData.fold((left) {
+      return Left(left);
+    }, (right) {
+      return Right(List.from(right)
+          .map((e) => ProductModel.fromMap(e).toEntity())
+          .toList());
+    });
+  }
 }

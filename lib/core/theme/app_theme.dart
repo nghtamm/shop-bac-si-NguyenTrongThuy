@@ -50,6 +50,14 @@ class AppTheme {
       ),
       elevation: 2,
     ),
+    drawerTheme: const DrawerThemeData(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+    ),
+    appBarTheme: const AppBarTheme(
+      scrolledUnderElevation: 0,
+    ),
     useMaterial3: true,
   );
 }
