@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/authentication.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/bloc/auth_state.dart';
 
 class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const ProductAppbar({Key? key}) : super(key: key);
+  const ProductAppbar({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +12,7 @@ class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
           left: 15,
           right: 15,
           child: AppBar(
-            backgroundColor: const Color(0xFFF0F1F2), // Add background color
+            backgroundColor: Colors.white,
             actions: <Widget>[
               IconButton(
                 icon: const Icon(Icons.ios_share),

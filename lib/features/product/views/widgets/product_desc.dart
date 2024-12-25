@@ -8,13 +8,14 @@ class ProductDesc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: Text(
         productEntity.description,
         style: const TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w500,
         ),
+        textAlign: TextAlign.justify,
       ),
     );
   }

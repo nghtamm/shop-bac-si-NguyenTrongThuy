@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/chatgpt_bot/views/pages/ai_chat.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
 
 class HomePage extends StatelessWidget {
@@ -182,7 +183,13 @@ class _SecondRowButtons extends StatelessWidget {
         Flexible(
           flex: 1,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const AiChat(),
+                ),
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFFC9FFE),
               shape: RoundedRectangleBorder(

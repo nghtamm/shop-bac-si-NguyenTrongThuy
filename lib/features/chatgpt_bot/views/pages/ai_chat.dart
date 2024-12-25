@@ -2,7 +2,7 @@ import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/xinchaochatgpt/views/widgets/ai_chat_appbar.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/chatgpt_bot/views/widgets/ai_chat_appbar.dart';
 
 class AiChat extends StatefulWidget {
   const AiChat({super.key});
@@ -15,7 +15,7 @@ class AiChatState extends State<AiChat> {
   final _openAI = OpenAI.instance.build(
     token: dotenv.env['OPENAI_API_KEY']!,
     baseOption: HttpSetup(
-      receiveTimeout: const Duration(seconds: 20), // Increased timeout
+      receiveTimeout: const Duration(seconds: 20),
     ),
     enableLog: true,
   );
@@ -28,13 +28,13 @@ class AiChatState extends State<AiChat> {
       lastName: 'Lang Nước',
       profileImage: 'assets/images/capybara.png');
 
-  List<ChatMessage> _messages = <ChatMessage>[];
-  List<ChatUser> _typingUsers = <ChatUser>[];
+  final List<ChatMessage> _messages = <ChatMessage>[];
+  final List<ChatUser> _typingUsers = <ChatUser>[];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AiChatAppbar(),
+      appBar: const AiChatAppbar(),
       body: DashChat(
         currentUser: _currentUser,
         onSend: (ChatMessage m) {
@@ -52,21 +52,17 @@ class AiChatState extends State<AiChat> {
         _typingUsers.add(_gptChatUser);
       });
 
-      // Mapping ChatMessage to Messages with serialization
-      List<Map<String, dynamic>> _messagesHistory = _messages.reversed.map((m) {
+      List<Map<String, dynamic>> messagesHistory = _messages.reversed.map((m) {
         if (m.user == _currentUser) {
-          return {'role': 'user', 'content': m.text}; // Convert Role to string
+          return {'role': 'user', 'content': m.text};
         } else {
-          return {
-            'role': 'assistant',
-            'content': m.text
-          }; // Convert Role to string
+          return {'role': 'assistant', 'content': m.text};
         }
       }).toList();
 
       final request = ChatCompleteText(
         model: Gpt4ChatModel(),
-        messages: _messagesHistory,
+        messages: messagesHistory,
         maxToken: 200,
       );
 
@@ -91,11 +87,11 @@ class AiChatState extends State<AiChat> {
       // setState(() {
       //   _typingUsers.remove(_gptChatUser);
     } catch (e) {
-      debugPrint('Error: $e');
-      // Optionally, show an error message to the user
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Request timed out. Please try again.')),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Request timed out. Please try again.')),
+        );
+      }
     }
   }
 }
