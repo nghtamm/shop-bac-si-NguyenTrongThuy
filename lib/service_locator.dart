@@ -16,7 +16,9 @@ import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/usecase/get_news
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/repository/product_repository_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/sources/product_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/repository/product_repository.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_all_product_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_product_by_title_usecase.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -57,4 +59,10 @@ Future<void> initializeDependencies() async {
   serviceLocator.registerSingleton<NewRepository>(NewRepositoryImpl());
 
   serviceLocator.registerSingleton<GetNewsUseCase>(GetNewsUseCase());
+
+  serviceLocator
+      .registerSingleton<GetProductByTitleUseCase>(GetProductByTitleUseCase());
+
+  serviceLocator
+      .registerSingleton<GetAllProductUseCase>(GetAllProductUseCase());
 }

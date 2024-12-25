@@ -4,6 +4,8 @@ import 'package:shop_bacsi_nguyentrongthuy/features/chatgpt_bot/views/pages/ai_c
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/pages/get_started.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/for_your_health.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/all_product.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/search/views/pages/search.dart';
 import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
 
 class HomePage extends StatelessWidget {
@@ -69,7 +71,13 @@ class HomePage extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const AllProductPage(),
+                  ),
+                );
+              },
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
@@ -220,7 +228,13 @@ class HomePage extends StatelessWidget {
                 horizontal: 40,
               ),
               child: TextField(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => SearchPage(),
+                    ),
+                  );
+                },
                 readOnly: true,
                 decoration: const InputDecoration(
                   hintText: 'Tìm kiếm',
@@ -350,7 +364,13 @@ class _FirstRowButtons extends StatelessWidget {
         Flexible(
           flex: 1,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const AllProductPage(),
+                ),
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFFEC774),
               shape: RoundedRectangleBorder(
