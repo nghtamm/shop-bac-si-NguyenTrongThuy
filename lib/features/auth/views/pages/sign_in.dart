@@ -5,6 +5,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/auth_reques
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/get_display_name_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/toggle_password_cubit.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/forgot_password.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
 import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
 
@@ -129,7 +130,13 @@ class SignInPage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => ForgotPasswordPage(),
+                  ),
+                );
+              },
               child: const Text(
                 'Quên mật khẩu?',
                 style: TextStyle(

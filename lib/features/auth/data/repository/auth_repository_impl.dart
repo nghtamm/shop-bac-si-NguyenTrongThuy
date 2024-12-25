@@ -27,4 +27,10 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
     return await serviceLocator<AuthenticationFirebaseService>()
         .getDisplayName();
   }
+
+  @override
+  Future<Either> resetPassword(String email) async {
+    return await serviceLocator<AuthenticationFirebaseService>()
+        .resetPassword(email);
+  }
 }
