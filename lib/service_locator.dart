@@ -4,6 +4,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/sources/auth_fireb
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/repository/auth_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/get_display_name_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/get_auth_state_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/repository/product_repository_impl.dart';
@@ -36,4 +37,7 @@ Future<void> initializeDependencies() async {
 
   serviceLocator
       .registerSingleton<GetDoctorChoiceUseCase>(GetDoctorChoiceUseCase());
+
+  serviceLocator
+      .registerSingleton<ResetPasswordUseCase>(ResetPasswordUseCase());
 }
