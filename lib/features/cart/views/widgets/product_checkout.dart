@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/appnavigator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/cart_helper.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/checkout/views/pages/checkout.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
 
 class Checkout extends StatelessWidget {
@@ -75,7 +77,13 @@ class Checkout extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              onPressed: () {})
+              onPressed: () {
+                AppNavigator.push(
+                    context,
+                    CheckoutPage(
+                      products: products,
+                    ));
+              })
         ],
       ),
     );

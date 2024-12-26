@@ -17,6 +17,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/news/data/sources/news_fireb
 import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/repository/news_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/usecase/get_news_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/get_cart_products.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/order_registration.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/remove_cart_products.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/repository/product_repository_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/sources/product_firebase_service.dart';
@@ -83,4 +84,7 @@ Future<void> initializeDependencies() async {
       .registerSingleton<GetCartProductsUseCase>(GetCartProductsUseCase());
   serviceLocator
       .registerSingleton<RemoveCartProductUseCase>(RemoveCartProductUseCase());
+
+  serviceLocator
+      .registerSingleton<OrderRegistrationUseCase>(OrderRegistrationUseCase());
 }

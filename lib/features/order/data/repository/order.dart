@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_cart_req.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_registration_req.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/product_ordered.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/sources/order_firebase_service.dart';
@@ -28,6 +29,17 @@ class OrderRepositoryImpl extends OrderRepository {
   Future<Either> removeCartProduct(String id) async {
     var returnedData =
         await serviceLocator<OrderFirebaseService>().removeCartProduct(id);
+    return returnedData.fold((error) {
+      return Left(error);
+    }, (message) {
+      return Right(message);
+    });
+  }
+
+  @override
+  Future<Either> orderRegistration(OrderRegistrationReq order) async {
+    var returnedData =
+        await serviceLocator<OrderFirebaseService>().orderRegistration(order);
     return returnedData.fold((error) {
       return Left(error);
     }, (message) {
