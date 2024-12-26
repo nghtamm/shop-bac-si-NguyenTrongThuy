@@ -3,4 +3,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_car
 
 abstract class OrderRepository {
   Future<Either> addtoCart(AddToCartReq addToCartReq);
+  Future<Either> getCartProducts();
+
+  Future<Either> removeCartProduct(String id);
 }

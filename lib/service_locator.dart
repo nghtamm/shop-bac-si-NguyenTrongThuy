@@ -16,6 +16,8 @@ import 'package:shop_bacsi_nguyentrongthuy/features/news/data/repository/news_re
 import 'package:shop_bacsi_nguyentrongthuy/features/news/data/sources/news_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/repository/news_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/usecase/get_news_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/get_cart_products.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/remove_cart_products.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/repository/product_repository_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/sources/product_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/repository/product_repository.dart';
@@ -23,7 +25,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_a
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_product_by_title_usecase.dart';
 
-import 'package:shop_bacsi_nguyentrongthuy/features/order/sources/order_firebase_service.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/sources/order_firebase_service.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -76,4 +78,9 @@ Future<void> initializeDependencies() async {
 
   serviceLocator
       .registerSingleton<GetAllProductUseCase>(GetAllProductUseCase());
+
+  serviceLocator
+      .registerSingleton<GetCartProductsUseCase>(GetCartProductsUseCase());
+  serviceLocator
+      .registerSingleton<RemoveCartProductUseCase>(RemoveCartProductUseCase());
 }
