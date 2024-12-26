@@ -61,7 +61,7 @@ extension ProductModelConvert on ProductModel {
 }
 
 extension ProductEntityConvert on ProductEntity {
-  ProductModel toModel() {
+  ProductModel fromEntity() {
     return ProductModel(
       productID: productID,
       title: title,

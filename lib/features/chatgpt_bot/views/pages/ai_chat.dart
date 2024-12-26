@@ -20,13 +20,17 @@ class AiChatState extends State<AiChat> {
     enableLog: true,
   );
 
-  final ChatUser _currentUser =
-      ChatUser(id: '1', firstName: 'Duc', lastName: 'Dat');
+  final ChatUser _currentUser = ChatUser(
+    id: '1',
+    firstName: 'Duc',
+    lastName: 'Dat',
+  );
   final ChatUser _gptChatUser = ChatUser(
-      id: '2',
-      firstName: 'Chuột',
-      lastName: 'Lang Nước',
-      profileImage: 'assets/images/capybara.png');
+    id: '2',
+    firstName: 'Chuột',
+    lastName: 'Lang Nước',
+    profileImage: 'assets/images/capybara.png',
+  );
 
   final List<ChatMessage> _messages = <ChatMessage>[];
   final List<ChatUser> _typingUsers = <ChatUser>[];

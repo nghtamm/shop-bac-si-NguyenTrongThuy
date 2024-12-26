@@ -6,10 +6,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_theme.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/authentication.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/toggle_password_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/bloc/auth_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/bloc/auth_state.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/pages/get_started.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
 import 'package:shop_bacsi_nguyentrongthuy/firebase_options.dart';
 import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
               title: 'Shop Bác sĩ Nguyễn Trọng Thủy',
               theme: AppTheme.lightTheme,
               themeMode: ThemeMode.light,
-              home: const AuthenticationPage(),
+              home: const GetStartedPage(),
             );
           }
         },
