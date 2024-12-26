@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/appnavigator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_out_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/chatgpt_bot/views/pages/ai_chat.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/pages/get_started.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
@@ -332,31 +334,35 @@ class _FirstRowButtons extends StatelessWidget {
       children: [
         Flexible(
           flex: 2,
-          child: ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFB2EBB8),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.shopping_cart_outlined,
-                  color: Colors.black,
+          child: GestureDetector(
+            child: ElevatedButton(
+              onPressed: () {
+                AppNavigator.push(context, const CartPage());
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFFB2EBB8),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                SizedBox(width: 10),
-                Text(
-                  'Giỏ hàng',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+              ),
+              child: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.shopping_cart_outlined,
                     color: Colors.black,
                   ),
-                ),
-              ],
+                  SizedBox(width: 10),
+                  Text(
+                    'Giỏ hàng',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
