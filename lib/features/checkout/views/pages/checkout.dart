@@ -5,7 +5,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/cart_appb
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_registration_req.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/order_registration.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/button_state.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_placed.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/button_state_cubit.dart';
 
 class CheckoutPage extends StatelessWidget {
@@ -48,7 +48,7 @@ class CheckoutPage extends StatelessWidget {
       child: TextField(
         controller: _phoneCon,
         decoration: const InputDecoration(
-          hintText: "Nhập điện thoại",
+          hintText: "Nhập số điện thoại",
           border: OutlineInputBorder(),
         ),
       ),
@@ -77,8 +77,8 @@ class CheckoutPage extends StatelessWidget {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 44.0),
+              const Padding(
+                padding: EdgeInsets.only(left: 44.0),
                 child: Text(
                   'Họ và tên',
                   style: TextStyle(
@@ -89,8 +89,9 @@ class CheckoutPage extends StatelessWidget {
                 ),
               ),
               _nameField(context),
-              Padding(
-                padding: const EdgeInsets.only(left: 44.0),
+              const SizedBox(height: 10),
+              const Padding(
+                padding: EdgeInsets.only(left: 44.0),
                 child: Text(
                   'Số điện thoại',
                   style: TextStyle(
@@ -101,8 +102,9 @@ class CheckoutPage extends StatelessWidget {
                 ),
               ),
               _phoneField(context),
-              Padding(
-                padding: const EdgeInsets.only(left: 44.0),
+              const SizedBox(height: 10),
+              const Padding(
+                padding: EdgeInsets.only(left: 44.0),
                 child: Text(
                   'Địa chỉ giao hàng',
                   style: TextStyle(
@@ -115,12 +117,12 @@ class CheckoutPage extends StatelessWidget {
               _addressField(context),
               const Spacer(),
               Padding(
-                padding: const EdgeInsets.only(bottom: 40, left: 30, right: 30),
+                padding: const EdgeInsets.only(bottom: 40, left: 40, right: 40),
                 child: ElevatedButton(
                   child: const Text(
                     'TIẾP TỤC THANH TOÁN',
                     style: TextStyle(
-                      fontSize: 24,
+                      fontSize: 20,
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
                     ),
@@ -138,6 +140,12 @@ class CheckoutPage extends StatelessWidget {
                           name: _nameCon.text,
                           phoneNumber: _phoneCon.text,
                         ));
+
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const OrderPlacedPage(),
+                      ),
+                    );
                   },
                 ),
               ),

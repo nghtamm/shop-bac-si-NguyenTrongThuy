@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_products_display_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
 
-class ProductOrderedCard extends StatelessWidget {
+class OrderItemCard extends StatelessWidget {
   final ProductOrderedEntity productOrderedEntity;
-  const ProductOrderedCard({
-    required this.productOrderedEntity,
-    super.key,
-  });
+  const OrderItemCard({required this.productOrderedEntity, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      height: 100,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: Colors.grey,
+          width: 0.5,
+        ),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,15 +38,16 @@ class ProductOrderedCard extends StatelessWidget {
                         fit: BoxFit.fill,
                         image: NetworkImage(
                           ImageDisplayHelper.generateProductImageURL(
-                            productOrderedEntity.productImage,
-                          ),
+                              productOrderedEntity.productImage),
                         ),
                       ),
                       borderRadius: BorderRadius.circular(4),
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(
+                  width: 10,
+                ),
                 Expanded(
                   flex: 6,
                   child: Column(
@@ -58,56 +58,21 @@ class ProductOrderedCard extends StatelessWidget {
                         productOrderedEntity.productTitle,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20,
-                        ),
+                            fontWeight: FontWeight.w600, fontSize: 20),
                       ),
                       Text(
                         '${productOrderedEntity.totalPrice}đ',
                         style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                        ),
+                            fontWeight: FontWeight.w500, fontSize: 18),
                       ),
                       Text(
                         'Số lượng: ${productOrderedEntity.productQuantity}',
                         style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
-                      )
+                            fontWeight: FontWeight.w400, fontSize: 16),
+                      ),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          GestureDetector(
-            onTap: () {
-              context
-                  .read<CartProductsDisplayCubit>()
-                  .removeProduct(productOrderedEntity);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Đã xóa thành công sản phẩm khỏi giỏ hàng.'),
-                ),
-              );
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  height: 23,
-                  width: 23,
-                  decoration: const BoxDecoration(
-                    color: Color(0xffFF8383),
-                    shape: BoxShape.circle,
-                  ),
-                  child: const Icon(
-                    Icons.remove,
-                    size: 15,
-                  ),
-                ),
+                )
               ],
             ),
           ),

@@ -2,6 +2,6 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/prod
 
 class ProductPriceHelper {
   static num provideCurrentPrice(ProductEntity product) {
-    return product.price.toInt();
+    return product.price;
   }
 }

@@ -17,7 +17,9 @@ import 'package:shop_bacsi_nguyentrongthuy/features/news/data/repository/news_re
 import 'package:shop_bacsi_nguyentrongthuy/features/news/data/sources/news_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/repository/news_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/usecase/get_news_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/dispose_cart_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/get_cart_products.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/get_orders_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/order_registration.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/remove_cart_products.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/repository/product_repository_impl.dart';
@@ -29,7 +31,6 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_f
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_state_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_product_by_title_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/toggle_favorite_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/sources/order_firebase_service.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -85,7 +86,6 @@ Future<void> initializeDependencies() async {
       .registerSingleton<GetAllProductUseCase>(GetAllProductUseCase());
 
   serviceLocator
-
       .registerSingleton<ToggleFavoriteUseCase>(ToggleFavoriteUseCase());
 
   serviceLocator
@@ -94,10 +94,16 @@ Future<void> initializeDependencies() async {
   serviceLocator.registerSingleton<GetFavoriteProductsUseCase>(
       GetFavoriteProductsUseCase());
 
+  serviceLocator
       .registerSingleton<GetCartProductsUseCase>(GetCartProductsUseCase());
+
   serviceLocator
       .registerSingleton<RemoveCartProductUseCase>(RemoveCartProductUseCase());
 
   serviceLocator
       .registerSingleton<OrderRegistrationUseCase>(OrderRegistrationUseCase());
+
+  serviceLocator.registerSingleton<DisposeCartUseCase>(DisposeCartUseCase());
+
+  serviceLocator.registerSingleton<GetOrdersUseCase>(GetOrdersUseCase());
 }

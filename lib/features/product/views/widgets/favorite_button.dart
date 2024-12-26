@@ -19,7 +19,17 @@ class FavoriteButton extends StatelessWidget {
         ),
       ),
       onPressed: () {
+        final isFavorite = context.read<ToggleFavoriteCubit>().state;
         context.read<ToggleFavoriteCubit>().onTap(productEntity);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              isFavorite
+                  ? 'Đã xóa sản phẩm khỏi danh sách yêu thích.'
+                  : 'Đã thêm sản phẩm vào danh sách yêu thích.',
+            ),
+          ),
+        );
       },
     );
   }

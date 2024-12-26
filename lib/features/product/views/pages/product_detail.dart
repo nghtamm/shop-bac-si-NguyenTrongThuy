@@ -14,7 +14,6 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/produc
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_quantity.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/product_quantity_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_bottomsheet.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final ProductEntity productEntity;
@@ -168,14 +167,21 @@ class BottomSheetContent extends StatelessWidget {
                           productTitle: productEntity.title,
                           productQuantity:
                               context.read<ProductQuantityCubit>().state,
-                          productPrice: productEntity.price.toDouble(),
-                          totalPrice: ProductPriceHelper.provideCurrentPrice(
-                                  productEntity) *
-                              context.read<ProductQuantityCubit>().state,
+                          productPrice: productEntity.price.toInt(),
+                          totalPrice: (ProductPriceHelper.provideCurrentPrice(
+                                      productEntity) *
+                                  context.read<ProductQuantityCubit>().state)
+                              .toInt(),
                           productImage: productEntity.images[0],
                           createdDate: DateTime.now().toString(),
                         ),
                       );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content:
+                          Text('Đã thêm sản phẩm vào giỏ hàng thành công.'),
+                    ),
+                  );
                 },
               ),
             ),

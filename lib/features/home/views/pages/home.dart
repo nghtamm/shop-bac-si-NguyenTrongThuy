@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/appnavigator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/chatgpt_bot/views/pages/ai_chat.dart';
@@ -7,6 +6,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/favorites/views/pages/my_fav
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/pages/get_started.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/for_your_health.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_history.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/all_product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/search/views/pages/search.dart';
 import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
@@ -108,7 +108,13 @@ class HomePage extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const CartPage(),
+                  ),
+                );
+              },
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
@@ -119,7 +125,13 @@ class HomePage extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const OrderHistoryPage(),
+                  ),
+                );
+              },
             ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 30),
@@ -342,7 +354,13 @@ class _FirstRowButtons extends StatelessWidget {
         Flexible(
           flex: 2,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const CartPage(),
+                ),
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFB2EBB8),
               shape: RoundedRectangleBorder(
@@ -431,7 +449,13 @@ class _SecondRowButtons extends StatelessWidget {
         Flexible(
           flex: 2,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const OrderHistoryPage(),
+                ),
+              );
+            },
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFFB6EEF5),
               shape: RoundedRectangleBorder(

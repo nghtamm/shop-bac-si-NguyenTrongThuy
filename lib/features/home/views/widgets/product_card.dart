@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/appnavigator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/app_navigator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/product_detail.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/appnavigator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/app_navigator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/product_price.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_cart_req.dart';
@@ -97,11 +97,10 @@ class BottomSheetContent extends StatelessWidget {
                             productTitle: productEntity.title,
                             productQuantity:
                                 context.read<ProductQuantityCubit>().state,
-                            productPrice: productEntity.price.toDouble(),
+                            productPrice: productEntity.price.toInt(),
                             totalPrice: (ProductPriceHelper.provideCurrentPrice(
-                                        productEntity) *
-                                    context.read<ProductQuantityCubit>().state)
-                                .toDouble(),
+                                    productEntity) *
+                                context.read<ProductQuantityCubit>().state).toInt(),
                             productImage: productEntity.images[0],
                             createdDate: DateTime.now().toString(),
                           ),

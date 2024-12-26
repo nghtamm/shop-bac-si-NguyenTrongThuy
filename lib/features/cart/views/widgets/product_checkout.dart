@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/appnavigator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/app_navigator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/cart_helper.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/checkout/views/pages/checkout.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
@@ -72,17 +72,18 @@ class Checkout extends StatelessWidget {
               child: const Text(
                 'THÊM VÀO GIỎ HÀNG',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 22,
                   fontWeight: FontWeight.w800,
                   color: Colors.white,
                 ),
               ),
               onPressed: () {
                 AppNavigator.push(
-                    context,
-                    CheckoutPage(
-                      products: products,
-                    ));
+                  context,
+                  CheckoutPage(
+                    products: products,
+                  ),
+                );
               })
         ],
       ),

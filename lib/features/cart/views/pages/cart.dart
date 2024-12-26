@@ -36,8 +36,6 @@ class CartPage extends StatelessWidget {
               child: BlocBuilder<CartProductsDisplayCubit,
                   CartProductsDisplayState>(
                 builder: (context, state) {
-                  print(
-                      'Current state: $state'); // Debug print to check the current state
                   if (state is CartProductsLoading) {
                     return const Center(
                       child: CircularProgressIndicator(),
@@ -45,15 +43,15 @@ class CartPage extends StatelessWidget {
                   }
                   if (state is CartProductsLoaded) {
                     return state.products.isEmpty
-                        ? Center(child: cartEmpty())
-                        : Stack(
+                        ? const Center(child: CartEmpty())
+                        : Column(
                             children: [
-                              _products(state.products),
-                              Align(
-                                  alignment: Alignment.bottomCenter,
-                                  child: Checkout(
-                                    products: state.products,
-                                  ))
+                              Expanded(
+                                child: _products(state.products),
+                              ),
+                              Checkout(
+                                products: state.products,
+                              ),
                             ],
                           );
                   }
@@ -74,13 +72,11 @@ class CartPage extends StatelessWidget {
 
   Widget _products(List<ProductOrderedEntity> products) {
     if (products.isEmpty) {
-      return cartEmpty();
+      return const CartEmpty();
     } else {
       return ListView.separated(
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) {
-          print(
-              'Product at index $index: ${products[index]}'); // Debug print to check each product being passed to ProductOrderedCard
           return ProductOrderedCard(
             productOrderedEntity: products[index],
           );
@@ -98,20 +94,38 @@ class CartPage extends StatelessWidget {
   }
 }
 
-class cartEmpty extends StatelessWidget {
-  const cartEmpty({
+class CartEmpty extends StatelessWidget {
+  const CartEmpty({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Giỏ hàng trống',
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-          color: Colors.black,
+    return Padding(
+      padding: const EdgeInsets.only(
+        bottom: 40,
+        left: 40,
+        right: 40,
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/images/empty_cart.png',
+              width: 200,
+              height: 200,
+            ),
+            const Text(
+              'Bạn ơi, chưa có sản phẩm nào được thêm vào giỏ hàng cả!',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

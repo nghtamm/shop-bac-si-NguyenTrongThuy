@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_cart_req.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_registration_req.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/product_ordered.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order.dart';
@@ -44,6 +45,23 @@ class OrderRepositoryImpl extends OrderRepository {
       return Left(error);
     }, (message) {
       return Right(message);
+    });
+  }
+
+  @override
+  Future<Either> disposeCart() async {
+    return await serviceLocator<OrderFirebaseService>().disposeCart();
+  }
+
+  @override
+  Future<Either> getOrders() async {
+    var returnedData = await serviceLocator<OrderFirebaseService>().getOrders();
+    return returnedData.fold((left) {
+      return Left(left);
+    }, (right) {
+      return Right(List.from(right)
+          .map((e) => OrderModel.fromMap(e).toEntity())
+          .toList());
     });
   }
 }
