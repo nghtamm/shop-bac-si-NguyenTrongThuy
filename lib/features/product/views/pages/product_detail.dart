@@ -14,6 +14,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/produc
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_quantity.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/product_quantity_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_bottomsheet.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final ProductEntity productEntity;

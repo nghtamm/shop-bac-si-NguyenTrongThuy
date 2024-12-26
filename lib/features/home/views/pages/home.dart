@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/appnavigator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_out_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/chatgpt_bot/views/pages/ai_chat.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/favorites/views/pages/my_favorites.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/pages/get_started.dart';
