@@ -22,8 +22,8 @@ class AiChatState extends State<AiChat> {
 
   final ChatUser _currentUser = ChatUser(
     id: '1',
-    firstName: 'Nguoi ',
-    lastName: 'Dung ',
+    firstName: 'Nguoi',
+    lastName: 'Dung',
   );
   final ChatUser _gptChatUser = ChatUser(
     id: '2',
