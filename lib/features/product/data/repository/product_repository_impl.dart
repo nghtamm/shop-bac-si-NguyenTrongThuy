@@ -3,7 +3,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/sources/product_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/repository/product_repository.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
   @override

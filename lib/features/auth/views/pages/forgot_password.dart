@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/reset_password_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class ForgotPasswordPage extends StatelessWidget {
   ForgotPasswordPage({super.key});

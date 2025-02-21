@@ -9,7 +9,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/for_your_
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_history.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/all_product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/search/views/pages/search.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class HomePage extends StatelessWidget {
   final String displayName;

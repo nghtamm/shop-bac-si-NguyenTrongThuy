@@ -3,7 +3,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/auth_request.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/sources/auth_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/repository/auth_repository.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class AuthenticationRepositoryImpl extends AuthenticationRepository {
   @override

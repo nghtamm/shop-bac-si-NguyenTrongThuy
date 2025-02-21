@@ -5,7 +5,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_disp
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/product_card.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class DoctorChoice extends StatelessWidget {
   const DoctorChoice({super.key});

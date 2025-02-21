@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/get_orders_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/bloc/orders_display_state.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class OrdersDisplayCubit extends Cubit<OrdersDisplayState> {
   OrdersDisplayCubit() : super(OrdersLoading());
