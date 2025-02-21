@@ -6,7 +6,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/auth_reques
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_in.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/toggle_password_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class SignUpPage extends StatelessWidget {
   SignUpPage({super.key});

@@ -5,7 +5,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_disp
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_product_by_title_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/product_card.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({super.key});

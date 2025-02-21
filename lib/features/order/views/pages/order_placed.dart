@@ -4,7 +4,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/bloc/auth_
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/bloc/auth_state.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/dispose_cart_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class OrderPlacedPage extends StatelessWidget {
   const OrderPlacedPage({super.key});

@@ -4,7 +4,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/google_
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_in.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_up.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class AuthenticationPage extends StatelessWidget {
   const AuthenticationPage({super.key});

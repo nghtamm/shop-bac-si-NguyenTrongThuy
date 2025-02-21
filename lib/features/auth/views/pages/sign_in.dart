@@ -7,7 +7,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_in
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/toggle_password_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/forgot_password.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
-import 'package:shop_bacsi_nguyentrongthuy/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});
