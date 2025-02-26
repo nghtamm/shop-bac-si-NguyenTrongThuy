@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/product_price.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_cart_req.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/add_to_cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
@@ -17,6 +20,7 @@ import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final ProductEntity productEntity;
+
   const ProductDetailPage({required this.productEntity, super.key});
 
   @override
@@ -38,29 +42,44 @@ class ProductDetailPage extends StatelessWidget {
 
 class ProductDetailContent extends StatelessWidget {
   final ProductEntity productEntity;
+
   const ProductDetailContent({required this.productEntity, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: ProductAppbar(productEntity: productEntity),
+      backgroundColor: AppColors.white,
+      appBar: ProductAppbar(
+        productEntity: productEntity,
+      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(bottom: 30),
+          padding: EdgeInsets.only(
+            bottom: 30.h,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ProductImages(productEntity: productEntity),
-              const SizedBox(height: 60),
-              ProductTitle(productEntity: productEntity),
-              const SizedBox(height: 10),
-              ProductPrice(productEntity: productEntity),
-              const SizedBox(height: 20),
-              ProductDesc(productEntity: productEntity),
-              const SizedBox(height: 40),
+              ProductImages(
+                productEntity: productEntity,
+              ),
+              SizedBox(height: 60.h),
+              ProductTitle(
+                productEntity: productEntity,
+              ),
+              SizedBox(height: 10.h),
+              ProductPrice(
+                productEntity: productEntity,
+              ),
+              SizedBox(height: 20.h),
+              ProductDesc(
+                productEntity: productEntity,
+              ),
+              SizedBox(height: 40.h),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 30.w,
+                ),
                 child: ElevatedButton(
                   onPressed: () {
                     final buttonCubit = context.read<ButtonStateCubit>();
@@ -72,19 +91,16 @@ class ProductDetailContent extends StatelessWidget {
                           child: BlocProvider(
                             create: (context) => ProductQuantityCubit(),
                             child: BottomSheetContent(
-                                productEntity: productEntity),
+                              productEntity: productEntity,
+                            ),
                           ),
                         );
                       },
                     );
                   },
-                  child: const Text(
+                  child: Text(
                     'LỰA CHỌN SẢN PHẨM',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                    ),
+                    style: AppTypography.white['24_extraBold'],
                   ),
                 ),
               ),
@@ -98,20 +114,25 @@ class ProductDetailContent extends StatelessWidget {
 
 class BottomSheetContent extends StatelessWidget {
   final ProductEntity productEntity;
+
   const BottomSheetContent({required this.productEntity, super.key});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 320,
+      height: 320.h,
       child: Padding(
-        padding: const EdgeInsets.only(top: 20),
+        padding: EdgeInsets.only(
+          top: 20.h,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: EdgeInsets.only(
+                left: 10.w,
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -119,45 +140,37 @@ class BottomSheetContent extends StatelessWidget {
                     ImageDisplayHelper.generateProductImageURL(
                       productEntity.images[0],
                     ),
-                    width: 100,
-                    height: 100,
+                    width: 100.w,
+                    height: 100.h,
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16.w),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         productEntity.title,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
-                        ),
+                        style: AppTypography.black['20_bold'],
                       ),
                       Text(
                         '${productEntity.price}đ',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w800,
-                        ),
+                        style: AppTypography.black['24_extraBold'],
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 4),
-            ProductQuantity(productEntity: productEntity),
-            const SizedBox(height: 4),
+            SizedBox(height: 4.h),
+            ProductQuantity(
+              productEntity: productEntity,
+            ),
+            SizedBox(height: 4.h),
             Padding(
-              padding: const EdgeInsets.all(30.0),
+              padding: const EdgeInsets.all(30),
               child: ElevatedButton(
-                child: const Text(
+                child: Text(
                   'THÊM VÀO GIỎ HÀNG',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
+                  style: AppTypography.white['24_extraBold'],
                 ),
                 onPressed: () {
                   context.read<ButtonStateCubit>().execute(

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 
 class CartAppbar extends StatelessWidget implements PreferredSizeWidget {
   const CartAppbar({super.key});
@@ -8,18 +11,18 @@ class CartAppbar extends StatelessWidget implements PreferredSizeWidget {
     return Stack(
       children: [
         Positioned(
-          top: 10,
-          left: 15,
-          right: 15,
+          top: 10.h,
+          left: 15.w,
+          right: 15.w,
           child: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.white,
             leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back,
-                color: Colors.black,
+                color: AppColors.black,
               ),
               onPressed: () {
-                Navigator.of(context).pop();
+                context.pop();
               },
             ),
           ),

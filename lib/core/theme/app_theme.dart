@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/font_weight.dart';
 
 class AppTheme {
+  // MODE: Light
   static final lightTheme = ThemeData(
-    fontFamily: 'Montserrat',
-    primaryColor: const Color(0xFF43B73B),
-    scaffoldBackgroundColor: Colors.white,
     brightness: Brightness.light,
+    fontFamily: 'Montserrat',
+    primaryColor: AppColors.primary,
+    scaffoldBackgroundColor: AppColors.white,
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color(0xFF43B73B),
-        elevation: 0,
+        backgroundColor: AppColors.primary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40),
         ),
+        elevation: 0,
         minimumSize: const Size(double.infinity, 70),
       ),
     ),
@@ -30,24 +33,26 @@ class AppTheme {
         borderSide: BorderSide.none,
       ),
       filled: true,
-      fillColor: const Color(0xFFF0F0F0),
+      fillColor: AppColors.grayLight,
       contentPadding: const EdgeInsets.symmetric(
         vertical: 18,
         horizontal: 20,
       ),
-      labelStyle: const TextStyle(color: Colors.black),
+      labelStyle: const TextStyle(
+        color: AppColors.black,
+      ),
     ),
     snackBarTheme: SnackBarThemeData(
-      backgroundColor: const Color(0xFFF0F0F0),
+      backgroundColor: AppColors.grayLight,
       contentTextStyle: const TextStyle(
         fontFamily: 'Montserrat',
-        fontWeight: FontWeight.w500,
-        color: Colors.black,
+        fontWeight: AppFontWeight.medium,
+        color: AppColors.black,
       ),
-      behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
+      behavior: SnackBarBehavior.floating,
       elevation: 2,
     ),
     drawerTheme: const DrawerThemeData(
@@ -56,8 +61,11 @@ class AppTheme {
       ),
     ),
     appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.transparent,
       scrolledUnderElevation: 0,
     ),
     useMaterial3: true,
   );
+
+  // MODE: Dark (Currently not available)
 }

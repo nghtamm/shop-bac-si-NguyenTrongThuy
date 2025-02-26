@@ -2,9 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/auth_request.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_up_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_in.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/toggle_password_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
@@ -19,41 +23,33 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 40,
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+          horizontal: 40.w,
         ),
         child: Column(
           children: [
             const Spacer(),
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'BẠN LÀ AI?',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black,
-                ),
+                style: AppTypography.black['32_extraBold'],
               ),
             ),
-            const SizedBox(height: 5),
-            const Align(
+            SizedBox(height: 5.h),
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Hãy nhập thông tin cá nhân của bạn để chúng tôi có thể phục vụ tốt hơn!',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                ),
+                style: AppTypography.black['18_medium'],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             TextField(
               controller: _displayNameController,
               decoration: const InputDecoration(
@@ -61,7 +57,7 @@ class SignUpPage extends StatelessWidget {
                 prefixIcon: Icon(Icons.person_rounded),
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -69,7 +65,7 @@ class SignUpPage extends StatelessWidget {
                 prefixIcon: Icon(Icons.email_rounded),
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             BlocBuilder<TogglePasswordCubit, bool>(
               builder: (context, isVisible) {
                 return TextField(
@@ -95,7 +91,7 @@ class SignUpPage extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40.h),
             ElevatedButton(
               onPressed: () async {
                 var result = await serviceLocator<SignUpUseCase>().call(
@@ -122,23 +118,14 @@ class SignUpPage extends StatelessWidget {
                     await user?.updateDisplayName(_displayNameController.text);
 
                     if (context.mounted) {
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) => SignInPage(),
-                        ),
-                        (route) => false,
-                      );
+                      context.go(RoutersName.signIn);
                     }
                   },
                 );
               },
-              child: const Text(
+              child: Text(
                 'TIẾP TỤC',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                ),
+                style: AppTypography.white['24_extraBold'],
               ),
             ),
             const Spacer(),

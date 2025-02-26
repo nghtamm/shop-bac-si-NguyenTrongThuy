@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/bloc/auth_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/bloc/auth_state.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/dispose_cart_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
@@ -13,27 +16,25 @@ class OrderPlacedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
+        padding: EdgeInsets.symmetric(
+          horizontal: 40.w,
+        ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
                 'assets/images/order_placed.png',
-                width: 180,
-                height: 180,
+                width: 180.w,
+                height: 180.h,
               ),
               const SizedBox(height: 10),
-              const Text(
+              Text(
                 'Chúng tôi sẽ giao hàng tới bạn sớm nhất có thể!',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                ),
+                style: AppTypography.black['22_semiBold'],
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
+              SizedBox(height: 30.h),
               ElevatedButton(
                 onPressed: () async {
                   final result =
@@ -50,22 +51,16 @@ class OrderPlacedPage extends StatelessWidget {
                         displayName = state.displayName;
                       }
 
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              HomePage(displayName: displayName),
-                        ),
+                      context.push(
+                        RoutersName.homepage,
+                        extra: displayName,
                       );
                     },
                   );
                 },
-                child: const Text(
+                child: Text(
                   'QUAY LẠI TRANG CHỦ',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.w800,
-                  ),
+                  style: AppTypography.white['22_extraBold'],
                 ),
               ),
             ],

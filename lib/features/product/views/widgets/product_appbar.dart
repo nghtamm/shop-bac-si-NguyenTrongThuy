@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/favorite_button.dart';
 
 class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
   final ProductEntity productEntity;
+
   const ProductAppbar({
     super.key,
     required this.productEntity,
@@ -14,11 +18,11 @@ class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
     return Stack(
       children: [
         Positioned(
-          top: 10,
-          left: 15,
-          right: 15,
+          top: 10.h,
+          left: 15.w,
+          right: 15.w,
           child: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.white,
             actions: <Widget>[
               FavoriteButton(productEntity: productEntity),
               IconButton(
@@ -29,7 +33,7 @@ class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
             leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios),
               onPressed: () {
-                Navigator.pop(context);
+                context.pop();
               },
             ),
           ),

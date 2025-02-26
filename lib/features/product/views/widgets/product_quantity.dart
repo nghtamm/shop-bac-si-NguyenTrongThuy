@@ -1,28 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/product_quantity_cubit.dart';
 
 class ProductQuantity extends StatelessWidget {
   final ProductEntity productEntity;
+
   const ProductQuantity({required this.productEntity, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.only(left: 12),
+      height: 60.h,
+      margin: EdgeInsets.symmetric(
+        horizontal: 16.w,
+      ),
+      padding: EdgeInsets.only(
+        left: 12.w,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Text(
+          Text(
             'Số lượng',
-            style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+            style: AppTypography.black['20_bold'],
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(100),
             ),
             child: Row(
@@ -32,10 +40,12 @@ class ProductQuantity extends StatelessWidget {
                       context.read<ProductQuantityCubit>().decrement();
                     },
                     icon: Container(
-                      height: 40,
-                      width: 40,
+                      height: 40.h,
+                      width: 40.w,
                       decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.white),
+                        shape: BoxShape.circle,
+                        color: AppColors.white,
+                      ),
                       child: const Center(
                         child: Icon(
                           Icons.remove,
@@ -43,35 +53,33 @@ class ProductQuantity extends StatelessWidget {
                         ),
                       ),
                     )),
-                const SizedBox(
-                  width: 10,
-                ),
+                SizedBox(width: 10.w),
                 BlocBuilder<ProductQuantityCubit, int>(
                   builder: (context, state) => Text(
                     state.toString(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 18),
+                    style: AppTypography.black['18_bold'],
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+                SizedBox(width: 10.w),
                 IconButton(
-                    onPressed: () {
-                      context.read<ProductQuantityCubit>().increment();
-                    },
-                    icon: Container(
-                      height: 40,
-                      width: 40,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle, color: Colors.white),
-                      child: const Center(
-                        child: Icon(
-                          Icons.add,
-                          size: 30,
-                        ),
+                  onPressed: () {
+                    context.read<ProductQuantityCubit>().increment();
+                  },
+                  icon: Container(
+                    height: 40.h,
+                    width: 40.w,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.white,
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.add,
+                        size: 30,
                       ),
-                    )),
+                    ),
+                  ),
+                ),
               ],
             ),
           )

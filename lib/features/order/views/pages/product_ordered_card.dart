@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
 
 class OrderItemCard extends StatelessWidget {
   final ProductOrderedEntity productOrderedEntity;
+
   const OrderItemCard({required this.productOrderedEntity, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 100.h,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: Colors.grey,
-          width: 0.5,
+          color: AppColors.gray,
+          width: 0.5.w,
         ),
       ),
       child: Row(
@@ -31,9 +35,9 @@ class OrderItemCard extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    width: 90,
+                    width: 90.w,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.white,
                       image: DecorationImage(
                         fit: BoxFit.fill,
                         image: NetworkImage(
@@ -45,9 +49,7 @@ class OrderItemCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
+                SizedBox(width: 10.w),
                 Expanded(
                   flex: 6,
                   child: Column(
@@ -57,18 +59,15 @@ class OrderItemCard extends StatelessWidget {
                       Text(
                         productOrderedEntity.productTitle,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 20),
+                        style: AppTypography.black['20_semiBold'],
                       ),
                       Text(
                         '${productOrderedEntity.totalPrice}đ',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 18),
+                        style: AppTypography.black['18_medium'],
                       ),
                       Text(
                         'Số lượng: ${productOrderedEntity.productQuantity}',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 16),
+                        style: AppTypography.black['16_regular'],
                       ),
                     ],
                   ),

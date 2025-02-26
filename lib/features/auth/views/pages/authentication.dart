@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/get_display_name_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/google_sign_in_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_in.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_up.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class AuthenticationPage extends StatelessWidget {
@@ -13,82 +15,54 @@ class AuthenticationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 40,
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+          horizontal: 40.w,
         ),
         child: Column(
           children: [
             const Spacer(),
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'XIN CHÀO!',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black,
-                ),
+                style: AppTypography.black['32_extraBold'],
               ),
             ),
-            const SizedBox(height: 5),
-            const Align(
+            SizedBox(height: 5.h),
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Lựa chọn đăng ký hoặc đăng nhập để tiếp tục',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                ),
+                style: AppTypography.black['18_medium'],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => SignUpPage(),
-                  ),
-                );
+                context.push(RoutersName.signUp);
               },
-              child: const Text(
+              child: Text(
                 'ĐĂNG KÝ',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                ),
+                style: AppTypography.white['24_extraBold'],
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => SignInPage(),
-                  ),
-                );
+                context.push(RoutersName.signIn);
               },
-              child: const Text(
+              child: Text(
                 'ĐĂNG NHẬP',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                ),
+                style: AppTypography.white['24_extraBold'],
               ),
             ),
-            const SizedBox(height: 20),
-            const Text(
+            SizedBox(height: 20.h),
+            Text(
               'hoặc đăng nhập với',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: Colors.black,
-              ),
+              style: AppTypography.black['16_medium'],
             ),
-            const SizedBox(height: 15),
+            SizedBox(height: 15.h),
             _AuthenticationSocialButtons(),
             const Spacer(),
             TextButton(
@@ -102,44 +76,37 @@ class AuthenticationPage extends StatelessWidget {
                   ),
                   builder: (BuildContext context) {
                     return Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 40,
-                        vertical: 30,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 40.w,
+                        vertical: 30.h,
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             'ĐIỀU KHOẢN VÀ THỎA THUẬN NGƯỜI DÙNG',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: AppTypography.black['20_bold'],
                           ),
-                          const SizedBox(height: 15),
-                          const Text(
+                          SizedBox(height: 15.h),
+                          Text(
                             'Chỗ này bao gồm nội dung của điều khoản và thỏa thuận người dùng. Người dùng cần đọc kỹ trước khi sử dụng ứng dụng.',
-                            style: TextStyle(fontSize: 16),
+                            style: AppTypography.black['16_regular'],
                             textAlign: TextAlign.justify,
                           ),
-                          const SizedBox(height: 20),
+                          SizedBox(height: 20.h),
                           Align(
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.of(context).pop();
+                                context.pop();
                               },
                               style: ElevatedButton.styleFrom(
-                                minimumSize: const Size(100, 50),
+                                minimumSize: Size(100.w, 50.h),
                               ),
-                              child: const Text(
+                              child: Text(
                                 'TÔI ĐÃ HIỂU',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white,
-                                ),
+                                style: AppTypography.white['18_extraBold'],
                               ),
                             ),
                           ),
@@ -149,13 +116,9 @@ class AuthenticationPage extends StatelessWidget {
                   },
                 );
               },
-              child: const Text(
+              child: Text(
                 'Thỏa thuận người dùng (EULA)',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTypography.black['18_medium'],
               ),
             ),
           ],
@@ -186,37 +149,34 @@ class _AuthenticationSocialButtons extends StatelessWidget {
                     await serviceLocator<GetDisplayNameUseCase>().call();
 
                 if (context.mounted) {
-                  Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) =>
-                          HomePage(displayName: displayName),
-                    ),
-                    (route) => false,
+                  context.go(
+                    RoutersName.homepage,
+                    extra: displayName,
                   );
                 }
               },
             );
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFE5EAF4),
+            backgroundColor: AppColors.blueGray,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            minimumSize: const Size(90, 50),
+            minimumSize: Size(90.w, 50.h),
           ),
           child: Image.asset(
             'assets/images/google_icon.png',
-            height: 30,
+            height: 30.h,
           ),
         ),
         ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFE5EAF4),
+            backgroundColor: AppColors.blueGray,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            minimumSize: const Size(90, 50),
+            minimumSize: Size(90.w, 50.h),
           ),
           child: Image.asset(
             'assets/images/apple_icon.png',
@@ -226,15 +186,15 @@ class _AuthenticationSocialButtons extends StatelessWidget {
         ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFE5EAF4),
+            backgroundColor: AppColors.blueGray,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
-            minimumSize: const Size(90, 50),
+            minimumSize: Size(90.w, 50.h),
           ),
           child: Image.asset(
             'assets/images/facebook_icon.png',
-            height: 30,
+            height: 30.h,
           ),
         ),
       ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/news_display_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/news_display_state.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/news_card.dart';
@@ -30,9 +31,11 @@ class ForYourHealth extends StatelessWidget {
 
   Widget _news(List<NewEntity> news) {
     return SizedBox(
-      height: 330,
+      height: 330.h,
       child: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 40),
+        padding: EdgeInsets.symmetric(
+          horizontal: 40.w,
+        ),
         scrollDirection: Axis.horizontal,
         itemCount: news.length,
         itemBuilder: (context, index) {

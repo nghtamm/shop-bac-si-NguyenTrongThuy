@@ -51,8 +51,8 @@ dependencies:
   google_sign_in: ^6.2.2
   url_launcher: ^6.3.1
   flutter_launcher_icons: ^0.14.2
-  integration_test:
-    sdk: flutter
+  go_router: ^14.8.0
+  flutter_screenutil: ^5.9.3
   
 
 dev_dependencies:
@@ -80,7 +80,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - .env
+    - assets/icons/
     - assets/icons/app_icon.jpg
+    - assets/images/
     - assets/images/google_icon.png
     - assets/images/facebook_icon.png
     - assets/images/apple_icon.png
@@ -92,6 +94,7 @@ flutter:
     - assets/images/native_splash_logo.png
     - assets/images/empty_cart.png
     - assets/images/order_placed.png
+    - assets/svg/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

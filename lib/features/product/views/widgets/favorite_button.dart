@@ -5,6 +5,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/toggle_fa
 
 class FavoriteButton extends StatelessWidget {
   final ProductEntity productEntity;
+
   const FavoriteButton({
     super.key,
     required this.productEntity,

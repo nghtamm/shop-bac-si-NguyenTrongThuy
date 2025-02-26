@@ -36,74 +36,114 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initializeDependencies() async {
   serviceLocator.registerSingleton<AuthenticationFirebaseService>(
-      AuthenticationFirebaseServiceImpl());
+    AuthenticationFirebaseServiceImpl(),
+  );
 
   serviceLocator.registerSingleton<AuthenticationRepository>(
-      AuthenticationRepositoryImpl());
+    AuthenticationRepositoryImpl(),
+  );
 
-  serviceLocator.registerSingleton<SignUpUseCase>(SignUpUseCase());
+  serviceLocator.registerSingleton<SignUpUseCase>(
+    SignUpUseCase(),
+  );
 
-  serviceLocator.registerSingleton<SignInUseCase>(SignInUseCase());
+  serviceLocator.registerSingleton<SignInUseCase>(
+    SignInUseCase(),
+  );
 
-  serviceLocator.registerSingleton<GetAuthStateUseCase>(GetAuthStateUseCase());
+  serviceLocator.registerSingleton<GetAuthStateUseCase>(
+    GetAuthStateUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<GetDisplayNameUseCase>(GetDisplayNameUseCase());
+  serviceLocator.registerSingleton<GetDisplayNameUseCase>(
+    GetDisplayNameUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<ProductFirebaseService>(ProductFirebaseServiceImpl());
+  serviceLocator.registerSingleton<ProductFirebaseService>(
+    ProductFirebaseServiceImpl(),
+  );
 
-  serviceLocator
-      .registerSingleton<OrderFirebaseService>(OrderFirebaseServiceImpl());
+  serviceLocator.registerSingleton<OrderFirebaseService>(
+    OrderFirebaseServiceImpl(),
+  );
 
-  serviceLocator.registerSingleton<OrderRepository>(OrderRepositoryImpl());
+  serviceLocator.registerSingleton<OrderRepository>(
+    OrderRepositoryImpl(),
+  );
 
-  serviceLocator.registerSingleton<ProductRepository>(ProductRepositoryImpl());
+  serviceLocator.registerSingleton<ProductRepository>(
+    ProductRepositoryImpl(),
+  );
 
-  serviceLocator
-      .registerSingleton<GetDoctorChoiceUseCase>(GetDoctorChoiceUseCase());
+  serviceLocator.registerSingleton<GetDoctorChoiceUseCase>(
+    GetDoctorChoiceUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<ResetPasswordUseCase>(ResetPasswordUseCase());
+  serviceLocator.registerSingleton<ResetPasswordUseCase>(
+    ResetPasswordUseCase(),
+  );
 
-  serviceLocator.registerSingleton<AddToCartUseCase>(AddToCartUseCase());
+  serviceLocator.registerSingleton<AddToCartUseCase>(
+    AddToCartUseCase(),
+  );
 
-  serviceLocator.registerSingleton<SignOutUseCase>(SignOutUseCase());
+  serviceLocator.registerSingleton<SignOutUseCase>(
+    SignOutUseCase(),
+  );
 
-  serviceLocator.registerSingleton<GoogleSignInUseCase>(GoogleSignInUseCase());
+  serviceLocator.registerSingleton<GoogleSignInUseCase>(
+    GoogleSignInUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<NewFirebaseService>(NewFirebaseServiceImpl());
+  serviceLocator.registerSingleton<NewFirebaseService>(
+    NewFirebaseServiceImpl(),
+  );
 
-  serviceLocator.registerSingleton<NewRepository>(NewRepositoryImpl());
+  serviceLocator.registerSingleton<NewRepository>(
+    NewRepositoryImpl(),
+  );
 
-  serviceLocator.registerSingleton<GetNewsUseCase>(GetNewsUseCase());
+  serviceLocator.registerSingleton<GetNewsUseCase>(
+    GetNewsUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<GetProductByTitleUseCase>(GetProductByTitleUseCase());
+  serviceLocator.registerSingleton<GetProductByTitleUseCase>(
+    GetProductByTitleUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<GetAllProductUseCase>(GetAllProductUseCase());
+  serviceLocator.registerSingleton<GetAllProductUseCase>(
+    GetAllProductUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<ToggleFavoriteUseCase>(ToggleFavoriteUseCase());
+  serviceLocator.registerSingleton<ToggleFavoriteUseCase>(
+    ToggleFavoriteUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<GetFavoriteStateUseCase>(GetFavoriteStateUseCase());
+  serviceLocator.registerSingleton<GetFavoriteStateUseCase>(
+    GetFavoriteStateUseCase(),
+  );
 
   serviceLocator.registerSingleton<GetFavoriteProductsUseCase>(
-      GetFavoriteProductsUseCase());
+    GetFavoriteProductsUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<GetCartProductsUseCase>(GetCartProductsUseCase());
+  serviceLocator.registerSingleton<GetCartProductsUseCase>(
+    GetCartProductsUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<RemoveCartProductUseCase>(RemoveCartProductUseCase());
+  serviceLocator.registerSingleton<RemoveCartProductUseCase>(
+    RemoveCartProductUseCase(),
+  );
 
-  serviceLocator
-      .registerSingleton<OrderRegistrationUseCase>(OrderRegistrationUseCase());
+  serviceLocator.registerSingleton<OrderRegistrationUseCase>(
+    OrderRegistrationUseCase(),
+  );
 
-  serviceLocator.registerSingleton<DisposeCartUseCase>(DisposeCartUseCase());
+  serviceLocator.registerSingleton<DisposeCartUseCase>(
+    DisposeCartUseCase(),
+  );
 
-  serviceLocator.registerSingleton<GetOrdersUseCase>(GetOrdersUseCase());
+  serviceLocator.registerSingleton<GetOrdersUseCase>(
+    GetOrdersUseCase(),
+  );
 }

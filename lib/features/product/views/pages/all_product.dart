@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_state.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
@@ -20,45 +23,45 @@ class AllProductPage extends StatelessWidget {
         builder: (context) {
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: const Color(0xFFF0F1F2),
+              backgroundColor: AppColors.grayLight,
               elevation: 0,
             ),
             body: BlocBuilder<ProductDisplayCubit, ProductDisplayState>(
               builder: (context, state) {
                 if (state is ProductLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
                 if (state is ProductLoaded) {
                   return Column(
                     children: [
                       Container(
                         decoration: const BoxDecoration(
-                          color: Color(0xFFF0F1F2),
+                          color: AppColors.grayLight,
                         ),
-                        child: const Padding(
+                        child: Padding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: 25,
-                            vertical: 5,
+                            horizontal: 25.w,
+                            vertical: 5.h,
                           ),
                           child: Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
                               'TẤT CẢ SẢN PHẨM',
-                              style: TextStyle(
-                                fontSize: 32,
-                                fontWeight: FontWeight.w800,
-                                color: Colors.black,
-                              ),
+                              style: AppTypography.black['32_extraBold'],
                             ),
                           ),
                         ),
                       ),
-                      Expanded(child: _products(state.products)),
+                      Expanded(
+                        child: _products(state.products),
+                      ),
                     ],
                   );
                 }
                 return Container(
-                  color: const Color(0xFFF0F1F2),
+                  color: AppColors.grayLight,
                 );
               },
             ),
@@ -70,14 +73,14 @@ class AllProductPage extends StatelessWidget {
 
   Widget _products(List<ProductEntity> products) {
     return Container(
-      color: const Color(0xFFF0F1F2),
+      color: AppColors.grayLight,
       child: GridView.builder(
         itemCount: products.length,
         padding: const EdgeInsets.all(16),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
+          crossAxisSpacing: 10.w,
+          mainAxisSpacing: 10.h,
           childAspectRatio: 0.6,
         ),
         itemBuilder: (BuildContext context, int index) {

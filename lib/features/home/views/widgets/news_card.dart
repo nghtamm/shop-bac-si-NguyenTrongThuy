@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/entities/news.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,7 +19,9 @@ class NewsCard extends StatelessWidget {
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: EdgeInsets.only(
+            top: 20.h,
+          ),
           child: InkWell(
             onTap: () async {
               final Uri url = Uri.parse(newEntity.url);
@@ -34,13 +39,13 @@ class NewsCard extends StatelessWidget {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
               child: Container(
-                width: 300,
+                width: 300.w,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: Colors.grey,
-                    width: 0.5,
+                    color: AppColors.gray,
+                    width: 0.5.w,
                   ),
                 ),
                 child: Column(
@@ -55,14 +60,14 @@ class NewsCard extends StatelessWidget {
                         ImageDisplayHelper.generateNewsImageURL(
                             newEntity.images),
                         fit: BoxFit.cover,
-                        width: 300,
-                        height: 180,
+                        width: 300.w,
+                        height: 180.h,
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 16,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 20.w,
+                        vertical: 16.h,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -70,20 +75,16 @@ class NewsCard extends StatelessWidget {
                           Expanded(
                             child: Text(
                               newEntity.title,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black,
-                              ),
+                              style: AppTypography.black['16_semiBold'],
                             ),
                           ),
-                          const SizedBox(width: 20),
+                          SizedBox(width: 20.w),
                           const CircleAvatar(
-                            backgroundColor: Color(0xFFB6EEF5),
+                            backgroundColor: AppColors.cyanSoft,
                             radius: 20,
                             child: Icon(
                               Icons.healing_rounded,
-                              color: Colors.black,
+                              color: AppColors.black,
                             ),
                           ),
                         ],
@@ -95,7 +96,7 @@ class NewsCard extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(width: 20),
+        SizedBox(width: 20.w),
       ],
     );
   }

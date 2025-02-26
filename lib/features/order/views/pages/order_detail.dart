@@ -1,31 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/app_navigator.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/order.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_items.dart';
 
 class OrderDetailPage extends StatelessWidget {
   final OrderEntity orderEntity;
+
   const OrderDetailPage({required this.orderEntity, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF0F1F2),
+        backgroundColor: AppColors.grayLight,
         elevation: 0,
       ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: const Color(0xFFF0F1F2),
+        color: AppColors.grayLight,
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _items(context),
-              const SizedBox(height: 30),
-              _shipping()
+              SizedBox(height: 30.h),
+              _shipping(),
             ],
           ),
         ),
@@ -37,26 +41,25 @@ class OrderDetailPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'DANH SÁCH SẢN PHẨM ĐÃ MUA',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 32,
-          ),
+          style: AppTypography.black['32_bold'],
         ),
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
         GestureDetector(
           onTap: () {
-            AppNavigator.push(
-              context,
-              OrderItemsPage(products: orderEntity.products),
+            context.push(
+              RoutersName.orderItems,
+              extra: orderEntity.products,
             );
           },
           child: Container(
-            height: 80,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            height: 80.h,
+            padding: EdgeInsets.symmetric(
+              horizontal: 20.w,
+            ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
@@ -68,19 +71,16 @@ class OrderDetailPage extends StatelessWidget {
                       Icons.receipt_rounded,
                       size: 30,
                     ),
-                    const SizedBox(width: 20),
+                    SizedBox(width: 20.w),
                     Text(
                       '${orderEntity.products.length} sản phẩm',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
+                      style: AppTypography.black['16_semiBold'],
                     )
                   ],
                 ),
-                const Text(
+                Text(
                   'Xem chi tiết',
-                  style: TextStyle(fontSize: 14),
+                  style: AppTypography.black['14_regular'],
                 )
               ],
             ),
@@ -94,92 +94,71 @@ class OrderDetailPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'THÔNG TIN GIAO NHẬN HÀNG',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 32,
-          ),
+          style: AppTypography.black['32_bold'],
         ),
-        const SizedBox(height: 10),
-        const Align(
+        SizedBox(height: 10.h),
+        Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Người nhận',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTypography.black['18_semiBold'],
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
             orderEntity.name,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
+            style: AppTypography.black['18_medium'],
           ),
         ),
-        const SizedBox(height: 20),
-        const Align(
+        SizedBox(height: 20.h),
+        Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Số điện thoại',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTypography.black['18_semiBold'],
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
             orderEntity.phoneNumber,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
+            style: AppTypography.black['18_medium'],
           ),
         ),
-        const SizedBox(height: 20),
-        const Align(
+        SizedBox(height: 20.h),
+        Align(
           alignment: Alignment.centerLeft,
           child: Text(
             'Địa chỉ',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
+            style: AppTypography.black['18_semiBold'],
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10.h),
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
             orderEntity.shippingAddress,
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
+            style: AppTypography.black['18_medium'],
           ),
         ),
       ],

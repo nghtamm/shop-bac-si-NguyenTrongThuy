@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_out_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/cart.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/chatgpt_bot/views/pages/ai_chat.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/favorites/views/pages/my_favorites.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/get_started/views/pages/get_started.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/for_your_health.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_history.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/all_product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/search/views/pages/search.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class HomePage extends StatelessWidget {
@@ -23,15 +22,13 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         elevation: 0,
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
               icon: const Icon(Icons.menu_rounded),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
+              onPressed: () => Scaffold.of(context).openDrawer(),
             );
           },
         ),
@@ -42,161 +39,136 @@ class HomePage extends StatelessWidget {
           children: [
             DrawerHeader(
               decoration: const BoxDecoration(
-                color: Color(0xFF43B73B),
+                color: AppColors.primary,
               ),
               child: Center(
                 child: Image.asset('assets/images/shop_logo.png'),
               ),
             ),
             ListTile(
-              contentPadding: const EdgeInsets.only(
-                left: 30,
-                right: 30,
-                top: 10,
+              contentPadding: EdgeInsets.only(
+                left: 30.w,
+                right: 30.w,
+                top: 10.h,
               ),
               leading: const Icon(Icons.home_rounded),
-              title: const Text(
+              title: Text(
                 'Trang chủ',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTypography.black['14_semiBold'],
               ),
               onTap: () {
-                Navigator.pop(context);
+                context.pop();
               },
             ),
             ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 30.w,
+              ),
               leading: const Icon(Icons.medication_liquid_rounded),
-              title: const Text(
+              title: Text(
                 'Tất cả sản phẩm',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTypography.black['14_semiBold'],
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const AllProductPage(),
-                  ),
-                );
+                context.push(RoutersName.allProducts);
               },
             ),
             ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 30.w,
+              ),
               leading: const Icon(Icons.favorite_rounded),
-              title: const Text(
+              title: Text(
                 'Sản phẩm yêu thích',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTypography.black['14_semiBold'],
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const MyFavoritesPage(),
-                  ),
-                );
+                context.push(RoutersName.myFavorites);
               },
             ),
             ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 30.w,
+              ),
               leading: const Icon(Icons.shopping_cart_rounded),
-              title: const Text(
+              title: Text(
                 'Giỏ hàng',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTypography.black['14_semiBold'],
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const CartPage(),
-                  ),
-                );
+                context.push(RoutersName.cart);
               },
             ),
             ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 30.w,
+              ),
               leading: const Icon(Icons.receipt_rounded),
-              title: const Text(
+              title: Text(
                 'Hóa đơn',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTypography.black['14_semiBold'],
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const OrderHistoryPage(),
-                  ),
-                );
+                context.push(RoutersName.orderHistory);
               },
             ),
             ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 30.w,
+              ),
               leading: const Icon(Icons.chat_rounded),
-              title: const Text(
+              title: Text(
                 'Chat với AI',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTypography.black['14_semiBold'],
               ),
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const AiChat(),
-                  ),
-                );
+                context.push(RoutersName.aiChat);
               },
             ),
             ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 30),
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 30.w,
+              ),
               leading: const Icon(Icons.logout_rounded),
-              title: const Text(
+              title: Text(
                 'Đăng xuất',
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTypography.black['14_semiBold'],
               ),
               onTap: () async {
                 final signOutConfirmation = await showDialog<bool>(
                   context: context,
                   builder: (BuildContext context) {
                     return AlertDialog(
-                      title: const Text(
+                      title: Text(
                         'Đăng xuất',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: AppTypography.black['14_bold'],
                       ),
-                      content: const Text(
+                      content: Text(
                         'Bạn có chắc chắn muốn đăng xuất không?',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: AppTypography.black['14_medium'],
                       ),
                       actions: [
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pop(false);
+                            context.pop(false);
                           },
-                          child: const Text(
+                          child: Text(
                             'Không',
-                            style: TextStyle(
-                              color: Colors.black,
+                            style: AppTypography.black['14_regular']?.copyWith(
                               fontSize: 15,
                             ),
                           ),
                         ),
                         TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop(true);
+                          onPressed: () async {
+                            await HydratedBloc.storage.clear();
+                            if (context.mounted) {
+                              context.pop(true);
+                            }
                           },
-                          child: const Text(
+                          child: Text(
                             'Có',
-                            style: TextStyle(
-                              color: Colors.black,
+                            style: AppTypography.black['14_regular']?.copyWith(
                               fontSize: 15,
                             ),
                           ),
@@ -210,12 +182,7 @@ class HomePage extends StatelessWidget {
                   await serviceLocator<SignOutUseCase>().call();
 
                   if (context.mounted) {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => const GetStartedPage(),
-                      ),
-                      (route) => false,
-                    );
+                    context.go(RoutersName.getStarted);
                   }
                 }
               },
@@ -227,67 +194,59 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 20,
-                horizontal: 40,
+              padding: EdgeInsets.symmetric(
+                vertical: 20.h,
+                horizontal: 40.w,
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'CHÚC $formattedDisplayName\nNGÀY TỐT LÀNH!',
-                  style: const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
-                  ),
+                  style: AppTypography.black['32_extraBold'],
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 0,
-                horizontal: 40,
+              padding: EdgeInsets.symmetric(
+                vertical: 0.h,
+                horizontal: 40.w,
               ),
               child: TextField(
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => SearchPage(),
-                    ),
-                  );
+                  context.push(RoutersName.search);
                 },
                 readOnly: true,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: 'Tìm kiếm',
-                  suffixIcon: Icon(Icons.search_rounded),
+                  suffixIcon: const Icon(Icons.search_rounded),
                   contentPadding: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 15,
+                    vertical: 10.h,
+                    horizontal: 15.w,
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 0,
-                horizontal: 40,
+              padding: EdgeInsets.symmetric(
+                vertical: 0.h,
+                horizontal: 40.w,
               ),
               child: _FirstRowButtons(),
             ),
-            const SizedBox(height: 15),
+            SizedBox(height: 15.h),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 0,
-                horizontal: 40,
+              padding: EdgeInsets.symmetric(
+                vertical: 0.h,
+                horizontal: 40.w,
               ),
               child: _SecondRowButtons(),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 0,
-                horizontal: 40,
+              padding: EdgeInsets.symmetric(
+                vertical: 0.h,
+                horizontal: 40.w,
               ),
               child: SizedBox(
                 width: double.infinity,
@@ -300,45 +259,37 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 40),
-            const Padding(
+            SizedBox(height: 40.h),
+            Padding(
               padding: EdgeInsets.symmetric(
-                vertical: 0,
-                horizontal: 40,
+                vertical: 0.h,
+                horizontal: 40.w,
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'BÁC SĨ TIN DÙNG!',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
-                  ),
+                  style: AppTypography.black['32_extraBold'],
                 ),
               ),
             ),
             const DoctorChoice(),
-            const SizedBox(height: 10),
-            const Padding(
+            SizedBox(height: 10.h),
+            Padding(
               padding: EdgeInsets.symmetric(
-                vertical: 0,
-                horizontal: 40,
+                vertical: 0.h,
+                horizontal: 40.w,
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   'BẢO VỆ SỨC KHỎE CỦA BẠN!',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
-                  ),
+                  style: AppTypography.black['32_extraBold'],
                 ),
               ),
             ),
             const ForYourHealth(),
-            const SizedBox(height: 40),
+            SizedBox(height: 40.h),
           ],
         ),
       ),
@@ -355,59 +306,47 @@ class _FirstRowButtons extends StatelessWidget {
           flex: 2,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const CartPage(),
-                ),
-              );
+              context.push(RoutersName.cart);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFB2EBB8),
+              backgroundColor: AppColors.primaryLight,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.shopping_cart_outlined,
-                  color: Colors.black,
+                  color: AppColors.black,
                   size: 26,
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 Text(
                   'Giỏ hàng',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+                  style: AppTypography.black['20_bold'],
                 ),
               ],
             ),
           ),
         ),
-        const SizedBox(width: 15),
+        SizedBox(width: 15.w),
         Flexible(
           flex: 1,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const AllProductPage(),
-                ),
-              );
+              context.push(RoutersName.allProducts);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFEC774),
+              backgroundColor: AppColors.goldSoft,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
             child: const Icon(
               Icons.medication_liquid_sharp,
-              color: Colors.black,
+              color: AppColors.black,
               size: 30,
             ),
           ),
@@ -426,58 +365,46 @@ class _SecondRowButtons extends StatelessWidget {
           flex: 1,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const AiChat(),
-                ),
-              );
+              context.push(RoutersName.aiChat);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFFC9FFE),
+              backgroundColor: AppColors.magentaSoft,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
             child: const Icon(
               Icons.chat_bubble_outline_rounded,
-              color: Colors.black,
+              color: AppColors.black,
               size: 30,
             ),
           ),
         ),
-        const SizedBox(width: 15),
+        SizedBox(width: 15.w),
         Flexible(
           flex: 2,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const OrderHistoryPage(),
-                ),
-              );
+              context.push(RoutersName.orderHistory);
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFB6EEF5),
+              backgroundColor: AppColors.cyanSoft,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
+                const Icon(
                   Icons.receipt_outlined,
-                  color: Colors.black,
+                  color: AppColors.black,
                   size: 26,
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 Text(
                   'Hóa đơn',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+                  style: AppTypography.black['20_bold'],
                 ),
               ],
             ),

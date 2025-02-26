@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/cart_helper.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/cart_appbar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_registration_req.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/order_registration.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_placed.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/button_state_cubit.dart';
 
 class CheckoutPage extends StatelessWidget {
@@ -18,7 +21,10 @@ class CheckoutPage extends StatelessWidget {
 
   Widget _nameField(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+      padding: EdgeInsets.symmetric(
+        horizontal: 40.w,
+        vertical: 10.h,
+      ),
       child: TextField(
         controller: _nameCon,
         decoration: const InputDecoration(
@@ -31,7 +37,10 @@ class CheckoutPage extends StatelessWidget {
 
   Widget _addressField(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+      padding: EdgeInsets.symmetric(
+        horizontal: 40.w,
+        vertical: 10.h,
+      ),
       child: TextField(
         controller: _addressCon,
         decoration: const InputDecoration(
@@ -44,7 +53,10 @@ class CheckoutPage extends StatelessWidget {
 
   Widget _phoneField(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+      padding: EdgeInsets.symmetric(
+        horizontal: 40.w,
+        vertical: 10.h,
+      ),
       child: TextField(
         controller: _phoneCon,
         decoration: const InputDecoration(
@@ -66,86 +78,76 @@ class CheckoutPage extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 40, top: 30, bottom: 20),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 40.w,
+                  top: 30.h,
+                  bottom: 20.h,
+                ),
                 child: Text(
                   'THÔNG TIN\nVẬN CHUYỂN',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
-                  ),
+                  style: AppTypography.black['32_extraBold'],
                 ),
               ),
-              const Padding(
-                padding: EdgeInsets.only(left: 44.0),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 44.w,
+                ),
                 child: Text(
                   'Họ và tên',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
+                  style: AppTypography.black['20_medium'],
                 ),
               ),
               _nameField(context),
-              const SizedBox(height: 10),
-              const Padding(
-                padding: EdgeInsets.only(left: 44.0),
+              SizedBox(height: 10.h),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 44.w,
+                ),
                 child: Text(
                   'Số điện thoại',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
+                  style: AppTypography.black['20_medium'],
                 ),
               ),
               _phoneField(context),
-              const SizedBox(height: 10),
-              const Padding(
-                padding: EdgeInsets.only(left: 44.0),
+              SizedBox(height: 10.h),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 44.w,
+                ),
                 child: Text(
                   'Địa chỉ giao hàng',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
+                  style: AppTypography.black['20_medium'],
                 ),
               ),
               _addressField(context),
               const Spacer(),
               Padding(
-                padding: const EdgeInsets.only(bottom: 40, left: 40, right: 40),
+                padding: EdgeInsets.only(
+                  bottom: 40.h,
+                  left: 40.w,
+                  right: 40.w,
+                ),
                 child: ElevatedButton(
-                  child: const Text(
+                  child: Text(
                     'TIẾP TỤC THANH TOÁN',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                    ),
+                    style: AppTypography.white['20_extraBold'],
                   ),
                   onPressed: () {
                     context.read<ButtonStateCubit>().execute(
-                        usecase: OrderRegistrationUseCase(),
-                        params: OrderRegistrationReq(
-                          products: products,
-                          createdDate: DateTime.now().toString(),
-                          itemCount: products.length,
-                          totalPrice:
-                              CartHelper.calculateCartSubtotal(products),
-                          shippingAddress: _addressCon.text,
-                          name: _nameCon.text,
-                          phoneNumber: _phoneCon.text,
-                        ));
-
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const OrderPlacedPage(),
-                      ),
-                    );
+                          usecase: OrderRegistrationUseCase(),
+                          params: OrderRegistrationReq(
+                            products: products,
+                            createdDate: DateTime.now().toString(),
+                            itemCount: products.length,
+                            totalPrice:
+                                CartHelper.calculateCartSubtotal(products),
+                            shippingAddress: _addressCon.text,
+                            name: _nameCon.text,
+                            phoneNumber: _phoneCon.text,
+                          ),
+                        );
+                    context.push(RoutersName.orderPlaced);
                   },
                 ),
               ),
