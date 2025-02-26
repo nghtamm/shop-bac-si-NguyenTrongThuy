@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_products_display_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
@@ -14,10 +17,10 @@ class ProductOrderedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      height: 120.h,
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(
@@ -32,9 +35,9 @@ class ProductOrderedCard extends StatelessWidget {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    width: 90,
+                    width: 90.w,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppColors.white,
                       image: DecorationImage(
                         fit: BoxFit.fill,
                         image: NetworkImage(
@@ -47,7 +50,7 @@ class ProductOrderedCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: 10.w),
                 Expanded(
                   flex: 6,
                   child: Column(
@@ -57,24 +60,15 @@ class ProductOrderedCard extends StatelessWidget {
                       Text(
                         productOrderedEntity.productTitle,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w800,
-                          fontSize: 20,
-                        ),
+                        style: AppTypography.black['20_extraBold'],
                       ),
                       Text(
                         '${productOrderedEntity.totalPrice}đ',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 20,
-                        ),
+                        style: AppTypography.black['20_semiBold'],
                       ),
                       Text(
                         'Số lượng: ${productOrderedEntity.productQuantity}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16,
-                        ),
+                        style: AppTypography.black['16_medium'],
                       )
                     ],
                   ),
@@ -97,10 +91,10 @@ class ProductOrderedCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Container(
-                  height: 23,
-                  width: 23,
+                  height: 23.h,
+                  width: 23.w,
                   decoration: const BoxDecoration(
-                    color: Color(0xffFF8383),
+                    color: AppColors.redSoft,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(

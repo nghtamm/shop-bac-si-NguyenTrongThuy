@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
@@ -11,41 +15,33 @@ class ForgotPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 40,
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+          horizontal: 40.w,
         ),
         child: Column(
           children: [
             const Spacer(),
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'QUÊN MẬT KHẨU',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black,
-                ),
+                style: AppTypography.black['32_extraBold'],
               ),
             ),
-            const SizedBox(height: 5),
-            const Align(
+            SizedBox(height: 5.h),
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Nhập email của bạn để có thể đặt lại mật khẩu nhé!',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                ),
+                style: AppTypography.black['18_medium'],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -53,7 +49,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 prefixIcon: Icon(Icons.email_rounded),
               ),
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40.h),
             ElevatedButton(
               onPressed: () async {
                 var result = await serviceLocator<ResetPasswordUseCase>().call(
@@ -72,17 +68,13 @@ class ForgotPasswordPage extends StatelessWidget {
                     );
                     ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
-                    Navigator.of(context).pop();
+                    context.pop();
                   },
                 );
               },
-              child: const Text(
+              child: Text(
                 'TIẾP TỤC',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                ),
+                style: AppTypography.white['24_extraBold'],
               ),
             ),
             const Spacer(),

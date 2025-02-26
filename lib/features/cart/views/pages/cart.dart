@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_products_display_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_products_display_state.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/cart_appbar.dart';
@@ -13,20 +16,20 @@ class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       appBar: const CartAppbar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 40, top: 30, bottom: 20),
+          Padding(
+            padding: EdgeInsets.only(
+              left: 40.w,
+              top: 30.h,
+              bottom: 20.h,
+            ),
             child: Text(
               'GIỎ HÀNG',
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w800,
-                color: Colors.black,
-              ),
+              style: AppTypography.black['32_extraBold'],
             ),
           ),
           Expanded(
@@ -81,12 +84,12 @@ class CartPage extends StatelessWidget {
             productOrderedEntity: products[index],
           );
         },
-        separatorBuilder: (context, index) => const Divider(
-          color: Colors.grey,
+        separatorBuilder: (context, index) => Divider(
+          color: AppColors.gray,
           thickness: 1,
-          height: 24,
-          indent: 20,
-          endIndent: 12,
+          height: 24.h,
+          indent: 20.w,
+          endIndent: 12.w,
         ),
         itemCount: products.length,
       );
@@ -102,10 +105,10 @@ class CartEmpty extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: 40,
-        left: 40,
-        right: 40,
+      padding: EdgeInsets.only(
+        bottom: 40.h,
+        left: 40.w,
+        right: 40.w,
       ),
       child: Center(
         child: Column(
@@ -113,16 +116,12 @@ class CartEmpty extends StatelessWidget {
           children: [
             Image.asset(
               'assets/images/empty_cart.png',
-              width: 200,
-              height: 200,
+              width: 200.w,
+              height: 200.h,
             ),
-            const Text(
+            Text(
               'Bạn ơi, chưa có sản phẩm nào được thêm vào giỏ hàng cả!',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-              ),
+              style: AppTypography.black['24_semiBold'],
               textAlign: TextAlign.center,
             ),
           ],

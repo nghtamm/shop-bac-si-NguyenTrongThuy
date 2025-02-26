@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/app_navigator.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/order.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/bloc/orders_display_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/bloc/orders_display_state.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_detail.dart';
 
 class OrderHistoryPage extends StatelessWidget {
   const OrderHistoryPage({super.key});
@@ -13,7 +16,7 @@ class OrderHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFFF0F1F2),
+        backgroundColor: AppColors.grayLight,
         elevation: 0,
       ),
       body: BlocProvider(
@@ -28,28 +31,27 @@ class OrderHistoryPage extends StatelessWidget {
             if (state is OrdersLoaded) {
               return Container(
                 decoration: const BoxDecoration(
-                  color: Color(0xFFF0F1F2),
+                  color: AppColors.grayLight,
                 ),
                 child: Column(
                   children: [
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(
-                        bottom: 10,
-                        left: 30,
-                        right: 30,
+                        bottom: 10.h,
+                        left: 30.w,
+                        right: 30.w,
                       ),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'LỊCH SỬ ĐƠN HÀNG',
-                          style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: AppTypography.black['28_bold'],
                         ),
                       ),
                     ),
-                    Expanded(child: _orders(state.orders)),
+                    Expanded(
+                      child: _orders(state.orders),
+                    ),
                   ],
                 ),
               );
@@ -72,16 +74,18 @@ class OrderHistoryPage extends StatelessWidget {
       itemBuilder: (context, index) {
         return GestureDetector(
           onTap: () {
-            AppNavigator.push(
-              context,
-              OrderDetailPage(orderEntity: orders[index]),
+            context.push(
+              RoutersName.orderDetails,
+              extra: orders[index],
             );
           },
           child: Container(
-            height: 80,
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            height: 80.h,
+            padding: EdgeInsets.symmetric(
+              horizontal: 20.w,
+            ),
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
@@ -93,24 +97,20 @@ class OrderHistoryPage extends StatelessWidget {
                       Icons.receipt_rounded,
                       size: 30,
                     ),
-                    const SizedBox(width: 20),
+                    SizedBox(width: 20.w),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           'Hóa đơn ngày ${orders[index].createdDate.split(' ')[0]}',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
+                          style: AppTypography.black['16_semiBold'],
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
                           'Giá trị đơn hàng: ${orders[index].totalPrice}đ',
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
+                          style: AppTypography.black['14_regular']?.copyWith(
+                            color: AppColors.gray,
                           ),
                         ),
                       ],
@@ -123,8 +123,8 @@ class OrderHistoryPage extends StatelessWidget {
           ),
         );
       },
-      separatorBuilder: (context, index) => const SizedBox(
-        height: 20,
+      separatorBuilder: (context, index) => SizedBox(
+        height: 20.h,
       ),
       itemCount: orders.length,
     );

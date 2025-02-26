@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/authentication.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 
 class GetStartedPage extends StatelessWidget {
   const GetStartedPage({super.key});
@@ -16,48 +19,32 @@ class GetStartedPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 50,
-              horizontal: 50,
+            padding: EdgeInsets.symmetric(
+              vertical: 50.h,
+              horizontal: 50.w,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Spacer(),
-                const Text(
+                Text(
                   'SHOPBACSINGUYENTRONGTHUY',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black),
+                  style: AppTypography.black['14_medium'],
                 ),
-                const SizedBox(height: 8),
-                const Text(
+                SizedBox(height: 8.h),
+                Text(
                   'BẢO VỆ SỨC KHỎE,\n NGAY BÂY GIỜ!',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.black,
-                  ),
+                  style: AppTypography.black['28_extraBold'],
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 30),
+                SizedBox(height: 30.h),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) =>
-                            const AuthenticationPage(),
-                      ),
-                    );
+                    context.go(RoutersName.authentication);
                   },
-                  child: const Text(
+                  child: Text(
                     'BẮT ĐẦU',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
-                      color: Colors.white,
-                    ),
+                    style: AppTypography.white['24_extraBold'],
                   ),
                 ),
               ],

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/app_navigator.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/product_detail.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductEntity productEntity;
+
   const ProductCard({
     required this.productEntity,
     super.key,
@@ -15,18 +19,18 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        AppNavigator.push(
-          context,
-          ProductDetailPage(productEntity: productEntity),
+        context.push(
+          RoutersName.productDetails,
+          extra: productEntity,
         );
       },
       child: Container(
-        width: 180,
+        width: 180.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: Colors.grey,
-            width: 0.2,
+            color: AppColors.gray,
+            width: 0.2.w,
           ),
         ),
         child: Column(
@@ -37,7 +41,7 @@ class ProductCard extends StatelessWidget {
               flex: 3,
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   image: DecorationImage(
                     fit: BoxFit.contain,
                     image: NetworkImage(
@@ -56,34 +60,29 @@ class ProductCard extends StatelessWidget {
               flex: 1,
               child: Container(
                 decoration: const BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.white,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
                   ),
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 16,
+                  padding: EdgeInsets.symmetric(
+                    vertical: 12.h,
+                    horizontal: 16.w,
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         productEntity.title,
-                        style: const TextStyle(
-                          fontSize: 12,
+                        style: AppTypography.black['12_medium']?.copyWith(
                           overflow: TextOverflow.ellipsis,
-                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Text(
                         "${productEntity.price}đ",
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: AppTypography.black['22_bold'],
                       )
                     ],
                   ),

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 
 class AiChatAppbar extends StatelessWidget implements PreferredSizeWidget {
   const AiChatAppbar({super.key});
@@ -10,15 +14,15 @@ class AiChatAppbar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         elevation: 1,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back,
-            color: Colors.black,
+            color: AppColors.black,
           ),
           onPressed: () {
-            Navigator.of(context).pop();
+            context.pop();
           },
         ),
         title: Row(
@@ -29,23 +33,18 @@ class AiChatAppbar extends StatelessWidget implements PreferredSizeWidget {
                 'assets/images/capybara.png',
               ).image,
             ),
-            const SizedBox(width: 14),
-            const Column(
+            SizedBox(width: 14.w),
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   'Tư vấn sức khoẻ',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: AppTypography.black['18_bold'],
                 ),
                 Text(
                   'Chuột lang nước',
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontSize: 12,
+                  style: AppTypography.black['12_regular']?.copyWith(
+                    color: AppColors.gray,
                   ),
                 ),
               ],

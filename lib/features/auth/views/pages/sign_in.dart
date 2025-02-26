@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/auth_request.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/get_display_name_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_in_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/toggle_password_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/forgot_password.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class SignInPage extends StatelessWidget {
@@ -19,41 +22,33 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: AppColors.transparent,
         elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 20,
-          horizontal: 40,
+        padding: EdgeInsets.symmetric(
+          vertical: 20.h,
+          horizontal: 40.w,
         ),
         child: Column(
           children: [
             const Spacer(),
-            const Align(
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'MUA HÀNG NGAY',
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.black,
-                ),
+                style: AppTypography.black['32_extraBold'],
               ),
             ),
-            const SizedBox(height: 5),
-            const Align(
+            SizedBox(height: 5.h),
+            Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 'Đăng nhập tài khoản để được mua hàng tại Shop Bác sĩ Nguyễn Trọng Thủy',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black,
-                ),
+                style: AppTypography.black['18_medium'],
               ),
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -61,7 +56,7 @@ class SignInPage extends StatelessWidget {
                 prefixIcon: Icon(Icons.email_rounded),
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             BlocBuilder<TogglePasswordCubit, bool>(
               builder: (context, isVisible) {
                 return TextField(
@@ -87,7 +82,7 @@ class SignInPage extends StatelessWidget {
                 );
               },
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40.h),
             ElevatedButton(
               onPressed: () async {
                 var result = await serviceLocator<SignInUseCase>().call(
@@ -108,42 +103,27 @@ class SignInPage extends StatelessWidget {
                         await serviceLocator<GetDisplayNameUseCase>().call();
 
                     if (context.mounted) {
-                      Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) =>
-                              HomePage(displayName: displayName),
-                        ),
-                        (route) => false,
+                      context.go(
+                        RoutersName.homepage,
+                        extra: displayName,
                       );
                     }
                   },
                 );
               },
-              child: const Text(
+              child: Text(
                 'TIẾP TỤC',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
-                ),
+                style: AppTypography.white['24_extraBold'],
               ),
             ),
-            const SizedBox(height: 30),
+            SizedBox(height: 30.h),
             TextButton(
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => ForgotPasswordPage(),
-                  ),
-                );
+                context.push(RoutersName.forgotPassword);
               },
-              child: const Text(
+              child: Text(
                 'Quên mật khẩu?',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: AppTypography.black['18_bold'],
               ),
             ),
             const Spacer(),
