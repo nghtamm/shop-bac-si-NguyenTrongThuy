@@ -3,12 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_products_display_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_products_display_state.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/cart_appbar.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/product_checkout.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/product_ordered_card.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/checkout_summary.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/cart_products_card.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/empty_cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -17,7 +17,7 @@ class CartPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
-      appBar: const CartAppbar(),
+      appBar: const CustomAppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -34,33 +34,41 @@ class CartPage extends StatelessWidget {
           ),
           Expanded(
             child: BlocProvider(
-              create: (context) =>
-                  CartProductsDisplayCubit()..displayCartProducts(),
-              child: BlocBuilder<CartProductsDisplayCubit,
-                  CartProductsDisplayState>(
+              create: (context) => CartBloc()..add(CartDisplayed()),
+              child: BlocBuilder<CartBloc, CartState>(
                 builder: (context, state) {
-                  if (state is CartProductsLoading) {
+                  if (state is CartLoading) {
                     return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }
-                  if (state is CartProductsLoaded) {
+                  if (state is CartLoaded) {
+                    Future.delayed(const Duration(milliseconds: 1500), () {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).clearMaterialBanners();
+                      }
+                    });
+
                     return state.products.isEmpty
-                        ? const Center(child: CartEmpty())
+                        ? const Center(
+                            child: EmptyCartPage(),
+                          )
                         : Column(
                             children: [
                               Expanded(
-                                child: _products(state.products),
+                                child: _cartProducts(
+                                  state.products,
+                                ),
                               ),
-                              Checkout(
+                              CheckoutSummary(
                                 products: state.products,
                               ),
                             ],
                           );
                   }
-                  if (state is LoadCartProductsFailure) {
+                  if (state is CartLoadFailure) {
                     return Center(
-                      child: Text(state.errorMessage),
+                      child: Text(state.message),
                     );
                   }
                   return Container();
@@ -73,14 +81,14 @@ class CartPage extends StatelessWidget {
     );
   }
 
-  Widget _products(List<ProductOrderedEntity> products) {
+  Widget _cartProducts(List<ProductOrderedEntity> products) {
     if (products.isEmpty) {
-      return const CartEmpty();
+      return const EmptyCartPage();
     } else {
       return ListView.separated(
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) {
-          return ProductOrderedCard(
+          return CartProductsCard(
             productOrderedEntity: products[index],
           );
         },
@@ -94,39 +102,5 @@ class CartPage extends StatelessWidget {
         itemCount: products.length,
       );
     }
-  }
-}
-
-class CartEmpty extends StatelessWidget {
-  const CartEmpty({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: 40.h,
-        left: 40.w,
-        right: 40.w,
-      ),
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              'assets/images/empty_cart.png',
-              width: 200.w,
-              height: 200.h,
-            ),
-            Text(
-              'Bạn ơi, chưa có sản phẩm nào được thêm vào giỏ hàng cả!',
-              style: AppTypography.black['24_semiBold'],
-              textAlign: TextAlign.center,
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

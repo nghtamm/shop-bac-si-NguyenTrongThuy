@@ -3,12 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_state.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_products_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/product_card.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/product_card.dart';
 
 class MyFavoritesPage extends StatelessWidget {
   const MyFavoritesPage({super.key});
@@ -16,22 +14,21 @@ class MyFavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProductDisplayCubit(
-          useCase: serviceLocator<GetFavoriteProductsUseCase>())
-        ..displayProducts(),
+      create: (context) => ProductsBloc()..add(FavoritesDisplayed()),
       child: Builder(
         builder: (context) {
           return Scaffold(
-            appBar: AppBar(
+            appBar: const CustomAppBar(
               backgroundColor: AppColors.grayLight,
-              elevation: 0,
             ),
-            body: BlocBuilder<ProductDisplayCubit, ProductDisplayState>(
+            body: BlocBuilder<ProductsBloc, ProductsState>(
               builder: (context, state) {
-                if (state is ProductLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                if (state is ProductsLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
                 }
-                if (state is ProductLoaded) {
+                if (state is ProductsLoaded) {
                   return Column(
                     children: [
                       Container(
@@ -52,7 +49,11 @@ class MyFavoritesPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(child: _products(state.products)),
+                      Expanded(
+                        child: _favorites(
+                          state.products,
+                        ),
+                      ),
                     ],
                   );
                 }
@@ -67,7 +68,7 @@ class MyFavoritesPage extends StatelessWidget {
     );
   }
 
-  Widget _products(List<ProductEntity> products) {
+  Widget _favorites(List<ProductEntity> products) {
     return Container(
       color: AppColors.grayLight,
       child: GridView.builder(
@@ -80,7 +81,9 @@ class MyFavoritesPage extends StatelessWidget {
           childAspectRatio: 0.6,
         ),
         itemBuilder: (BuildContext context, int index) {
-          return ProductCard(productEntity: products[index]);
+          return ProductCard(
+            productEntity: products[index],
+          );
         },
       ),
     );

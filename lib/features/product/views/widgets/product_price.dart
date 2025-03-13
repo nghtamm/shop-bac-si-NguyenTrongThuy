@@ -7,7 +7,10 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/prod
 class ProductPrice extends StatelessWidget {
   final ProductEntity productEntity;
 
-  const ProductPrice({super.key, required this.productEntity});
+  const ProductPrice({
+    super.key,
+    required this.productEntity,
+  });
 
   @override
   Widget build(BuildContext context) {

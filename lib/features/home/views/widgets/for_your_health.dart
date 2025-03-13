@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/news_display_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/news_display_state.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/news_card.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/entities/news.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/home_news_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/home_news_card.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/entities/news.dart';
 
 class ForYourHealth extends StatelessWidget {
   const ForYourHealth({super.key});
@@ -12,8 +11,8 @@ class ForYourHealth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NewDisplayCubit()..displayNews(),
-      child: BlocBuilder<NewDisplayCubit, NewsDisplayState>(
+      create: (context) => HomeNewsBloc()..add(NewsDisplayed()),
+      child: BlocBuilder<HomeNewsBloc, HomeNewsState>(
         builder: (context, state) {
           if (state is NewsLoading) {
             return const Center(
@@ -21,7 +20,9 @@ class ForYourHealth extends StatelessWidget {
             );
           }
           if (state is NewsLoaded) {
-            return _news(state.news);
+            return _fyhNews(
+              state.news,
+            );
           }
           return const SizedBox.shrink();
         },
@@ -29,7 +30,7 @@ class ForYourHealth extends StatelessWidget {
     );
   }
 
-  Widget _news(List<NewEntity> news) {
+  Widget _fyhNews(List<NewEntity> news) {
     return SizedBox(
       height: 330.h,
       child: ListView.builder(
@@ -39,7 +40,9 @@ class ForYourHealth extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: news.length,
         itemBuilder: (context, index) {
-          return NewsCard(newEntity: news[index]);
+          return HomeNewsCard(
+            newEntity: news[index],
+          );
         },
       ),
     );

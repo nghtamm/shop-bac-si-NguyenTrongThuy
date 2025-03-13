@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_state.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/product_card.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/home_products_card.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class DoctorChoice extends StatelessWidget {
   const DoctorChoice({super.key});
@@ -14,18 +11,18 @@ class DoctorChoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          ProductDisplayCubit(useCase: serviceLocator<GetDoctorChoiceUseCase>())
-            ..displayProducts(),
-      child: BlocBuilder<ProductDisplayCubit, ProductDisplayState>(
+      create: (context) => ProductsBloc()..add(HomeProductsDisplayed()),
+      child: BlocBuilder<ProductsBloc, ProductsState>(
         builder: (context, state) {
-          if (state is ProductLoading) {
+          if (state is ProductsLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (state is ProductLoaded) {
-            return _products(state.products);
+          if (state is ProductsLoaded) {
+            return _dcProducts(
+              state.products,
+            );
           }
           return const SizedBox.shrink();
         },
@@ -33,7 +30,7 @@ class DoctorChoice extends StatelessWidget {
     );
   }
 
-  Widget _products(List<ProductEntity> products) {
+  Widget _dcProducts(List<ProductEntity> products) {
     return SizedBox(
       height: 300.h,
       child: ListView.builder(
@@ -43,7 +40,9 @@ class DoctorChoice extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: products.length,
         itemBuilder: (context, index) {
-          return ProductCard(productEntity: products[index]);
+          return HomeProductsCard(
+            productEntity: products[index],
+          );
         },
       ),
     );

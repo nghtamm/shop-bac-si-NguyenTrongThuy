@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/theme/font_weight.dart';
 
 class AppTheme {
   // MODE: Light
@@ -12,11 +13,13 @@ class AppTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
+        overlayColor: AppColors.gray.withOpacity(0.2),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40),
         ),
-        elevation: 0,
-        minimumSize: const Size(double.infinity, 70),
+        minimumSize: Size(double.infinity, 70.h),
+      ).copyWith(
+        elevation: WidgetStateProperty.all(0),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -34,26 +37,16 @@ class AppTheme {
       ),
       filled: true,
       fillColor: AppColors.grayLight,
-      contentPadding: const EdgeInsets.symmetric(
-        vertical: 18,
-        horizontal: 20,
-      ),
-      labelStyle: const TextStyle(
-        color: AppColors.black,
+      contentPadding: EdgeInsets.symmetric(
+        vertical: 18.h,
+        horizontal: 20.w,
       ),
     ),
-    snackBarTheme: SnackBarThemeData(
-      backgroundColor: AppColors.grayLight,
-      contentTextStyle: const TextStyle(
-        fontFamily: 'Montserrat',
-        fontWeight: AppFontWeight.medium,
-        color: AppColors.black,
-      ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      behavior: SnackBarBehavior.floating,
-      elevation: 2,
+    bannerTheme: const MaterialBannerThemeData(
+      elevation: 1,
+      backgroundColor: AppColors.transparent,
+      shadowColor: AppColors.transparent,
+      dividerColor: AppColors.transparent,
     ),
     drawerTheme: const DrawerThemeData(
       shape: RoundedRectangleBorder(
@@ -63,6 +56,13 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.transparent,
       scrolledUnderElevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        systemNavigationBarColor: AppColors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarColor: AppColors.transparent,
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
+      ),
     ),
     useMaterial3: true,
   );

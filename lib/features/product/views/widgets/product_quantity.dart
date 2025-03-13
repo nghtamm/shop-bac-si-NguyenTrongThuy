@@ -4,12 +4,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/product_quantity_cubit.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/product_quantity_cubit.dart';
 
 class ProductQuantity extends StatelessWidget {
   final ProductEntity productEntity;
 
-  const ProductQuantity({required this.productEntity, super.key});
+  const ProductQuantity({
+    required this.productEntity,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,23 +39,23 @@ class ProductQuantity extends StatelessWidget {
             child: Row(
               children: [
                 IconButton(
-                    onPressed: () {
-                      context.read<ProductQuantityCubit>().decrement();
-                    },
-                    icon: Container(
-                      height: 40.h,
-                      width: 40.w,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.white,
+                  onPressed: () =>
+                      context.read<ProductQuantityCubit>().decrement(),
+                  icon: Container(
+                    height: 40.h,
+                    width: 40.w,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.white,
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        Icons.remove,
+                        size: 30,
                       ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.remove,
-                          size: 30,
-                        ),
-                      ),
-                    )),
+                    ),
+                  ),
+                ),
                 SizedBox(width: 10.w),
                 BlocBuilder<ProductQuantityCubit, int>(
                   builder: (context, state) => Text(
@@ -62,9 +65,8 @@ class ProductQuantity extends StatelessWidget {
                 ),
                 SizedBox(width: 10.w),
                 IconButton(
-                  onPressed: () {
-                    context.read<ProductQuantityCubit>().increment();
-                  },
+                  onPressed: () =>
+                      context.read<ProductQuantityCubit>().increment(),
                   icon: Container(
                     height: 40.h,
                     width: 40.w,
