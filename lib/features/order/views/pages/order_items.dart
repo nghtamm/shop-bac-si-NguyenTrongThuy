@@ -13,24 +13,14 @@ class OrderItemsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
-      appBar: AppBar(
-        backgroundColor: AppColors.grayLight,
-        elevation: 0,
-=======
       appBar: const CustomAppBar(
         backgroundColor: AppColors.grayLight,
->>>>>>> nghtamm2003/refactor
       ),
       body: Container(
         width: double.infinity,
         height: double.infinity,
         color: AppColors.grayLight,
-<<<<<<< HEAD
-        child: _products(),
-=======
         child: _orderedProducts(),
->>>>>>> nghtamm2003/refactor
       ),
     );
   }

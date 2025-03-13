@@ -9,14 +9,10 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/product_
 class ProductQuantity extends StatelessWidget {
   final ProductEntity productEntity;
 
-<<<<<<< HEAD
-  const ProductQuantity({required this.productEntity, super.key});
-=======
   const ProductQuantity({
     required this.productEntity,
     super.key,
   });
->>>>>>> nghtamm2003/refactor
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +39,6 @@ class ProductQuantity extends StatelessWidget {
             child: Row(
               children: [
                 IconButton(
-<<<<<<< HEAD
-                    onPressed: () {
-                      context.read<ProductQuantityCubit>().decrement();
-                    },
-                    icon: Container(
-                      height: 40.h,
-                      width: 40.w,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: AppColors.white,
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.remove,
-                          size: 30,
-                        ),
-                      ),
-                    )),
-=======
                   onPressed: () =>
                       context.read<ProductQuantityCubit>().decrement(),
                   icon: Container(
@@ -79,7 +56,6 @@ class ProductQuantity extends StatelessWidget {
                     ),
                   ),
                 ),
->>>>>>> nghtamm2003/refactor
                 SizedBox(width: 10.w),
                 BlocBuilder<ProductQuantityCubit, int>(
                   builder: (context, state) => Text(
@@ -89,14 +65,8 @@ class ProductQuantity extends StatelessWidget {
                 ),
                 SizedBox(width: 10.w),
                 IconButton(
-<<<<<<< HEAD
-                  onPressed: () {
-                    context.read<ProductQuantityCubit>().increment();
-                  },
-=======
                   onPressed: () =>
                       context.read<ProductQuantityCubit>().increment(),
->>>>>>> nghtamm2003/refactor
                   icon: Container(
                     height: 40.h,
                     width: 40.w,

@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-<<<<<<< HEAD:lib/features/order/views/pages/product_ordered_card.dart
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
-=======
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
->>>>>>> nghtamm2003/refactor:lib/features/order/views/widgets/history_product_card.dart
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
@@ -12,14 +8,10 @@ import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/produc
 class HistoryProductCard extends StatelessWidget {
   final ProductOrderedEntity productOrderedEntity;
 
-<<<<<<< HEAD:lib/features/order/views/pages/product_ordered_card.dart
-  const OrderItemCard({required this.productOrderedEntity, super.key});
-=======
   const HistoryProductCard({
     required this.productOrderedEntity,
     super.key,
   });
->>>>>>> nghtamm2003/refactor:lib/features/order/views/widgets/history_product_card.dart
 
   @override
   Widget build(BuildContext context) {

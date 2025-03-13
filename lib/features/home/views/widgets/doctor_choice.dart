@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-<<<<<<< HEAD
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_state.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/product_card.dart';
-=======
 import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/home_products_card.dart';
->>>>>>> nghtamm2003/refactor
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 
 class DoctorChoice extends StatelessWidget {

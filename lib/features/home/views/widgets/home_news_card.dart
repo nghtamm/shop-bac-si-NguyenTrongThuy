@@ -1,17 +1,10 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-<<<<<<< HEAD:lib/features/home/views/widgets/news_card.dart
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_display.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/entities/news.dart';
-=======
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/entities/news.dart';
->>>>>>> nghtamm2003/refactor:lib/features/home/views/widgets/home_news_card.dart
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeNewsCard extends StatelessWidget {

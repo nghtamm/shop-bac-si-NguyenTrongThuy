@@ -5,34 +5,21 @@ import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/order.dart';
-<<<<<<< HEAD:lib/features/order/views/pages/order_detail.dart
-=======
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
->>>>>>> nghtamm2003/refactor:lib/features/order/views/pages/order_details.dart
 
 class OrderDetailsPage extends StatelessWidget {
   final OrderEntity orderEntity;
 
-<<<<<<< HEAD:lib/features/order/views/pages/order_detail.dart
-  const OrderDetailPage({required this.orderEntity, super.key});
-=======
   const OrderDetailsPage({
     required this.orderEntity,
     super.key,
   });
->>>>>>> nghtamm2003/refactor:lib/features/order/views/pages/order_details.dart
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD:lib/features/order/views/pages/order_detail.dart
-      appBar: AppBar(
-        backgroundColor: AppColors.grayLight,
-        elevation: 0,
-=======
       appBar: const CustomAppBar(
         backgroundColor: AppColors.grayLight,
->>>>>>> nghtamm2003/refactor:lib/features/order/views/pages/order_details.dart
       ),
       body: Container(
         width: double.infinity,

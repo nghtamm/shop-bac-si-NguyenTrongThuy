@@ -3,12 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-<<<<<<< HEAD
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_state.dart';
-=======
 import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
->>>>>>> nghtamm2003/refactor
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/product_card.dart';
@@ -23,14 +18,8 @@ class MyFavoritesPage extends StatelessWidget {
       child: Builder(
         builder: (context) {
           return Scaffold(
-<<<<<<< HEAD
-            appBar: AppBar(
-              backgroundColor: AppColors.grayLight,
-              elevation: 0,
-=======
             appBar: const CustomAppBar(
               backgroundColor: AppColors.grayLight,
->>>>>>> nghtamm2003/refactor
             ),
             body: BlocBuilder<ProductsBloc, ProductsState>(
               builder: (context, state) {
