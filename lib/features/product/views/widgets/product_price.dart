@@ -7,7 +7,14 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/prod
 class ProductPrice extends StatelessWidget {
   final ProductEntity productEntity;
 
+<<<<<<< HEAD
   const ProductPrice({super.key, required this.productEntity});
+=======
+  const ProductPrice({
+    super.key,
+    required this.productEntity,
+  });
+>>>>>>> nghtamm2003/refactor
 
   @override
   Widget build(BuildContext context) {

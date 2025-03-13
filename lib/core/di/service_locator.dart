@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/network/api_client.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/sources/auth_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/repository/auth_repository.dart';
@@ -13,10 +15,10 @@ import 'package:shop_bacsi_nguyentrongthuy/features/order/data/repository/order.
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/sources/order_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/add_to_cart.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/news/data/repository/news_repository_impl.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/news/data/sources/news_firebase_service.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/repository/news_repository.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/news/domain/usecase/get_news_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/data/repository/news_repository_impl.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/data/sources/news_firebase_service.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/repository/news_repository.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/usecase/get_news_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/dispose_cart_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/get_cart_products.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/get_orders_usecase.dart';
@@ -31,10 +33,38 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_f
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_state_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_product_by_title_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/toggle_favorite_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_repo.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_repo_impl.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_service.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_use_case.dart';
 
 final serviceLocator = GetIt.instance;
 
 Future<void> initializeDependencies() async {
+  // NETWORK
+  serviceLocator.registerLazySingleton(
+    () => Dio(),
+  );
+  serviceLocator.registerLazySingleton<ApiClient>(
+    () => ApiClient(
+      serviceLocator<Dio>(),
+    ),
+  );
+
+  // DI FOR APICLIENT EXAMPLES
+  serviceLocator.registerSingleton<ProductRepo>(
+    ProductRepoImpl(),
+  );
+
+  serviceLocator.registerSingleton<ProductService>(
+    ProductServiceImpl(),
+  );
+
+  serviceLocator.registerSingleton<ProductUseCase>(
+    ProductUseCase(),
+  );
+
+  // SERVICES
   serviceLocator.registerSingleton<AuthenticationFirebaseService>(
     AuthenticationFirebaseServiceImpl(),
   );

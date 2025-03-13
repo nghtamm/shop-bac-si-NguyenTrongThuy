@@ -6,8 +6,13 @@ import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/order.dart';
+<<<<<<< HEAD
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/bloc/orders_display_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/bloc/orders_display_state.dart';
+=======
+import 'package:shop_bacsi_nguyentrongthuy/features/order/views/bloc/orders_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
+>>>>>>> nghtamm2003/refactor
 
 class OrderHistoryPage extends StatelessWidget {
   const OrderHistoryPage({super.key});
@@ -15,13 +20,18 @@ class OrderHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       appBar: AppBar(
         backgroundColor: AppColors.grayLight,
         elevation: 0,
+=======
+      appBar: const CustomAppBar(
+        backgroundColor: AppColors.grayLight,
+>>>>>>> nghtamm2003/refactor
       ),
       body: BlocProvider(
-        create: (context) => OrdersDisplayCubit()..displayOrders(),
-        child: BlocBuilder<OrdersDisplayCubit, OrdersDisplayState>(
+        create: (context) => OrdersBloc()..add(OrdersDisplayed()),
+        child: BlocBuilder<OrdersBloc, OrdersState>(
           builder: (context, state) {
             if (state is OrdersLoading) {
               return const Center(
@@ -45,20 +55,30 @@ class OrderHistoryPage extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'LỊCH SỬ ĐƠN HÀNG',
+<<<<<<< HEAD
                           style: AppTypography.black['28_bold'],
+=======
+                          style: AppTypography.black['32_extraBold'],
+>>>>>>> nghtamm2003/refactor
                         ),
                       ),
                     ),
                     Expanded(
+<<<<<<< HEAD
                       child: _orders(state.orders),
+=======
+                      child: _orders(
+                        state.orders,
+                      ),
+>>>>>>> nghtamm2003/refactor
                     ),
                   ],
                 ),
               );
             }
-            if (state is OrdersLoadFailed) {
+            if (state is OrdersLoadFailure) {
               return Center(
-                child: Text(state.errorMessage),
+                child: Text(state.message),
               );
             }
             return Container();

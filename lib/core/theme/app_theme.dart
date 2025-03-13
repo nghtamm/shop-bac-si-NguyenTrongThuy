@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/font_weight.dart';
+=======
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+>>>>>>> nghtamm2003/refactor
 
 class AppTheme {
   // MODE: Light
@@ -12,11 +18,21 @@ class AppTheme {
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.primary,
+<<<<<<< HEAD
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40),
         ),
         elevation: 0,
         minimumSize: const Size(double.infinity, 70),
+=======
+        overlayColor: AppColors.gray.withOpacity(0.2),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(40),
+        ),
+        minimumSize: Size(double.infinity, 70.h),
+      ).copyWith(
+        elevation: WidgetStateProperty.all(0),
+>>>>>>> nghtamm2003/refactor
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -34,6 +50,7 @@ class AppTheme {
       ),
       filled: true,
       fillColor: AppColors.grayLight,
+<<<<<<< HEAD
       contentPadding: const EdgeInsets.symmetric(
         vertical: 18,
         horizontal: 20,
@@ -54,6 +71,18 @@ class AppTheme {
       ),
       behavior: SnackBarBehavior.floating,
       elevation: 2,
+=======
+      contentPadding: EdgeInsets.symmetric(
+        vertical: 18.h,
+        horizontal: 20.w,
+      ),
+    ),
+    bannerTheme: const MaterialBannerThemeData(
+      elevation: 1,
+      backgroundColor: AppColors.transparent,
+      shadowColor: AppColors.transparent,
+      dividerColor: AppColors.transparent,
+>>>>>>> nghtamm2003/refactor
     ),
     drawerTheme: const DrawerThemeData(
       shape: RoundedRectangleBorder(
@@ -63,6 +92,13 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.transparent,
       scrolledUnderElevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        systemNavigationBarColor: AppColors.transparent,
+        systemNavigationBarIconBrightness: Brightness.dark,
+        statusBarColor: AppColors.transparent,
+        statusBarBrightness: Brightness.dark,
+        statusBarIconBrightness: Brightness.dark,
+      ),
     ),
     useMaterial3: true,
   );

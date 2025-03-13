@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+<<<<<<< HEAD
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/product_display_state.dart';
+=======
+import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/search_field.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/search_not_found.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
+>>>>>>> nghtamm2003/refactor
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_product_by_title_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/product_card.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/product_card.dart';
 
 class SearchPage extends StatelessWidget {
   SearchPage({super.key});
@@ -18,8 +22,8 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProductDisplayCubit(
-          useCase: serviceLocator<GetProductByTitleUseCase>()),
+      create: (context) =>
+          ProductsBloc()..add(SearchProductsDisplayed(query: '')),
       child: Builder(
         builder: (context) {
           return Scaffold(
@@ -31,17 +35,23 @@ class SearchPage extends StatelessWidget {
                 searchController: _searchController,
               ),
             ),
-            body: BlocBuilder<ProductDisplayCubit, ProductDisplayState>(
+            body: BlocBuilder<ProductsBloc, ProductsState>(
               builder: (context, state) {
+<<<<<<< HEAD
                 if (state is ProductLoading) {
+=======
+                if (state is ProductsLoading) {
+>>>>>>> nghtamm2003/refactor
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
-                if (state is ProductLoaded) {
+                if (state is ProductsLoaded) {
                   return state.products.isEmpty
-                      ? _notFound()
-                      : _products(state.products);
+                      ? const SearchNotFound()
+                      : _searchProducts(
+                          state.products,
+                        );
                 }
                 return Container(
                   color: AppColors.grayLight,
@@ -54,9 +64,10 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  Widget _notFound() {
+  Widget _searchProducts(List<ProductEntity> products) {
     return Container(
       color: AppColors.grayLight,
+<<<<<<< HEAD
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -81,6 +92,8 @@ class SearchPage extends StatelessWidget {
   Widget _products(List<ProductEntity> products) {
     return Container(
       color: AppColors.grayLight,
+=======
+>>>>>>> nghtamm2003/refactor
       child: GridView.builder(
         itemCount: products.length,
         padding: const EdgeInsets.all(16),
@@ -91,12 +104,15 @@ class SearchPage extends StatelessWidget {
           childAspectRatio: 0.6,
         ),
         itemBuilder: (BuildContext context, int index) {
-          return ProductCard(productEntity: products[index]);
+          return ProductCard(
+            productEntity: products[index],
+          );
         },
       ),
     );
   }
 }
+<<<<<<< HEAD
 
 class SearchField extends StatelessWidget {
   const SearchField({
@@ -130,3 +146,5 @@ class SearchField extends StatelessWidget {
     );
   }
 }
+=======
+>>>>>>> nghtamm2003/refactor

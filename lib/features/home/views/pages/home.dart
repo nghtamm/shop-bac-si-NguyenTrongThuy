@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+<<<<<<< HEAD
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
@@ -9,14 +10,53 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_ou
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/for_your_health.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
+=======
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/constants/app_assets.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_drawer.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/for_your_health.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/bottom_navigation_bar.dart';
+>>>>>>> nghtamm2003/refactor
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final String displayName;
 
   const HomePage({super.key, required this.displayName});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  void resetScroll() {
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        0,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.easeInOut,
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   String get formattedDisplayName =>
-      displayName.trim().split(' ').last.toUpperCase();
+      widget.displayName.trim().split(' ').last.toUpperCase();
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +73,7 @@ class HomePage extends StatelessWidget {
           },
         ),
       ),
+<<<<<<< HEAD
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -285,21 +326,139 @@ class HomePage extends StatelessWidget {
                 child: Text(
                   'BẢO VỆ SỨC KHỎE CỦA BẠN!',
                   style: AppTypography.black['32_extraBold'],
-                ),
-              ),
+=======
+      drawer: const AppDrawer(),
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            controller: _scrollController,
+            padding: EdgeInsets.only(
+              bottom: 64.h,
             ),
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 20.h,
+                    horizontal: 40.w,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'CHÚC $formattedDisplayName\nNGÀY TỐT LÀNH!',
+                      style: AppTypography.black['32_extraBold'],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 0.h,
+                    horizontal: 40.w,
+                  ),
+                  child: TextField(
+                    onTap: () {
+                      context.push(RoutersName.search);
+                    },
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      hintText: 'Tìm kiếm',
+                      suffixIcon: const Icon(Icons.search_rounded),
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 10.h,
+                        horizontal: 15.w,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 0.h,
+                    horizontal: 40.w,
+                  ),
+                  child: _firstRowButtons(),
+                ),
+                SizedBox(height: 15.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 0.h,
+                    horizontal: 40.w,
+                  ),
+                  child: _secondRowButtons(),
+                ),
+                SizedBox(height: 20.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 0.h,
+                    horizontal: 40.w,
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        AppAssets.saleBanner,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 40.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 0.h,
+                    horizontal: 40.w,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'BÁC SĨ TIN DÙNG!',
+                      style: AppTypography.black['32_extraBold'],
+                    ),
+                  ),
+>>>>>>> nghtamm2003/refactor
+                ),
+                const DoctorChoice(),
+                SizedBox(height: 10.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 0.h,
+                    horizontal: 40.w,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'BẢO VỆ SỨC KHỎE CỦA BẠN!',
+                      style: AppTypography.black['32_extraBold'],
+                    ),
+                  ),
+                ),
+                const ForYourHealth(),
+                SizedBox(height: 40.h),
+              ],
+            ),
+<<<<<<< HEAD
             const ForYourHealth(),
             SizedBox(height: 40.h),
           ],
         ),
+=======
+          ),
+
+          // Custom 'BottomNavigationBar'
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: CustomBottomNavbar(
+              onTap: resetScroll,
+            ),
+          ),
+        ],
+>>>>>>> nghtamm2003/refactor
       ),
     );
   }
-}
 
-class _FirstRowButtons extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  Widget _firstRowButtons() {
     return Row(
       children: [
         Flexible(
@@ -354,18 +513,19 @@ class _FirstRowButtons extends StatelessWidget {
       ],
     );
   }
-}
 
-class _SecondRowButtons extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
+  Widget _secondRowButtons() {
     return Row(
       children: [
         Flexible(
           flex: 1,
           child: ElevatedButton(
             onPressed: () {
+<<<<<<< HEAD
               context.push(RoutersName.aiChat);
+=======
+              context.push(RoutersName.chatbot);
+>>>>>>> nghtamm2003/refactor
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.magentaSoft,
