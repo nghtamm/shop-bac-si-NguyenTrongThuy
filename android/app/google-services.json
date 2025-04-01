@@ -12,7 +12,28 @@
           "package_name": "com.example.shop_bacsi_nguyentrongthuy"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "345257387035-nv56e9orbf6knn3207peclg9lfkt38d6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shop_bacsi_nguyentrongthuy",
+            "certificate_hash": "e7cf4bc11a0f67720bbf660d0faf873ed37d7638"
+          }
+        },
+        {
+          "client_id": "345257387035-vlm4nq1t2d5blfdib5ao7lej845frmnj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shop_bacsi_nguyentrongthuy",
+            "certificate_hash": "e6293f83763c8b3ec04a296a45bcac81ac8b06af"
+          }
+        },
+        {
+          "client_id": "345257387035-id4vajngiqjs82efoauk8puno7t255qf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCufqr4Oyr8CgNVTpwLJ2raYmJZWwHcZMs"
@@ -20,7 +41,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "345257387035-id4vajngiqjs82efoauk8puno7t255qf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "345257387035-qbvsu079166djl8273feaaomknuj1obi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.shopBacsiNguyentrongthuy"
+              }
+            }
+          ]
         }
       }
     }

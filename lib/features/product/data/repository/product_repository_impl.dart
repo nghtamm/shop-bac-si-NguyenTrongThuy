@@ -7,71 +7,61 @@ import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
   @override
-  Future<Either> getDoctorChoice() async {
-    var productData =
-        await serviceLocator<ProductFirebaseService>().getDoctorChoice();
-    return productData.fold((left) {
-      return Left(left);
-    }, (right) {
-      return Right(List.from(right)
-          .map((e) => ProductModel.fromMap(e).toEntity())
-          .toList());
-    });
+  Future<Either<String, List<ProductEntity>>> getDoctorChoice() async {
+    var productData = await serviceLocator<ProductWooService>().getDoctorChoice();
+    return productData.fold(
+      (left) => Left(left), //tra ve loi
+      (right) => Right(
+        right.map((productModel) => productModel.toEntity()).toList(),
+      )
+    );
   }
 
   @override
-  Future<Either> getProductByTitle(String title) async {
-    var productData =
-        await serviceLocator<ProductFirebaseService>().getProductByTitle(title);
-    return productData.fold((left) {
-      return Left(left);
-    }, (right) {
-      return Right(List.from(right)
-          .map((e) => ProductModel.fromMap(e).toEntity())
-          .toList());
-    });
+  Future<Either<String, List<ProductEntity>>> getProductByTitle(String title) async {
+    var productData = await serviceLocator<ProductWooService>().getProductByTitle(title);
+    return productData.fold(
+      (left) => Left(left),
+      (right) => Right(
+        right.map((productModel) => productModel.toEntity()).toList(),
+      )
+    );
   }
 
   @override
-  Future<Either> getAllProduct() async {
-    var productData =
-        await serviceLocator<ProductFirebaseService>().getAllProduct();
-    return productData.fold((left) {
-      return Left(left);
-    }, (right) {
-      return Right(List.from(right)
-          .map((e) => ProductModel.fromMap(e).toEntity())
-          .toList());
-    });
+  Future<Either<String, List<ProductEntity>>> getAllProduct() async {
+    var productData = await serviceLocator<ProductWooService>().getAllProduct();
+    return productData.fold(
+      (left) => Left(left),
+      (right) => Right(
+        right.map((productModel) => productModel.toEntity()).toList()
+      )
+    );
   }
 
   @override
-  Future<Either> toggleFavorite(ProductEntity product) async {
-    var favoriteProductsData =
-        await serviceLocator<ProductFirebaseService>().toggleFavorite(product);
-    return favoriteProductsData.fold((left) {
-      return Left(left);
-    }, (right) {
-      return Right(right);
-    });
+  Future<Either<String, bool>> toggleFavorite(ProductEntity product) async {
+    var favoriteProductData = await serviceLocator<ProductWooService>().toggleFavorite(product);
+    return favoriteProductData.fold(
+      (l) => Left(l),
+      (r) => Right(r), //tra ve trang thai iu thic (true/false)
+    );
   }
 
   @override
   Future<bool> getFavoriteState(String productID) async {
-    return await serviceLocator<ProductFirebaseService>()
+    return await serviceLocator<ProductWooService>()
         .getFavoriteState(productID);
   }
 
   @override
-  Future<Either> getFavoriteProducts() async {
-    var favoriteProductsData =
-        await serviceLocator<ProductFirebaseService>().getFavoriteProducts();
-    return favoriteProductsData.fold((error) {
-      return Left(error);
-    }, (data) {
-      return Right(List.from(data)
-          .map((e) => ProductModel.fromMap(e).toEntity())
-          .toList());
-    });
+  Future<Either<String, List<ProductEntity>>> getFavoriteProducts() async {
+    var favoriteProductData = await serviceLocator<ProductWooService>().getFavoriteProducts();
+    return favoriteProductData.fold(
+      (l) => Left(l),
+      (r) => Right(
+        r.map((productModel) => productModel.toEntity()).toList()
+      )
+    );
   }
 }

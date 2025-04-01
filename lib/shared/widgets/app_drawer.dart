@@ -105,7 +105,7 @@ class AppDrawer extends StatelessWidget {
               style: AppTypography.black['14_semiBold'],
             ),
             onTap: () {
-              context.push(RoutersName.chatbot);
+              context.push(RoutersName.chatN8N);
             },
           ),
           ListTile(

@@ -1,107 +1,127 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:dio/dio.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/network/api_client.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/network/api_endpoints.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/network/api_methods.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 
-abstract class ProductFirebaseService {
-  Future<Either> getDoctorChoice();
-
-  Future<Either> getProductByTitle(String title);
-
-  Future<Either> getAllProduct();
-
-  Future<Either> toggleFavorite(ProductEntity product);
-
+abstract class ProductWooService {
+  Future<Either<String, List<ProductModel>>> getDoctorChoice();
+  Future<Either<String, List<ProductModel>>> getProductByTitle(String title);
+  Future<Either<String, List<ProductModel>>> getAllProduct();
+  Future<Either<String, bool>> toggleFavorite(ProductEntity product);
   Future<bool> getFavoriteState(String productID);
-
-  Future<Either> getFavoriteProducts();
+  Future<Either<String, List<ProductModel>>> getFavoriteProducts();
 }
 
-class ProductFirebaseServiceImpl implements ProductFirebaseService {
+class ProductWooServiceImpl implements ProductWooService {
   @override
-  Future<Either> getDoctorChoice() async {
+  Future<Either<String, List<ProductModel>>> getDoctorChoice() async {
     try {
-      var productData = await FirebaseFirestore.instance
-          .collection('Products')
-          .where('salesCount', isGreaterThanOrEqualTo: 30)
-          .get();
-      return Right(productData.docs.map((e) => e.data()).toList());
-    } catch (err) {
-      return Left(err);
-    }
-  }
-
-  @override
-  Future<Either> getProductByTitle(String title) async {
-    try {
-      final String lowercaseTitle = title.toLowerCase();
-
-      var productData =
-          await FirebaseFirestore.instance.collection('Products').get();
-
-      final processedData = productData.docs.map((e) => e.data()).where(
-        (product) {
-          final processedTitle = (product['title'] as String).toLowerCase();
-          return processedTitle.contains(lowercaseTitle);
+      final response = await serviceLocator<ApiClient>().request(
+        endpoint: '${ApiEndpoints.woocommerce}products',
+        method: ApiMethods.get,
+        data: {
+          'orderby': 'popularity',
+          'per_page': 10,
         },
-      ).toList();
-
-      return Right(processedData);
-    } catch (err) {
-      return Left(err);
-    }
-  }
-
-  @override
-  Future<Either> getAllProduct() async {
-    try {
-      var productData =
-          await FirebaseFirestore.instance.collection('Products').get();
-      return Right(productData.docs.map((e) => e.data()).toList());
-    } catch (err) {
-      return Left(err);
-    }
-  }
-
-  @override
-  Future<Either> toggleFavorite(ProductEntity product) async {
-    try {
-      var currentUser = FirebaseAuth.instance.currentUser;
-      var favoriteProducts = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUser!.uid)
-          .collection('Favorites')
-          .where('productID', isEqualTo: product.productID)
-          .get();
-      if (favoriteProducts.docs.isNotEmpty) {
-        await favoriteProducts.docs.first.reference.delete();
-        return const Right(false);
+      );
+      if (response is List) {
+        List<ProductModel> products = [];
+        for (var item in response) {
+          products.add(ProductModel.fromJson(item));
+        }
+        return Right(products);
       } else {
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(currentUser.uid)
-            .collection('Favorites')
-            .add(product.fromEntity().toMap());
-        return const Right(true);
+        return const Left("Định dạng dữ liệu không hợp lệ");
       }
-    } catch (err) {
-      return Left(err);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, List<ProductModel>>> getProductByTitle(
+      String title) async {
+    try {
+      final response = await serviceLocator<ApiClient>().request(
+        endpoint: '${ApiEndpoints.woocommerce}products',
+        method: ApiMethods.get,
+        data: {'search': title},
+      );
+      if (response is List) {
+        List<ProductModel> products = [];
+        for (var item in response) {
+          products.add(ProductModel.fromJson(item));
+        }
+        return Right(products);
+      } else {
+        return const Left("Định dạng dữ liệu không hợp lệ");
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, List<ProductModel>>> getAllProduct() async {
+    try {
+      final response = await serviceLocator<ApiClient>().request(
+        endpoint: '${ApiEndpoints.woocommerce}products',
+        method: ApiMethods.get,
+        data: {
+          'per_page': 20,
+        },
+      );
+      if (response is List) {
+        List<ProductModel> products = [];
+        for (var item in response) {
+          products.add(ProductModel.fromJson(item));
+        }
+        return Right(products);
+      } else {
+        return const Left("Định dạng dữ liệu không hợp lệ");
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either<String, bool>> toggleFavorite(
+      ProductEntity product) async {
+    try {
+      final response = await serviceLocator<ApiClient>().request(
+        endpoint: '${ApiEndpoints.tiWishlist}',
+        method: ApiMethods.post,
+        data: {
+          'product_id': product.productID,
+        },
+      );
+      if (response is Map<String, dynamic> && response['status'] == 'success') {
+        return const Right(true);
+      } else {
+        return const Left("Không thể cập nhật trạng thái yêu thích");
+      }
+    } catch (e) {
+      return Left(e.toString());
     }
   }
 
   @override
   Future<bool> getFavoriteState(String productID) async {
     try {
-      var currentUser = FirebaseAuth.instance.currentUser;
-      var favoriteProducts = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUser!.uid)
-          .collection('Favorites')
-          .where('productID', isEqualTo: productID)
-          .get();
-      if (favoriteProducts.docs.isNotEmpty) {
-        return true;
+      final response = await serviceLocator<ApiClient>().request(
+        endpoint: '${ApiEndpoints.tiWishlist}$productID',
+        method: ApiMethods.get,
+      );
+      if (response is Map<String, dynamic> && response['is_favorite'] != null) {
+        //chua lay dc sharekey de xem truong nay ten gi
+        return response['is_favorite'] as bool;
       } else {
         return false;
       }
@@ -111,17 +131,21 @@ class ProductFirebaseServiceImpl implements ProductFirebaseService {
   }
 
   @override
-  Future<Either> getFavoriteProducts() async {
+  Future<Either<String, List<ProductModel>>> getFavoriteProducts() async {
     try {
-      var currentUser = FirebaseAuth.instance.currentUser;
-      var favoriteProducts = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(currentUser!.uid)
-          .collection('Favorites')
-          .get();
-      return Right(favoriteProducts.docs.map((e) => e.data()).toList());
-    } catch (err) {
-      return Left(err);
+      final response = await serviceLocator<ApiClient>().request(
+        endpoint: '${ApiEndpoints.tiWishlist}',
+        method: ApiMethods.get,
+      );
+      if (response is List) {
+        List<ProductModel> products =
+            response.map((item) => ProductModel.fromJson(item)).toList();
+        return Right(products);
+      } else {
+        return const Left("Định dạng dữ liệu không hợp lệ");
+      }
+    } catch (e) {
+      return Left(e.toString());
     }
   }
 }

@@ -1,0 +1,2 @@
+D:/shopbacsiflutter/shop-bac-si-NguyenTrongThuy/android/app/.cxx/Debug/2e553m1f/x86/CMakeFiles/edit_cache.dir
+D:/shopbacsiflutter/shop-bac-si-NguyenTrongThuy/android/app/.cxx/Debug/2e553m1f/x86/CMakeFiles/rebuild_cache.dir

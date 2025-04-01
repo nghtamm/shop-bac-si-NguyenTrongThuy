@@ -89,8 +89,8 @@ Future<void> initializeDependencies() async {
     GetDisplayNameUseCase(),
   );
 
-  serviceLocator.registerSingleton<ProductFirebaseService>(
-    ProductFirebaseServiceImpl(),
+  serviceLocator.registerSingleton<ProductWooService>(
+    ProductWooServiceImpl(),
   );
 
   serviceLocator.registerSingleton<OrderFirebaseService>(
