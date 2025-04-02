@@ -1,15 +1,14 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/authentication.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/forgot_password.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/google_sign_in.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_in.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_up.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/favorites/views/pages/my_favorites.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/medical_chatbot/views/pages/chatbot.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/checkout.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/auth_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/onboarding/views/pages/onboarding.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/order.dart';
@@ -30,24 +29,14 @@ class AppRouters {
       // ROOT
       GoRoute(
         path: RoutersName.root,
-        builder: (context, state) {
-          final state = context.read<AuthBloc>().state;
-
-          if (state is Authenticated) {
-            return HomePage(
-              displayName: state.displayName,
-            );
-          } else {
-            return const GetStartedPage();
-          }
-        },
+        builder: (context, state) => const OnboardingPage(),
       ),
 
       // MODULES
       // Onboarding
       GoRoute(
         path: RoutersName.onboarding,
-        builder: (context, state) => const GetStartedPage(),
+        builder: (context, state) => const OnboardingPage(),
       ),
 
       // Authentication
@@ -66,6 +55,15 @@ class AppRouters {
       GoRoute(
         path: RoutersName.forgotPassword,
         builder: (context, state) => ForgotPasswordPage(),
+      ),
+      GoRoute(
+        path: RoutersName.googleLogin,
+        builder: (context, state) {
+          final userData = state.extra as Map<String, dynamic>;
+          return GoogleSignInPage(
+            userData: userData,
+          );
+        },
       ),
 
       // Home

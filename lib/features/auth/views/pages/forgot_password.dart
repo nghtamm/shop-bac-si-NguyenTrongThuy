@@ -104,6 +104,7 @@ class ForgotPasswordPage extends StatelessWidget {
                   } else {
                     context.loaderOverlay.hide();
                   }
+
                   return ElevatedButton(
                     onPressed: () => context.read<AuthBloc>().add(
                           ForgotPasswordRequested(

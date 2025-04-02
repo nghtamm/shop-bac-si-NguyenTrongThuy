@@ -5,7 +5,7 @@ import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class SignOutUseCase implements UseCase<Either, dynamic> {
   @override
-  Future<Either> call({params}) async {
+  Future<Either> call({void params}) async {
     return serviceLocator<AuthenticationRepository>().signOut();
   }
 }

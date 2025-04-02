@@ -1,144 +1,292 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/auth_request.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/local/global_storage.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/network/api_client.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/network/api_endpoints.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/network/api_methods.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/user_model.dart';
 
 abstract class AuthenticationFirebaseService {
-  Future<Either> signUp(AuthenticationRequest authRequest);
-
-  Future<Either> signIn(AuthenticationRequest authRequest);
-
-  Future<bool> getAuthState();
-
-  Future<String> getDisplayName();
-
-  Future<Either> resetPassword(String email);
-
+  Future<Either> signUp({
+    required String restRoute,
+    required String email,
+    required String password,
+    required String authKey,
+    required String firstName,
+    required String lastName,
+    required String displayName,
+    required String userLogin,
+    required String userNicename,
+  });
+  Future<Either> authenticate({
+    required String restRoute,
+    required String email,
+    required String password,
+  });
+  Future<Either> signIn({
+    required String restRoute,
+    required String jwt,
+  });
+  Future<Either> userValidate({
+    required String restRoute,
+    required String jwt,
+  });
   Future<Either> signOut();
-
-  Future<Either<String, User>> signInWithGoogle();
+  Future<Either> resetPassword({
+    required String restRoute,
+    required String email,
+  });
+  Future<Either> googleSignIn();
 }
 
 class AuthenticationFirebaseServiceImpl extends AuthenticationFirebaseService {
   @override
-  Future<Either> signUp(AuthenticationRequest authRequest) async {
+  Future<Either> signUp({
+    required String restRoute,
+    required String email,
+    required String password,
+    required String authKey,
+    required String firstName,
+    required String lastName,
+    required String displayName,
+    required String userLogin,
+    required String userNicename,
+  }) async {
     try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: authRequest.email,
-        password: authRequest.password,
+      final params = {
+        'rest_route': restRoute,
+        'email': email,
+        'password': password,
+        'AUTH_KEY': authKey,
+        'first_name': firstName,
+        'last_name': lastName,
+        'display_name': displayName,
+        'user_login': userLogin,
+        'user_nicename': userNicename,
+      };
+
+      await serviceLocator<ApiClient>().request(
+        endpoint: ApiEndpoints.baseURL,
+        method: ApiMethods.post,
+        queryParameters: params,
       );
+
       return const Right('Đăng ký tài khoản thành công!');
-    } on FirebaseAuthException catch (err) {
-      String errorMessage = '';
-      if (err.code == 'email-already-in-use') {
-        errorMessage = 'Địa chỉ email đã được sử dụng cho một tài khoản khác.';
-      } else if (err.code == 'invalid-email') {
-        errorMessage = 'Địa chỉ email không hợp lệ.';
-      } else if (err.code == 'weak-password') {
-        errorMessage = 'Mật khẩu quá yếu.';
-      } else if (err.code == 'too-many-requests') {
-        errorMessage = 'Quá nhiều yêu cầu. Vui lòng thử lại sau.';
-      } else {
-        errorMessage = 'Đã xảy ra lỗi không xác định.';
-      }
-      return Left(errorMessage);
-    }
-  }
-
-  @override
-  Future<Either> signIn(AuthenticationRequest authRequest) async {
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: authRequest.email,
-        password: authRequest.password,
+    } catch (error) {
+      return const Left(
+        'Vui lòng kiểm tra lại thông tin cá nhân của bạn hoặc thử lại sau.',
       );
-      return const Right(null);
-    } on FirebaseAuthException catch (err) {
-      String errorMessage = '';
-      if (err.code == 'invalid-email') {
-        errorMessage = 'Địa chỉ email không hợp lệ.';
-      } else if (err.code == 'user-disabled') {
-        errorMessage = 'Tài khoản đã bị vô hiệu hóa.';
-      } else if (err.code == 'user-not-found') {
-        errorMessage = 'Không tìm thấy tài khoản với địa chỉ email này.';
-      } else if (err.code == 'wrong-password') {
-        errorMessage = 'Mật khẩu không chính xác.';
-      } else if (err.code == 'invalid-credential') {
-        errorMessage = 'Địa chỉ email hoặc mật khẩu không chính xác.';
-      } else {
-        errorMessage = 'Đã xảy ra lỗi không xác định.';
-      }
-      return Left(errorMessage);
     }
   }
 
   @override
-  Future<bool> getAuthState() async {
-    if (FirebaseAuth.instance.currentUser != null) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  @override
-  Future<String> getDisplayName() async {
-    return FirebaseAuth.instance.currentUser?.displayName ?? '';
-  }
-
-  @override
-  Future<Either> resetPassword(String email) async {
+  Future<Either> authenticate({
+    required String restRoute,
+    required String email,
+    required String password,
+  }) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      return const Right('Vui lòng kiểm tra email để đặt lại mật khẩu.');
-    } on FirebaseAuthException catch (err) {
-      String errorMessage = '';
-      if (err.code == 'user-not-found') {
-        errorMessage = 'Không tìm thấy tài khoản với địa chỉ email này.';
-      } else {
-        errorMessage = 'Đã xảy ra lỗi không xác định.';
+      final params = {
+        'rest_route': restRoute,
+        'email': email,
+        'password': password,
+      };
+
+      final response = await serviceLocator<ApiClient>().request(
+        endpoint: ApiEndpoints.baseURL,
+        method: ApiMethods.post,
+        queryParameters: params,
+      );
+
+      final String token = (response as Map<String, dynamic>)['data']['jwt'];
+      await serviceLocator<GlobalStorage>().saveToken(token);
+
+      return Right(token);
+    } catch (error) {
+      return Left(error.toString());
+    }
+  }
+
+  @override
+  Future<Either> signIn({
+    required String restRoute,
+    required String jwt,
+  }) async {
+    try {
+      final params = {
+        'rest_route': restRoute,
+        'JWT': jwt,
+      };
+
+      await serviceLocator<ApiClient>().request(
+        endpoint: ApiEndpoints.baseURL,
+        method: ApiMethods.get,
+        queryParameters: params,
+        useJWT: true,
+      );
+
+      return const Right('Đăng nhập thành công!');
+    } catch (error) {
+      return const Left(
+        'Vui lòng kiểm tra lại thông tin đăng nhập của bạn hoặc thử lại sau.',
+      );
+    }
+  }
+
+  @override
+  Future<Either> userValidate({
+    required String restRoute,
+    required String jwt,
+  }) async {
+    try {
+      final params = {
+        'rest_route': restRoute,
+        'JWT': jwt,
+      };
+
+      final response = await serviceLocator<ApiClient>().request(
+        endpoint: ApiEndpoints.baseURL,
+        method: ApiMethods.get,
+        queryParameters: params,
+        useJWT: true,
+      );
+
+      if (response is Map<String, dynamic>) {
+        final data = response['data']['user'];
+        if (data is Map<String, dynamic>) {
+          final parsed = UserModel.fromJson(data);
+          await serviceLocator<GlobalStorage>().saveUser(parsed);
+
+          return Right(parsed);
+        }
       }
-      return Left(errorMessage);
+
+      return const Left(
+        'Không tìm thấy thông tin người dùng',
+      );
+    } catch (error) {
+      return const Left(
+        'Đã xảy ra lỗi không xác định khi xác thực. Vui lòng thử lại sau.',
+      );
     }
   }
 
   @override
   Future<Either> signOut() async {
     try {
-      await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
+
+      await serviceLocator<GlobalStorage>().clearToken();
+      await serviceLocator<GlobalStorage>().clearUser();
+
       return const Right('Đăng xuất thành công!');
-    } on FirebaseAuthException catch (err) {
-      return Left(err.message ?? 'Đã xảy ra lỗi không xác định.');
+    } catch (error) {
+      return const Left(
+        'Đăng xuất không thành công!',
+      );
     }
   }
 
   @override
-  Future<Either<String, User>> signInWithGoogle() async {
+  Future<Either> resetPassword({
+    required String restRoute,
+    required String email,
+  }) async {
     try {
-      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      if (googleUser == null) {
-        return const Left('Đăng nhập bằng Google đã bị hủy.');
-      }
+      final params = {
+        'rest_route': restRoute,
+        'email': email,
+      };
 
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-      final AuthCredential credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+      await serviceLocator<ApiClient>().request(
+        endpoint: ApiEndpoints.baseURL,
+        method: ApiMethods.post,
+        queryParameters: params,
       );
 
-      final UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-      final User? user = userCredential.user;
+      return const Right(
+        'Yêu cầu đặt lại mật khẩu đã được gửi đến email của bạn!',
+      );
+    } catch (error) {
+      return const Left(
+        'Gửi yêu cầu đặt lại mật khẩu thất bại!',
+      );
+    }
+  }
 
-      if (user != null) {
-        return Right(user);
-      } else {
-        return const Left('Đăng nhập bằng Google thất bại.');
+  @override
+  Future<Either> googleSignIn() async {
+    try {
+      GoogleSignIn(
+        scopes: ['email', 'profile'],
+        clientId: dotenv.env['GOOGLE_CLIENT_ID'],
+      );
+
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      if (googleUser == null) {
+        await GoogleSignIn().signOut();
+        await serviceLocator<GlobalStorage>().clearToken();
+
+        return const Left('Đăng nhập bằng Google đã bị hủy.');
       }
-    } on FirebaseAuthException catch (err) {
-      return Left(err.message ?? 'Đã xảy ra lỗi không xác định.');
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      final String? idToken = googleAuth.idToken;
+      if (idToken == null) {
+        await GoogleSignIn().signOut();
+        await serviceLocator<GlobalStorage>().clearToken();
+
+        return const Left(
+          "Đã xãy ra lỗi không xác định khi lấy 'id_token' từ Google.",
+        );
+      }
+
+      final response = await serviceLocator<ApiClient>().request(
+        endpoint: ApiEndpoints.baseURL,
+        method: ApiMethods.post,
+        queryParameters: {
+          'rest_route': '/simple-jwt-login/v1/oauth/token',
+          'provider': 'google',
+          'id_token': idToken,
+        },
+      );
+
+      final tokenJWT = response['data']['jwt'];
+      await serviceLocator<GlobalStorage>().saveToken(tokenJWT);
+
+      return const Right('Đăng nhập bằng Google thành công!');
+    } on DioException catch (error) {
+      if (error.response?.statusCode == 400) {
+        GoogleSignIn(
+          scopes: ['email', 'profile'],
+          clientId: dotenv.env['GOOGLE_CLIENT_ID'],
+        );
+
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        final userData = {
+          'email': googleUser?.email,
+          'display_name': googleUser?.displayName ?? '',
+          'first_name': googleUser?.displayName?.split(' ').last ?? '',
+          'last_name': googleUser?.displayName?.split(' ').first ?? '',
+          'user_login': googleUser?.email.split('@').first,
+          'user_nicename': googleUser?.email.split('@').first,
+        };
+        return Right(userData);
+      }
+
+      return Left(
+        error.response?.data['data']['message'],
+      );
+    } catch (error) {
+      await GoogleSignIn().signOut();
+      await serviceLocator<GlobalStorage>().clearToken();
+
+      return const Left(
+        'Đăng nhập bằng Google thất bại!',
+      );
     }
   }
 }

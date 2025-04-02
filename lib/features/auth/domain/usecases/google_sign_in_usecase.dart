@@ -6,6 +6,6 @@ import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 class GoogleSignInUseCase implements UseCase<Either, dynamic> {
   @override
   Future<Either> call({dynamic params}) async {
-    return serviceLocator<AuthenticationRepository>().signInWithGoogle();
+    return serviceLocator<AuthenticationRepository>().googleSignIn();
   }
 }
