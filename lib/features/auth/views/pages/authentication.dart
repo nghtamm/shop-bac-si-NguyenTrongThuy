@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/widgets/social_login_buttons.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/widgets/google_login_button.dart';
 
 class AuthenticationPage extends StatelessWidget {
   const AuthenticationPage({super.key});
@@ -86,7 +86,7 @@ class AuthenticationPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                   horizontal: 20.w,
                 ),
-                child: const SocialLoginButtons(),
+                child: const GoogleLoginButton(),
               ),
               const Spacer(),
               TextButton(

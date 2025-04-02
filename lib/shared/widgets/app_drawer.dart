@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/constants/app_assets.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_out_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/auth_bloc.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({
@@ -162,9 +162,11 @@ class AppDrawer extends StatelessWidget {
               );
 
               if (signOutConfirmation == true) {
-                await serviceLocator<SignOutUseCase>().call();
-
                 if (context.mounted) {
+                  context.read<AuthBloc>().add(
+                        SignOutRequested(),
+                      );
+
                   context.go(RoutersName.onboarding);
                 }
               }

@@ -1,38 +1,49 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/auth_request.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/local/global_storage.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/sources/auth_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/repository/auth_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class AuthenticationRepositoryImpl extends AuthenticationRepository {
   @override
-  Future<Either> signUp(AuthenticationRequest authRequest) async {
-    return await serviceLocator<AuthenticationFirebaseService>()
-        .signUp(authRequest);
+  Future<Either> signUp(Map<String, dynamic> data) {
+    return serviceLocator<AuthenticationFirebaseService>().signUp(
+      restRoute: data['rest_route'] ?? '/simple-jwt-login/v1/users',
+      email: data['email'] ?? '',
+      password: data['password'] ?? '',
+      authKey: data['AUTH_KEY'] ?? dotenv.env['JWT_SUBSCRIBER_AUTH_KEY'],
+      firstName: data['first_name'] ?? '',
+      lastName: data['last_name'] ?? '',
+      displayName: data['display_name'] ?? '',
+      userLogin: data['user_login'] ?? '',
+      userNicename: data['user_nicename'] ?? '',
+    );
   }
 
   @override
-  Future<Either> signIn(AuthenticationRequest authRequest) async {
-    return await serviceLocator<AuthenticationFirebaseService>()
-        .signIn(authRequest);
+  Future<Either> authenticate(Map<String, dynamic> data) {
+    return serviceLocator<AuthenticationFirebaseService>().authenticate(
+      restRoute: data['rest_route'] ?? '/simple-jwt-login/v1/auth',
+      email: data['email'] ?? '',
+      password: data['password'] ?? '',
+    );
   }
 
   @override
-  Future<bool> getAuthState() async {
-    return await serviceLocator<AuthenticationFirebaseService>().getAuthState();
+  Future<Either> signIn(Map<String, dynamic> data) {
+    return serviceLocator<AuthenticationFirebaseService>().signIn(
+      restRoute: data['rest_route'] ?? '/simple-jwt-login/v1/autologin',
+      jwt: data['jwt'] ?? serviceLocator<GlobalStorage>().accessToken ?? '',
+    );
   }
 
   @override
-  Future<String> getDisplayName() async {
-    return await serviceLocator<AuthenticationFirebaseService>()
-        .getDisplayName();
-  }
-
-  @override
-  Future<Either> resetPassword(String email) async {
-    return await serviceLocator<AuthenticationFirebaseService>()
-        .resetPassword(email);
+  Future<Either> userValidate(Map<String, dynamic> data) async {
+    return await serviceLocator<AuthenticationFirebaseService>().userValidate(
+      restRoute: data['rest_route'] ?? '/simple-jwt-login/v1/auth/validate',
+      jwt: data['jwt'] ?? serviceLocator<GlobalStorage>().accessToken ?? '',
+    );
   }
 
   @override
@@ -41,7 +52,16 @@ class AuthenticationRepositoryImpl extends AuthenticationRepository {
   }
 
   @override
-  Future<Either<String, User>> signInWithGoogle() async {
-    return await serviceLocator<AuthenticationFirebaseService>().signInWithGoogle();
+  Future<Either> resetPassword(Map<String, dynamic> data) async {
+    return await serviceLocator<AuthenticationFirebaseService>().resetPassword(
+      restRoute:
+          data['rest_route'] ?? '/simple-jwt-login/v1/user/reset_password',
+      email: data['email'] ?? '',
+    );
+  }
+
+  @override
+  Future<Either> googleSignIn() async {
+    return await serviceLocator<AuthenticationFirebaseService>().googleSignIn();
   }
 }

@@ -8,10 +8,11 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/constants/app_assets.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/auth_bloc.dart';
 
-class SocialLoginButtons extends StatelessWidget {
-  const SocialLoginButtons({super.key});
+class GoogleLoginButton extends StatelessWidget {
+  const GoogleLoginButton({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +39,13 @@ class SocialLoginButtons extends StatelessWidget {
               ScaffoldMessenger.of(context).clearMaterialBanners();
             }
           });
+        } else if (state is Unauthenticated) {
+          if (state.userData != null) {
+            context.push(
+              RoutersName.googleLogin,
+              extra: state.userData,
+            );
+          }
         } else if (state is Authenticated) {
           context.go(
             RoutersName.homepage,
@@ -51,56 +59,31 @@ class SocialLoginButtons extends StatelessWidget {
         } else {
           context.loaderOverlay.hide();
         }
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ElevatedButton(
-              onPressed: () =>
-                  context.read<AuthBloc>().add(GoogleSignInRequested()),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.blueGray,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22),
-                ),
-                minimumSize: Size(90.w, 50.h),
+
+        return ElevatedButton(
+          onPressed: () => context.read<AuthBloc>().add(
+                GoogleSignInRequested(),
               ),
-              child: SvgPicture.asset(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: AppColors.blueGray,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
                 AppAssets.googleIcon,
                 height: 24.h,
                 width: 24.h,
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.blueGray,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22),
-                ),
-                minimumSize: Size(90.w, 50.h),
+              SizedBox(
+                width: 12.w,
               ),
-              child: SvgPicture.asset(
-                AppAssets.appleIcon,
-                height: 24.h,
-                width: 24.h,
+              Text(
+                'GOOGLE',
+                style: AppTypography.black['24_extraBold'],
               ),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.blueGray,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22),
-                ),
-                minimumSize: Size(90.w, 50.h),
-              ),
-              child: SvgPicture.asset(
-                AppAssets.facebookIcon,
-                height: 24.h,
-                width: 24.h,
-              ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );

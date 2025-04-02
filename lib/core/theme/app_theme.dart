@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 
 class AppTheme {
@@ -17,7 +16,7 @@ class AppTheme {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40),
         ),
-        minimumSize: Size(double.infinity, 70.h),
+        minimumSize: const Size(double.infinity, 70),
       ).copyWith(
         elevation: WidgetStateProperty.all(0),
       ),
@@ -37,9 +36,9 @@ class AppTheme {
       ),
       filled: true,
       fillColor: AppColors.grayLight,
-      contentPadding: EdgeInsets.symmetric(
-        vertical: 18.h,
-        horizontal: 20.w,
+      contentPadding: const EdgeInsets.symmetric(
+        vertical: 18,
+        horizontal: 20,
       ),
     ),
     bannerTheme: const MaterialBannerThemeData(
