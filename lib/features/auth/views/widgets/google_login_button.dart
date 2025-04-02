@@ -41,7 +41,7 @@ class GoogleLoginButton extends StatelessWidget {
           });
         } else if (state is Unauthenticated) {
           if (state.userData != null) {
-            context.push(
+            context.go(
               RoutersName.googleLogin,
               extra: state.userData,
             );

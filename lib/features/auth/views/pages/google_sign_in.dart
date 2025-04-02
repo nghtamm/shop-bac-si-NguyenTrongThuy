@@ -30,12 +30,15 @@ class _GoogleSignInPageState extends State<GoogleSignInPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String? _passwordError;
+
   bool get isFormValid =>
       _firstNameController.text.trim().isNotEmpty &&
       _lastNameController.text.trim().isNotEmpty &&
       _displayNameController.text.trim().isNotEmpty &&
       _emailController.text.trim().isNotEmpty &&
-      _passwordController.text.trim().isNotEmpty;
+      _passwordController.text.trim().isNotEmpty &&
+      _passwordError == null;
 
   @override
   void initState() {
@@ -54,7 +57,17 @@ class _GoogleSignInPageState extends State<GoogleSignInPage> {
       () => setState(() {}),
     );
     _passwordController.addListener(
-      () => setState(() {}),
+      () => setState(() {
+        final password = _passwordController.text.trim();
+
+        if (password.isEmpty) {
+          _passwordError = null;
+        } else if (!TextHelpers().validatePassword(password)) {
+          _passwordError = 'Mật khẩu phải chứa ít nhất 8 ký tự';
+        } else {
+          _passwordError = null;
+        }
+      }),
     );
   }
 
@@ -81,7 +94,9 @@ class _GoogleSignInPageState extends State<GoogleSignInPage> {
       child: LoaderOverlay(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: const CustomAppBar(),
+          appBar: const CustomAppBar(
+            showLeading: false,
+          ),
           body: Padding(
             padding: EdgeInsets.symmetric(
               vertical: 20.h,
@@ -191,8 +206,10 @@ class _GoogleSignInPageState extends State<GoogleSignInPage> {
                             isVisible
                                 ? Icons.visibility_rounded
                                 : Icons.visibility_off_rounded,
+                            color: AppColors.black,
                           ),
                         ),
+                        errorText: _passwordError,
                       ),
                     );
                   },

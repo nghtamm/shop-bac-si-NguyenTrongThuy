@@ -7,6 +7,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/formatters/password_formatter.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/auth_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/cubit/toggle_password_cubit.dart';
@@ -26,12 +27,17 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  String? _emailError;
+  String? _passwordError;
+
   bool get isFormValid =>
       _firstNameController.text.trim().isNotEmpty &&
       _lastNameController.text.trim().isNotEmpty &&
       _displayNameController.text.trim().isNotEmpty &&
       _emailController.text.trim().isNotEmpty &&
-      _passwordController.text.trim().isNotEmpty;
+      _emailError == null &&
+      _passwordController.text.trim().isNotEmpty &&
+      _passwordError == null;
 
   @override
   void initState() {
@@ -47,10 +53,30 @@ class _SignUpPageState extends State<SignUpPage> {
       () => setState(() {}),
     );
     _emailController.addListener(
-      () => setState(() {}),
+      () => setState(() {
+        final email = _emailController.text.trim();
+
+        if (email.isEmpty) {
+          _emailError = null;
+        } else if (!TextHelpers().validateEmail(email)) {
+          _emailError = 'Định dạng email không hợp lệ';
+        } else {
+          _emailError = null;
+        }
+      }),
     );
     _passwordController.addListener(
-      () => setState(() {}),
+      () => setState(() {
+        final password = _passwordController.text.trim();
+
+        if (password.isEmpty) {
+          _passwordError = null;
+        } else if (!TextHelpers().validatePassword(password)) {
+          _passwordError = 'Mật khẩu phải chứa ít nhất 8 ký tự';
+        } else {
+          _passwordError = null;
+        }
+      }),
     );
   }
 
@@ -129,11 +155,12 @@ class _SignUpPageState extends State<SignUpPage> {
                 SizedBox(height: 10.h),
                 TextField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Địa chỉ email',
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.email_rounded,
                     ),
+                    errorText: _emailError,
                   ),
                 ),
                 SizedBox(height: 10.h),
@@ -158,8 +185,10 @@ class _SignUpPageState extends State<SignUpPage> {
                             isVisible
                                 ? Icons.visibility_rounded
                                 : Icons.visibility_off_rounded,
+                            color: AppColors.black,
                           ),
                         ),
+                        errorText: _passwordError,
                       ),
                     );
                   },
