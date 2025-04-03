@@ -11,6 +11,8 @@ class AppAssets {
   // Background
   static const String onboardingBackground =
       '$backgroundPath/onboarding_background.png';
+  static const String profileBackground =
+      '$backgroundPath/profile_background.png';
 
   // Icons
   static const String appIcon = '$iconsPath/app_launcher_icon.jpg';

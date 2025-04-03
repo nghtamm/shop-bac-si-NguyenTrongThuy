@@ -20,6 +20,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/order_place
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/all_products.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/product_details.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/profile/views/pages/profile.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/search/views/pages/search.dart';
 
 class AppRouters {
@@ -46,7 +47,7 @@ class AppRouters {
       ),
       GoRoute(
         path: RoutersName.signUp,
-        builder: (context, state) => SignUpPage(),
+        builder: (context, state) => const SignUpPage(),
       ),
       GoRoute(
         path: RoutersName.signIn,
@@ -151,6 +152,12 @@ class AppRouters {
       GoRoute(
         path: RoutersName.search,
         builder: (context, state) => SearchPage(),
+      ),
+
+      // Profile
+      GoRoute(
+        path: RoutersName.profile,
+        builder: (context, state) => const ProfilePage(),
       ),
     ],
   );
