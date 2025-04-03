@@ -38,4 +38,7 @@ class RoutersName {
 
   // Search
   static const String search = '/search';
+
+  // Profile
+  static const String profile = '/profile';
 }
