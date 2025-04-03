@@ -5,13 +5,14 @@ import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 
 class ProductCard extends StatelessWidget {
-  final ProductEntity productEntity;
+  final ProductModel productModel;
 
   const ProductCard({
-    required this.productEntity,
+    required this.productModel,
     super.key,
   });
 
@@ -21,7 +22,7 @@ class ProductCard extends StatelessWidget {
       onTap: () {
         context.push(
           RoutersName.productDetails,
-          extra: productEntity,
+          extra: productModel,
         );
       },
       child: Container(
@@ -45,8 +46,7 @@ class ProductCard extends StatelessWidget {
                   image: DecorationImage(
                     fit: BoxFit.contain,
                     image: NetworkImage(
-                      ImageHelpers.generateProductImageURL(
-                          productEntity.images[0]),
+                        productModel.images[0]
                     ),
                   ),
                   borderRadius: const BorderRadius.only(
@@ -75,13 +75,13 @@ class ProductCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        productEntity.title,
+                        productModel.title,
                         style: AppTypography.black['12_medium']?.copyWith(
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       Text(
-                        "${productEntity.price}đ",
+                        "${productModel.price}đ",
                         style: AppTypography.black['22_bold'],
                       )
                     ],

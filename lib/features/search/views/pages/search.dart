@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/search_field.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/search_not_found.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
@@ -54,7 +55,7 @@ class SearchPage extends StatelessWidget {
     );
   }
 
-  Widget _searchProducts(List<ProductEntity> products) {
+  Widget _searchProducts(List<ProductModel> products) {
     return Container(
       color: AppColors.grayLight,
       child: GridView.builder(
@@ -68,7 +69,7 @@ class SearchPage extends StatelessWidget {
         ),
         itemBuilder: (BuildContext context, int index) {
           return ProductCard(
-            productEntity: products[index],
+            productModel: products[index],
           );
         },
       ),

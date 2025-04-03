@@ -10,7 +10,7 @@ class ProductsInitial extends ProductsState {}
 class ProductsLoading extends ProductsState {}
 
 class ProductsLoaded extends ProductsState {
-  final List<ProductEntity> products;
+  final List<ProductModel> products;
 
   ProductsLoaded({
     required this.products,

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_all_product_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
@@ -22,7 +23,12 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       HomeProductsDisplayed event, Emitter<ProductsState> emit) async {
     emit(ProductsLoading());
 
-    var data = await serviceLocator<GetDoctorChoiceUseCase>().call();
+    var data = await serviceLocator<GetDoctorChoiceUseCase>().call(
+      params: {
+        'orderby': 'popularity',
+        "per_page": 5,
+      },
+    );
     await data.fold(
       (left) async {
         emit(ProductsLoadFailure());
@@ -38,7 +44,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     emit(ProductsLoading());
 
     var data = await serviceLocator<GetProductByTitleUseCase>().call(
-      params: event.query,
+      params: {
+        "search": event.query,
+      },
     );
     await data.fold(
       (left) async {
@@ -60,7 +68,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         emit(ProductsLoadFailure());
       },
       (right) async {
-        emit(ProductsLoaded(products: right));
+        // emit(ProductsLoaded(products: right));
       },
     );
   }
@@ -69,7 +77,12 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
       AllProductsDisplayed event, Emitter<ProductsState> emit) async {
     emit(ProductsLoading());
 
-    var data = await serviceLocator<GetAllProductUseCase>().call();
+    var data = await serviceLocator<GetAllProductUseCase>().call(
+      params: {
+        "per_page": 10,
+      },
+    );
+
     await data.fold(
       (left) async {
         emit(ProductsLoadFailure());

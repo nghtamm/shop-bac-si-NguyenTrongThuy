@@ -3,12 +3,12 @@ import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/order.
 
 class OrderModel {
   final List<ProductOrderedModel> products;
-  final String createdDate;
-  final String shippingAddress;
-  final String name;
-  final String phoneNumber;
-  final num itemCount;
-  final num totalPrice;
+  final String createdDate; //date_created
+  final String shippingAddress; //shipping.address2
+  final String name; //line_items.name
+  final String phoneNumber; //phone
+  final num itemCount; //quantity
+  final num totalPrice; //total
 
   OrderModel({
     required this.products,

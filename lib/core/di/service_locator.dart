@@ -96,8 +96,8 @@ Future<void> initializeDependencies() async {
     UserValidateUseCase(),
   );
 
-  serviceLocator.registerSingleton<ProductFirebaseService>(
-    ProductFirebaseServiceImpl(),
+  serviceLocator.registerSingleton<ProductWooService>(
+    ProductWooServiceImpl(),
   );
 
   serviceLocator.registerSingleton<OrderFirebaseService>(

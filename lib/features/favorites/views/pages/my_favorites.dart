@@ -49,11 +49,11 @@ class MyFavoritesPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Expanded(
-                        child: _favorites(
-                          state.products,
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: _favorites(
+                      //     state.products,
+                      //   ),
+                      // ),
                     ],
                   );
                 }
@@ -81,9 +81,9 @@ class MyFavoritesPage extends StatelessWidget {
           childAspectRatio: 0.6,
         ),
         itemBuilder: (BuildContext context, int index) {
-          return ProductCard(
-            productEntity: products[index],
-          );
+          // return ProductCard(
+          //   productEntity: products[index],
+          // );
         },
       ),
     );

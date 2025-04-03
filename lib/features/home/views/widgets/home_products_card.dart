@@ -5,14 +5,15 @@ import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 
 class HomeProductsCard extends StatelessWidget {
-  final ProductEntity productEntity;
+  final ProductModel productModel;
 
   const HomeProductsCard({
     super.key,
-    required this.productEntity,
+    required this.productModel,
   });
 
   @override
@@ -21,7 +22,7 @@ class HomeProductsCard extends StatelessWidget {
       onTap: () {
         context.push(
           RoutersName.productDetails,
-          extra: productEntity,
+          extra: productModel,
         );
       },
       child: Row(
@@ -40,7 +41,7 @@ class HomeProductsCard extends StatelessWidget {
                     onPressed: () {
                       context.push(
                         RoutersName.productDetails,
-                        extra: productEntity,
+                        extra: productModel,
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -60,15 +61,15 @@ class HomeProductsCard extends StatelessWidget {
                         children: [
                           SizedBox(height: 80.h),
                           Text(
-                            productEntity.title,
+                            productModel.title,
                             style: AppTypography.black['18_semiBold'],
                           ),
                           Text(
-                            productEntity.shortDescription,
+                            productModel.shortDescription,
                             style: AppTypography.black['12_medium'],
                           ),
                           Text(
-                            '${productEntity.price}đ',
+                            '${productModel.price}đ',
                             style: AppTypography.black['28_extraBold'],
                           ),
                         ],
@@ -84,9 +85,7 @@ class HomeProductsCard extends StatelessWidget {
                     left: 20.w,
                   ),
                   child: Image.network(
-                    ImageHelpers.generateProductImageURL(
-                      productEntity.images[0],
-                    ),
+                      productModel.images[0],                 
                     height: 150.h,
                   ),
                 ),

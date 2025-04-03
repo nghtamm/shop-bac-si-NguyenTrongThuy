@@ -17,6 +17,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_deta
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_history.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_items.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/order_placed.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/all_products.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/product_details.dart';
@@ -117,9 +118,9 @@ class AppRouters {
       GoRoute(
         path: RoutersName.productDetails,
         builder: (context, state) {
-          final productEntity = state.extra as ProductEntity;
+          final productModel = state.extra as ProductModel;
           return ProductDetailPage(
-            productEntity: productEntity,
+            productModel: productModel,
           );
         },
       ),

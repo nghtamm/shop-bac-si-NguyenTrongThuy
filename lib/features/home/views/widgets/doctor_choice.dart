@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/home_products_card.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
@@ -12,6 +13,8 @@ class DoctorChoice extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ProductsBloc()..add(HomeProductsDisplayed()),
+      // create: (context) => ProductsBloc(),
+
       child: BlocBuilder<ProductsBloc, ProductsState>(
         builder: (context, state) {
           if (state is ProductsLoading) {
@@ -30,7 +33,7 @@ class DoctorChoice extends StatelessWidget {
     );
   }
 
-  Widget _dcProducts(List<ProductEntity> products) {
+  Widget _dcProducts(List<ProductModel> products) {
     return SizedBox(
       height: 300.h,
       child: ListView.builder(
@@ -41,7 +44,7 @@ class DoctorChoice extends StatelessWidget {
         itemCount: products.length,
         itemBuilder: (context, index) {
           return HomeProductsCard(
-            productEntity: products[index],
+            productModel: products[index],
           );
         },
       ),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
@@ -14,6 +15,7 @@ class AllProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
+      lazy: false,
       create: (context) => ProductsBloc()..add(AllProductsDisplayed()),
       child: Builder(
         builder: (context) {
@@ -23,6 +25,7 @@ class AllProductPage extends StatelessWidget {
             ),
             body: BlocBuilder<ProductsBloc, ProductsState>(
               builder: (context, state) {
+                print(state);
                 if (state is ProductsLoading) {
                   return const Center(
                     child: CircularProgressIndicator(),
@@ -68,7 +71,7 @@ class AllProductPage extends StatelessWidget {
     );
   }
 
-  Widget _products(List<ProductEntity> products) {
+  Widget _products(List<ProductModel> products) {
     return Container(
       color: AppColors.grayLight,
       child: GridView.builder(
@@ -82,7 +85,7 @@ class AllProductPage extends StatelessWidget {
         ),
         itemBuilder: (BuildContext context, int index) {
           return ProductCard(
-            productEntity: products[index],
+            productModel: products[index],
           );
         },
       ),
