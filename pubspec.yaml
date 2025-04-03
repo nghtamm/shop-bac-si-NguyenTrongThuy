@@ -59,6 +59,10 @@ dependencies:
   awesome_snackbar_content: ^0.1.5
   loader_overlay: ^4.0.4+1
   flutter_html: ^3.0.0
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  diacritic: ^0.1.6
+  shimmer: ^3.0.0
   
 
 dev_dependencies:

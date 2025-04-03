@@ -22,7 +22,7 @@ class CustomBottomNavbar extends StatelessWidget {
     } else if (index == 2) {
       debugPrint('Appointments');
     } else if (index == 3) {
-      debugPrint('Profile');
+      context.push(RoutersName.profile);
     }
   }
 

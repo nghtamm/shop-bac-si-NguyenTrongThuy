@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/local/global_storage.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/network/api_client.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/sources/auth_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/repository/auth_repository.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/get_display_name_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/get_auth_state_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/authenticate_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/user_validate_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/google_sign_in_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/reset_password_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_out_usecase.dart';
@@ -39,8 +40,13 @@ import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_s
 import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_use_case.dart';
 
 final serviceLocator = GetIt.instance;
+final hive = GlobalStorageImpl();
 
 Future<void> initializeDependencies() async {
+  // HIVE
+  await hive.init();
+  serviceLocator.registerSingleton<GlobalStorage>(hive);
+
   // NETWORK
   serviceLocator.registerLazySingleton(
     () => Dio(),
@@ -48,6 +54,7 @@ Future<void> initializeDependencies() async {
   serviceLocator.registerLazySingleton<ApiClient>(
     () => ApiClient(
       serviceLocator<Dio>(),
+      serviceLocator<GlobalStorage>(),
     ),
   );
 
@@ -77,16 +84,16 @@ Future<void> initializeDependencies() async {
     SignUpUseCase(),
   );
 
+  serviceLocator.registerSingleton<AuthenticateUseCase>(
+    AuthenticateUseCase(),
+  );
+
   serviceLocator.registerSingleton<SignInUseCase>(
     SignInUseCase(),
   );
 
-  serviceLocator.registerSingleton<GetAuthStateUseCase>(
-    GetAuthStateUseCase(),
-  );
-
-  serviceLocator.registerSingleton<GetDisplayNameUseCase>(
-    GetDisplayNameUseCase(),
+  serviceLocator.registerSingleton<UserValidateUseCase>(
+    UserValidateUseCase(),
   );
 
   serviceLocator.registerSingleton<ProductWooService>(

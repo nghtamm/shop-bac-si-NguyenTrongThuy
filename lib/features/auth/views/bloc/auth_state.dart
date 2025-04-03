@@ -31,7 +31,16 @@ class Authenticated extends AuthState {
   List<Object?> get props => [displayName];
 }
 
-class Unauthenticated extends AuthState {}
+class Unauthenticated extends AuthState {
+  final dynamic userData;
+
+  Unauthenticated({
+    this.userData,
+  });
+
+  @override
+  List<Object?> get props => [userData];
+}
 
 class PasswordResetSuccess extends AuthState {
   final String message;

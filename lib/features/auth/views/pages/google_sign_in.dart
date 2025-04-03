@@ -2,9 +2,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/formatters/password_formatter.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
@@ -13,21 +11,25 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/auth_bloc.da
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/cubit/toggle_password_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class GoogleSignInPage extends StatefulWidget {
+  final Map<String, dynamic> userData;
+
+  const GoogleSignInPage({
+    super.key,
+    required this.userData,
+  });
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<GoogleSignInPage> createState() => _GoogleSignInPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _GoogleSignInPageState extends State<GoogleSignInPage> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  String? _emailError;
   String? _passwordError;
 
   bool get isFormValid =>
@@ -35,7 +37,6 @@ class _SignUpPageState extends State<SignUpPage> {
       _lastNameController.text.trim().isNotEmpty &&
       _displayNameController.text.trim().isNotEmpty &&
       _emailController.text.trim().isNotEmpty &&
-      _emailError == null &&
       _passwordController.text.trim().isNotEmpty &&
       _passwordError == null;
 
@@ -53,17 +54,7 @@ class _SignUpPageState extends State<SignUpPage> {
       () => setState(() {}),
     );
     _emailController.addListener(
-      () => setState(() {
-        final email = _emailController.text.trim();
-
-        if (email.isEmpty) {
-          _emailError = null;
-        } else if (!TextHelpers().validateEmail(email)) {
-          _emailError = 'Định dạng email không hợp lệ';
-        } else {
-          _emailError = null;
-        }
-      }),
+      () => setState(() {}),
     );
     _passwordController.addListener(
       () => setState(() {
@@ -93,12 +84,19 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    _firstNameController.text = widget.userData['first_name'] ?? '';
+    _lastNameController.text = widget.userData['last_name'] ?? '';
+    _displayNameController.text = widget.userData['display_name'] ?? '';
+    _emailController.text = widget.userData['email'] ?? '';
+
     return BlocProvider(
       create: (context) => TogglePasswordCubit(),
       child: LoaderOverlay(
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: const CustomAppBar(),
+          appBar: const CustomAppBar(
+            showLeading: false,
+          ),
           body: Padding(
             padding: EdgeInsets.symmetric(
               vertical: 20.h,
@@ -110,7 +108,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'BẠN LÀ AI?',
+                    'ĐĂNG NHẬP BẰNG GOOGLE',
                     style: AppTypography.black['32_extraBold'],
                   ),
                 ),
@@ -118,49 +116,72 @@ class _SignUpPageState extends State<SignUpPage> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Cung cấp thông tin cá nhân của bạn để chúng tôi có thể phục vụ tốt hơn!',
+                    'Nhập mật khẩu để hoàn tất quá trình đăng nhập bằng tài khoản Google',
                     style: AppTypography.black['18_medium'],
                   ),
                 ),
                 SizedBox(height: 10.h),
                 TextField(
+                  readOnly: true,
                   controller: _lastNameController,
+                  style: const TextStyle(
+                    color: AppColors.gray,
+                  ),
                   decoration: const InputDecoration(
                     hintText: 'Họ của bạn',
                     prefixIcon: Icon(
                       Icons.person_rounded,
+                      color: AppColors.gray,
                     ),
+                    fillColor: AppColors.grayNeutral,
                   ),
                 ),
                 SizedBox(height: 10.h),
                 TextField(
+                  readOnly: true,
                   controller: _firstNameController,
+                  style: const TextStyle(
+                    color: AppColors.gray,
+                  ),
                   decoration: const InputDecoration(
                     hintText: 'Tên của bạn',
                     prefixIcon: Icon(
                       Icons.person_rounded,
+                      color: AppColors.gray,
                     ),
+                    fillColor: AppColors.grayNeutral,
                   ),
                 ),
                 SizedBox(height: 10.h),
                 TextField(
+                  readOnly: true,
                   controller: _displayNameController,
+                  style: const TextStyle(
+                    color: AppColors.gray,
+                  ),
                   decoration: const InputDecoration(
                     hintText: 'Chúng tôi nên gọi bạn là gì?',
                     prefixIcon: Icon(
                       Icons.switch_account_rounded,
+                      color: AppColors.gray,
                     ),
+                    fillColor: AppColors.grayNeutral,
                   ),
                 ),
                 SizedBox(height: 10.h),
                 TextField(
+                  readOnly: true,
                   controller: _emailController,
-                  decoration: InputDecoration(
+                  style: const TextStyle(
+                    color: AppColors.gray,
+                  ),
+                  decoration: const InputDecoration(
                     hintText: 'Địa chỉ email',
-                    prefixIcon: const Icon(
+                    prefixIcon: Icon(
                       Icons.email_rounded,
+                      color: AppColors.gray,
                     ),
-                    errorText: _emailError,
+                    fillColor: AppColors.grayNeutral,
                   ),
                 ),
                 SizedBox(height: 10.h),
@@ -219,30 +240,6 @@ class _SignUpPageState extends State<SignUpPage> {
                           ScaffoldMessenger.of(context).clearMaterialBanners();
                         }
                       });
-                    } else if (state is Unauthenticated) {
-                      ScaffoldMessenger.of(context).showMaterialBanner(
-                        const MaterialBanner(
-                          forceActionsBelow: true,
-                          content: AwesomeSnackbarContent(
-                            title: 'Đăng ký thành công',
-                            message:
-                                'Vui lòng đăng nhập để tiếp tục sử dụng ứng dụng!',
-                            contentType: ContentType.success,
-                            inMaterialBanner: true,
-                          ),
-                          actions: [
-                            SizedBox.shrink(),
-                          ],
-                        ),
-                      );
-
-                      Future.delayed(const Duration(milliseconds: 1500), () {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).clearMaterialBanners();
-                          context.loaderOverlay.hide();
-                          context.replace(RoutersName.signIn);
-                        }
-                      });
                     }
                   },
                   builder: (context, state) {
@@ -269,6 +266,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                           TextHelpers().formatUserNicename(
                                         _displayNameController.text.trim(),
                                       ),
+                                    ),
+                                  );
+                              context.read<AuthBloc>().add(
+                                    SignInRequested(
+                                      email: _emailController.text.trim(),
+                                      password: _passwordController.text.trim(),
                                     ),
                                   );
                             }

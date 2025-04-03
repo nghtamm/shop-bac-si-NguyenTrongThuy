@@ -11,21 +11,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AuthBloc()..add(AppStarted()),
+      create: (context) => AuthBloc()
+        ..add(
+          UserValidated(),
+        ),
       child: ScreenUtilInit(
         designSize: const Size(390, 844),
         minTextAdapt: true,
         splitScreenMode: true,
-        child: BlocBuilder<AuthBloc, AuthState>(
-          builder: (context, authState) {
-            return MaterialApp.router(
-              title: 'Shop Bác sĩ Nguyễn Trọng Thủy',
-              theme: AppTheme.lightTheme,
-              themeMode: ThemeMode.light,
-              routerConfig: AppRouters.router,
-              debugShowCheckedModeBanner: false,
-            );
-          },
+        child: MaterialApp.router(
+          title: 'Shop Bác sĩ Nguyễn Trọng Thủy',
+          theme: AppTheme.lightTheme,
+          themeMode: ThemeMode.light,
+          routerConfig: AppRouters.router,
         ),
       ),
     );

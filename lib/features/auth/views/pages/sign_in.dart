@@ -52,8 +52,10 @@ class SignInPage extends StatelessWidget {
                 TextField(
                   controller: _emailController,
                   decoration: const InputDecoration(
-                    hintText: 'Địa chỉ Email',
-                    prefixIcon: Icon(Icons.email_rounded),
+                    hintText: 'Địa chỉ email',
+                    prefixIcon: Icon(
+                      Icons.email_rounded,
+                    ),
                   ),
                 ),
                 SizedBox(height: 10.h),
@@ -67,14 +69,18 @@ class SignInPage extends StatelessWidget {
                       ],
                       decoration: InputDecoration(
                         hintText: 'Mật khẩu',
-                        prefixIcon: const Icon(Icons.password_rounded),
+                        prefixIcon: const Icon(
+                          Icons.password_rounded,
+                        ),
                         suffixIcon: GestureDetector(
                           onTap: () => context
                               .read<TogglePasswordCubit>()
                               .toggleVisibility(),
-                          child: Icon(isVisible
-                              ? Icons.visibility_rounded
-                              : Icons.visibility_off_rounded),
+                          child: Icon(
+                            isVisible
+                                ? Icons.visibility_rounded
+                                : Icons.visibility_off_rounded,
+                          ),
                         ),
                       ),
                     );
@@ -117,6 +123,7 @@ class SignInPage extends StatelessWidget {
                     } else {
                       context.loaderOverlay.hide();
                     }
+
                     return ElevatedButton(
                       onPressed: () => context.read<AuthBloc>().add(
                             SignInRequested(
