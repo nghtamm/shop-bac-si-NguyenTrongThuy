@@ -10,9 +10,15 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 
 abstract class ProductWooService {
-  Future<Either<String, List<ProductModel>>> getDoctorChoice();
-  Future<Either<String, List<ProductModel>>> getProductByTitle(String title);
-  Future<Either<String, List<ProductModel>>> getAllProduct();
+  Future<Either> getDoctorChoice({
+    required int page,
+  });
+  Future<Either> getProductByTitle({
+    required String title
+    });
+  Future<Either> getAllProduct({
+    required int page,
+  });
   Future<Either<String, bool>> toggleFavorite(ProductEntity product);
   Future<bool> getFavoriteState(String productID);
   Future<Either<String, List<ProductModel>>> getFavoriteProducts();
@@ -20,15 +26,16 @@ abstract class ProductWooService {
 
 class ProductWooServiceImpl implements ProductWooService {
   @override
-  Future<Either<String, List<ProductModel>>> getDoctorChoice() async {
+  Future<Either> getDoctorChoice({required int page}) async {
     try {
+      final params = {
+        'orderby': 'popularity',
+        'per_page': page,
+      };
       final response = await serviceLocator<ApiClient>().request(
         endpoint: '${ApiEndpoints.woocommerce}products',
         method: ApiMethods.get,
-        data: {
-          'orderby': 'popularity',
-          'per_page': 10,
-        },
+        queryParameters: params,
       );
       if (response is List) {
         List<ProductModel> products = [];
@@ -45,13 +52,16 @@ class ProductWooServiceImpl implements ProductWooService {
   }
 
   @override
-  Future<Either<String, List<ProductModel>>> getProductByTitle(
-      String title) async {
+  Future<Either> getProductByTitle(
+      {required String title}) async {
     try {
+      final params = {
+        'search': title,
+      };
       final response = await serviceLocator<ApiClient>().request(
         endpoint: '${ApiEndpoints.woocommerce}products',
         method: ApiMethods.get,
-        data: {'search': title},
+        queryParameters: params,
       );
       if (response is List) {
         List<ProductModel> products = [];
@@ -68,15 +78,18 @@ class ProductWooServiceImpl implements ProductWooService {
   }
 
   @override
-  Future<Either<String, List<ProductModel>>> getAllProduct() async {
+  Future<Either> getAllProduct( {required int page}) async {
     try {
+      final params = {
+        'per_page': page,
+      };
+
       final response = await serviceLocator<ApiClient>().request(
         endpoint: '${ApiEndpoints.woocommerce}products',
         method: ApiMethods.get,
-        data: {
-          'per_page': 20,
-        },
+        queryParameters: params,
       );
+
       if (response is List) {
         List<ProductModel> products = [];
         for (var item in response) {

@@ -7,6 +7,7 @@ import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_cart_req.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/toggle_favorite_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_app_bar.dart';
@@ -19,10 +20,10 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/product_
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
 
 class ProductDetailPage extends StatelessWidget {
-  final ProductEntity productEntity;
+  final ProductModel productModel;
 
   const ProductDetailPage({
-    required this.productEntity,
+    required this.productModel,
     super.key,
   });
 
@@ -33,24 +34,24 @@ class ProductDetailPage extends StatelessWidget {
         BlocProvider(
           create: (context) => CartBloc(),
         ),
-        BlocProvider(
-          create: (context) =>
-              ToggleFavoriteCubit()..isFavorite(productEntity.productID),
-        ),
+        // BlocProvider(
+        //   create: (context) =>
+        //       ToggleFavoriteCubit()..isFavorite(productModel.productID),
+        // ),
       ],
       child: _productDetailsContent(
-        productEntity: productEntity,
+        productModel: productModel,
       ),
     );
   }
 
-  Widget _productDetailsContent({required ProductEntity productEntity}) {
+  Widget _productDetailsContent({required ProductModel productModel}) {
     return Builder(builder: (context) {
       return Scaffold(
         backgroundColor: AppColors.white,
-        appBar: ProductAppbar(
-          productEntity: productEntity,
-        ),
+        // appBar: ProductAppbar(
+        //   productModel: productModel,
+        // ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(
@@ -60,19 +61,19 @@ class ProductDetailPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ProductImages(
-                  productEntity: productEntity,
+                  productModel: productModel,
                 ),
                 SizedBox(height: 60.h),
                 ProductTitle(
-                  productEntity: productEntity,
+                  productModel: productModel,
                 ),
                 SizedBox(height: 10.h),
                 ProductPrice(
-                  productEntity: productEntity,
+                  productModel: productModel,
                 ),
                 SizedBox(height: 20.h),
                 ProductDescription(
-                  productEntity: productEntity,
+                  productModel: productModel,
                 ),
                 SizedBox(height: 40.h),
                 Padding(
@@ -91,7 +92,7 @@ class ProductDetailPage extends StatelessWidget {
                             child: BlocProvider(
                               create: (context) => ProductQuantityCubit(),
                               child: _bottomSheetContent(
-                                productEntity: productEntity,
+                                productModel: productModel,
                               ),
                             ),
                           );
@@ -112,7 +113,7 @@ class ProductDetailPage extends StatelessWidget {
     });
   }
 
-  Widget _bottomSheetContent({required ProductEntity productEntity}) {
+  Widget _bottomSheetContent({required ProductModel productModel}) {
     return Builder(
       builder: (context) {
         return SizedBox(
@@ -133,9 +134,7 @@ class ProductDetailPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Image.network(
-                        ImageHelpers.generateProductImageURL(
-                          productEntity.images[0],
-                        ),
+                        productModel.images[0],
                         width: 100.w,
                         height: 100.h,
                       ),
@@ -144,11 +143,11 @@ class ProductDetailPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            productEntity.title,
+                            productModel.title,
                             style: AppTypography.black['20_bold'],
                           ),
                           Text(
-                            '${productEntity.price}đ',
+                            '${productModel.price}đ',
                             style: AppTypography.black['24_extraBold'],
                           ),
                         ],
@@ -158,7 +157,7 @@ class ProductDetailPage extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 ProductQuantity(
-                  productEntity: productEntity,
+                  productModel: productModel,
                 ),
                 SizedBox(height: 4.h),
                 Padding(
@@ -169,25 +168,25 @@ class ProductDetailPage extends StatelessWidget {
                       style: AppTypography.white['24_extraBold'],
                     ),
                     onPressed: () {
-                      context.read<CartBloc>().add(
-                            CartProductAdded(
-                              requirements: AddToCartReq(
-                                productID: productEntity.productID,
-                                productTitle: productEntity.title,
-                                productQuantity:
-                                    context.read<ProductQuantityCubit>().state,
-                                productPrice: productEntity.price.toInt(),
-                                totalPrice: (ProductHelpers.provideCurrentPrice(
-                                            productEntity) *
-                                        context
-                                            .read<ProductQuantityCubit>()
-                                            .state)
-                                    .toInt(),
-                                productImage: productEntity.images[0],
-                                createdDate: DateTime.now().toString(),
-                              ),
-                            ),
-                          );
+                      // context.read<CartBloc>().add(
+                      //       CartProductAdded(
+                      //         requirements: AddToCartReq(
+                      //           productID: productEntity.productID,
+                      //           productTitle: productEntity.title,
+                      //           productQuantity:
+                      //               context.read<ProductQuantityCubit>().state,
+                      //           productPrice: productEntity.price.toInt(),
+                      //           totalPrice: (ProductHelpers.provideCurrentPrice(
+                      //                       productEntity) *
+                      //                   context
+                      //                       .read<ProductQuantityCubit>()
+                      //                       .state)
+                      //               .toInt(),
+                      //           productImage: productEntity.images[0],
+                      //           createdDate: DateTime.now().toString(),
+                      //         ),
+                      //       ),
+                      //     );
 
                       ScaffoldMessenger.of(context).showMaterialBanner(
                         const MaterialBanner(

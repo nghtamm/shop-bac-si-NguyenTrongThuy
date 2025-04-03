@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
 
 class ProductImages extends StatelessWidget {
-  final ProductEntity productEntity;
+  final ProductModel productModel;
 
   const ProductImages({
     super.key,
-    required this.productEntity,
+    required this.productModel,
   });
 
   @override
@@ -27,16 +28,14 @@ class ProductImages extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.contain,
                   image: NetworkImage(
-                    ImageHelpers.generateProductImageURL(
-                      productEntity.images[index],
-                    ),
+                    productModel.images[index],            
                   ),
                 ),
               ),
             ),
           );
         },
-        itemCount: productEntity.images.length,
+        itemCount: productModel.images.length,
       ),
     );
   }

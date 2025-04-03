@@ -4,9 +4,9 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/prod
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/repository/product_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
-class GetProductByTitleUseCase implements UseCase<Either<String, List<ProductEntity>>, String> {
+class GetProductByTitleUseCase implements UseCase<Either, Map <String, dynamic>> {
   @override
-  Future<Either<String, List<ProductEntity>>> call({String? params}) async {
+  Future<Either> call({Map<String,dynamic>? params}) async {
     if (params == null || params.isEmpty) {
       return const Left("Không có tham số được truyền vào!");
     }

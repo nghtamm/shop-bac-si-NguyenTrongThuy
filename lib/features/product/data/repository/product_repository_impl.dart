@@ -7,36 +7,36 @@ import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class ProductRepositoryImpl extends ProductRepository {
   @override
-  Future<Either<String, List<ProductEntity>>> getDoctorChoice() async {
-    var productData = await serviceLocator<ProductWooService>().getDoctorChoice();
-    return productData.fold(
-      (left) => Left(left), //tra ve loi
-      (right) => Right(
-        right.map((productModel) => productModel.toEntity()).toList(),
-      )
-    );
+  Future<Either> getDoctorChoice(Map<String, dynamic> data) async {
+    return await serviceLocator<ProductWooService>().getDoctorChoice(page: data['per_page'] ?? 5);
+    // return productData.fold(
+    //   (left) => Left(left), //tra ve loi
+    //   (right) => Right(
+    //     right.map((productModel) => productModel.toEntity()).toList(),
+    //   )
+    // );
   }
 
   @override
-  Future<Either<String, List<ProductEntity>>> getProductByTitle(String title) async {
-    var productData = await serviceLocator<ProductWooService>().getProductByTitle(title);
-    return productData.fold(
-      (left) => Left(left),
-      (right) => Right(
-        right.map((productModel) => productModel.toEntity()).toList(),
-      )
-    );
+  Future<Either> getProductByTitle(Map<String,dynamic> data) async {
+    return await serviceLocator<ProductWooService>().getProductByTitle(title: data['search'] ?? '');
+    // return productData.fold(
+    //   (left) => Left(left),
+    //   (right) => Right(
+    //     right.map((productModel) => productModel.toEntity()).toList(),
+    //   )
+    // );
   }
 
   @override
-  Future<Either<String, List<ProductEntity>>> getAllProduct() async {
-    var productData = await serviceLocator<ProductWooService>().getAllProduct();
-    return productData.fold(
-      (left) => Left(left),
-      (right) => Right(
-        right.map((productModel) => productModel.toEntity()).toList()
-      )
-    );
+  Future<Either> getAllProduct(Map<String,dynamic> data) async {
+    return await serviceLocator<ProductWooService>().getAllProduct(page: data['per_page'] ?? 10 );
+    // return productData.fold(
+    //   (left) => Left(left),
+    //   (right) => Right(
+    //     right.map((productModel) => productModel.toEntity()).toList()
+    //   )
+    // );
   }
 
   @override
