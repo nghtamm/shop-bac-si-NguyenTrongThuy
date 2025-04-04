@@ -8,7 +8,7 @@ import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/auth_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_drawer.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/for_your_health.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/bottom_navigation_bar.dart';
@@ -55,19 +55,10 @@ class _HomePageState extends State<HomePage> {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: AppColors.transparent,
-            elevation: 0,
-            leading: Builder(
-              builder: (BuildContext context) {
-                return IconButton(
-                  icon: const Icon(Icons.menu_rounded),
-                  onPressed: () => Scaffold.of(context).openDrawer(),
-                );
-              },
-            ),
+          appBar: CustomAppBar(
+            showLeading: false,
+            height: 36.h,
           ),
-          drawer: const AppDrawer(),
           body: Stack(
             children: [
               SingleChildScrollView(

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/local/global_storage.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/authenticate_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_out_usecase.dart';
