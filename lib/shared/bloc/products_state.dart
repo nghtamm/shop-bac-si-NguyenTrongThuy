@@ -20,4 +20,13 @@ class ProductsLoaded extends ProductsState {
   List<Object> get props => [products];
 }
 
-class ProductsLoadFailure extends ProductsState {}
+class ProductsLoadFailure extends ProductsState {
+  final String message;
+
+  ProductsLoadFailure({
+    required this.message,
+  });
+
+  @override
+  List<Object> get props => [message];
+}

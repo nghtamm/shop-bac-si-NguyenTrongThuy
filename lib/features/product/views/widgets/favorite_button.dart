@@ -1,8 +1,7 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/toggle_favorite_cubit.dart';
 
 class FavoriteButton extends StatelessWidget {

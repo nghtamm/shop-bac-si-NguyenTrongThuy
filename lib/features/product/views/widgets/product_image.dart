@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
 
 class ProductImages extends StatelessWidget {
   final ProductModel productModel;
@@ -28,7 +26,7 @@ class ProductImages extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.contain,
                   image: NetworkImage(
-                    productModel.images[index],            
+                    productModel.images[index],
                   ),
                 ),
               ),

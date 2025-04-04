@@ -5,7 +5,7 @@ abstract class ProductsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class HomeProductsDisplayed extends ProductsEvent {}
+class DoctorChoiceDisplayed extends ProductsEvent {}
 
 class SearchProductsDisplayed extends ProductsEvent {
   final String query;

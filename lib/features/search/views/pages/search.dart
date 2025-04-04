@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/search_field.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/search_not_found.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/product_card.dart';
 
 class SearchPage extends StatelessWidget {
@@ -17,8 +16,10 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          ProductsBloc()..add(SearchProductsDisplayed(query: '')),
+      create: (context) => ProductsBloc()
+        ..add(
+          SearchProductsDisplayed(query: ''),
+        ),
       child: Builder(
         builder: (context) {
           return Scaffold(

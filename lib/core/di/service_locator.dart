@@ -32,7 +32,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_a
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_products_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_state_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_product_by_title_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/search_product_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/toggle_favorite_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_repo.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_repo_impl.dart';
@@ -144,8 +144,8 @@ Future<void> initializeDependencies() async {
     GetNewsUseCase(),
   );
 
-  serviceLocator.registerSingleton<GetProductByTitleUseCase>(
-    GetProductByTitleUseCase(),
+  serviceLocator.registerSingleton<SearchProductUseCase>(
+    SearchProductUseCase(),
   );
 
   serviceLocator.registerSingleton<GetAllProductUseCase>(

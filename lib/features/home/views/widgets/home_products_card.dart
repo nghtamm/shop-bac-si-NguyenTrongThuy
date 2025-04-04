@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
 
 class HomeProductsCard extends StatelessWidget {
   final ProductModel productModel;

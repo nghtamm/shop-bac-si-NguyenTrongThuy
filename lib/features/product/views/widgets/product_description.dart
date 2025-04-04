@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
 import 'package:flutter_html/flutter_html.dart';
-
 
 class ProductDescription extends StatelessWidget {
   final ProductModel productModel;
@@ -24,8 +22,8 @@ class ProductDescription extends StatelessWidget {
         data: productModel.description,
         style: {
           "body": Style(
-            fontSize: FontSize(16.sp),
-            color: Colors.black,
+            fontSize: FontSize(16),
+            color: AppColors.black,
             textAlign: TextAlign.justify,
           ),
         },

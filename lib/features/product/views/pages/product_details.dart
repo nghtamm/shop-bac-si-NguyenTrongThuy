@@ -2,13 +2,10 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/product_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_cart_req.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/toggle_favorite_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_app_bar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_image.dart';
@@ -17,7 +14,6 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/produc
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_description.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_quantity.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/product_quantity_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
 
 class ProductDetailPage extends StatelessWidget {
   final ProductModel productModel;

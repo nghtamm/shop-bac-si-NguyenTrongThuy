@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product_entity.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/product_card.dart';
 
@@ -14,7 +14,10 @@ class MyFavoritesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProductsBloc()..add(FavoritesDisplayed()),
+      create: (context) => ProductsBloc()
+        ..add(
+          FavoritesDisplayed(),
+        ),
       child: Builder(
         builder: (context) {
           return Scaffold(
