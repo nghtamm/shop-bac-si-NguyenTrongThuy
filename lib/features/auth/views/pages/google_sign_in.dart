@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/formatters/password_formatter.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
@@ -24,6 +28,8 @@ class GoogleSignInPage extends StatefulWidget {
 }
 
 class _GoogleSignInPageState extends State<GoogleSignInPage> {
+  final completer = Completer<void>();
+
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
@@ -240,6 +246,11 @@ class _GoogleSignInPageState extends State<GoogleSignInPage> {
                           ScaffoldMessenger.of(context).clearMaterialBanners();
                         }
                       });
+                    } else if (state is Authenticated) {
+                      context.go(
+                        RoutersName.homepage,
+                        extra: state.displayName,
+                      );
                     }
                   },
                   builder: (context, state) {
@@ -249,7 +260,7 @@ class _GoogleSignInPageState extends State<GoogleSignInPage> {
 
                     return ElevatedButton(
                       onPressed: isFormValid
-                          ? () {
+                          ? () async {
                               context.read<AuthBloc>().add(
                                     SignUpRequested(
                                       firstName:
@@ -266,8 +277,12 @@ class _GoogleSignInPageState extends State<GoogleSignInPage> {
                                           TextHelpers().formatUserNicename(
                                         _displayNameController.text.trim(),
                                       ),
+                                      completer: completer,
                                     ),
                                   );
+                              await completer.future;
+
+                              // ignore: use_build_context_synchronously
                               context.read<AuthBloc>().add(
                                     SignInRequested(
                                       email: _emailController.text.trim(),

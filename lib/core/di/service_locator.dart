@@ -12,9 +12,9 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/reset_p
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_in_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/repository/order.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/repository/order_repository_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/sources/order_firebase_service.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/add_to_cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/data/repository/news_repository_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/data/sources/news_firebase_service.dart';

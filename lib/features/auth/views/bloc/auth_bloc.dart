@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -68,13 +70,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     await result.fold(
-      (left) async => emit(
-        AuthFailure(
-          message: left,
-        ),
-      ),
+      (left) async {
+        emit(
+          AuthFailure(
+            message: left,
+          ),
+        );
+        event.completer!.complete();
+      },
       (right) async {
         emit(Unauthenticated());
+        event.completer!.complete();
       },
     );
   }

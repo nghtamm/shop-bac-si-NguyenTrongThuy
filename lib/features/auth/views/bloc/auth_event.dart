@@ -15,6 +15,7 @@ class SignUpRequested extends AuthEvent {
   final String password;
   final String userLogin;
   final String userNicename;
+  final Completer<void>? completer;
 
   SignUpRequested({
     required this.lastName,
@@ -24,6 +25,7 @@ class SignUpRequested extends AuthEvent {
     required this.password,
     required this.userLogin,
     required this.userNicename,
+    this.completer,
   });
 
   @override
@@ -35,6 +37,7 @@ class SignUpRequested extends AuthEvent {
         password,
         userLogin,
         userNicename,
+        completer,
       ];
 }
 

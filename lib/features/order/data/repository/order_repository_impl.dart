@@ -3,7 +3,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_car
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_registration_req.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/product_ordered.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/sources/order_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
