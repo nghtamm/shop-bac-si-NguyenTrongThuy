@@ -57,7 +57,7 @@ class ProfilePage extends StatelessWidget {
                       'Chào bạn',
                       style: AppTypography.black['22_medium'],
                     ),
-                    SizedBox(height: 4.h),
+                    SizedBox(height: 2.h),
                     Text(
                       user?.displayName!.toUpperCase() ?? 'NGƯỜI DÙNG KHÁCH',
                       style: AppTypography.black['26_extraBold'],
@@ -93,7 +93,7 @@ class ProfilePage extends StatelessWidget {
                                 SizedBox(width: 14.w),
                                 Text(
                                   'Tất cả sản phẩm',
-                                  style: AppTypography.black['20_medium'],
+                                  style: AppTypography.black['18_medium'],
                                 ),
                               ],
                             ),
@@ -121,7 +121,7 @@ class ProfilePage extends StatelessWidget {
                                 SizedBox(width: 14.w),
                                 Text(
                                   'Chăm sóc sức khỏe',
-                                  style: AppTypography.black['20_medium'],
+                                  style: AppTypography.black['18_medium'],
                                 ),
                               ],
                             ),
@@ -155,7 +155,7 @@ class ProfilePage extends StatelessWidget {
                                 SizedBox(width: 14.w),
                                 Text(
                                   'Đơn mua',
-                                  style: AppTypography.black['20_medium'],
+                                  style: AppTypography.black['18_medium'],
                                 ),
                               ],
                             ),
@@ -185,7 +185,7 @@ class ProfilePage extends StatelessWidget {
                                 SizedBox(width: 14.w),
                                 Text(
                                   'Giỏ hàng',
-                                  style: AppTypography.black['20_medium'],
+                                  style: AppTypography.black['18_medium'],
                                 ),
                               ],
                             ),
@@ -215,7 +215,7 @@ class ProfilePage extends StatelessWidget {
                                 SizedBox(width: 14.w),
                                 Text(
                                   'Sản phẩm yêu thích',
-                                  style: AppTypography.black['20_medium'],
+                                  style: AppTypography.black['18_medium'],
                                 ),
                               ],
                             ),
@@ -245,7 +245,7 @@ class ProfilePage extends StatelessWidget {
                                 SizedBox(width: 14.w),
                                 Text(
                                   'Tư vấn sức khỏe',
-                                  style: AppTypography.black['20_medium'],
+                                  style: AppTypography.black['18_medium'],
                                 ),
                               ],
                             ),
@@ -327,7 +327,7 @@ class ProfilePage extends StatelessWidget {
                                 SizedBox(width: 14.w),
                                 Text(
                                   'Đăng xuất',
-                                  style: AppTypography.black['20_semiBold']!
+                                  style: AppTypography.black['18_semiBold']!
                                       .copyWith(
                                     color: Colors.red,
                                   ),

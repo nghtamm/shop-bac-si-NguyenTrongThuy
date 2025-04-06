@@ -1,4 +1,5 @@
 import 'package:diacritic/diacritic.dart';
+import 'package:html/parser.dart' as html_parser;
 
 class TextHelpers {
   String formatUserLogin(String text) {
@@ -24,5 +25,10 @@ class TextHelpers {
 
   bool validatePassword(String password) {
     return password.length >= 8;
+  }
+
+  String formatHTML(String text) {
+    final document = html_parser.parse(text);
+    return document.body?.text.trim() ?? '';
   }
 }

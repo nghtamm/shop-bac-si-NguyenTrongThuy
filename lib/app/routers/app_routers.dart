@@ -11,7 +11,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/medical_chatbot/views/pages/
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/checkout.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/onboarding/views/pages/onboarding.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/order.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_details.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_history.dart';
@@ -51,7 +51,7 @@ class AppRouters {
       ),
       GoRoute(
         path: RoutersName.signIn,
-        builder: (context, state) => SignInPage(),
+        builder: (context, state) => const SignInPage(),
       ),
       GoRoute(
         path: RoutersName.forgotPassword,
@@ -132,7 +132,7 @@ class AppRouters {
       GoRoute(
         path: RoutersName.orderItems,
         builder: (context, state) {
-          final products = state.extra as List<ProductOrderedEntity>;
+          final products = state.extra as OrderModel;
           return OrderItemsPage(
             products: products,
           );
@@ -141,9 +141,9 @@ class AppRouters {
       GoRoute(
         path: RoutersName.orderDetails,
         builder: (context, state) {
-          final orderEntity = state.extra as OrderEntity;
+          final orderModel = state.extra as OrderModel;
           return OrderDetailsPage(
-            orderEntity: orderEntity,
+            orderModel: orderModel,
           );
         },
       ),

@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/local/global_storage.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/order.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/bloc/orders_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 
@@ -15,11 +17,14 @@ class OrderHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        backgroundColor: AppColors.grayLight,
-      ),
+      appBar: const CustomAppBar(),
       body: BlocProvider(
-        create: (context) => OrdersBloc()..add(OrdersDisplayed()),
+        create: (context) => OrdersBloc()
+          ..add(
+            DislayOrderHistory(
+              customerID: serviceLocator<GlobalStorage>().user!.id ?? '',
+            ),
+          ),
         child: BlocBuilder<OrdersBloc, OrdersState>(
           builder: (context, state) {
             if (state is OrdersLoading) {
@@ -27,6 +32,7 @@ class OrderHistoryPage extends StatelessWidget {
                 child: CircularProgressIndicator(),
               );
             }
+
             if (state is OrdersLoaded) {
               return Container(
                 decoration: const BoxDecoration(
@@ -36,6 +42,7 @@ class OrderHistoryPage extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(
+                        top: 20.h,
                         bottom: 10.h,
                         left: 30.w,
                         right: 30.w,
@@ -43,7 +50,7 @@ class OrderHistoryPage extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'LỊCH SỬ ĐƠN HÀNG',
+                          'LỊCH SỬ ĐƠN MUA',
                           style: AppTypography.black['32_extraBold'],
                         ),
                       ),
@@ -57,11 +64,13 @@ class OrderHistoryPage extends StatelessWidget {
                 ),
               );
             }
+
             if (state is OrdersLoadFailure) {
               return Center(
                 child: Text(state.message),
               );
             }
+
             return Container();
           },
         ),
@@ -69,7 +78,7 @@ class OrderHistoryPage extends StatelessWidget {
     );
   }
 
-  Widget _orders(List<OrderEntity> orders) {
+  Widget _orders(List<OrderModel> orders) {
     return ListView.separated(
       padding: const EdgeInsets.all(16),
       itemBuilder: (context, index) {
@@ -104,12 +113,12 @@ class OrderHistoryPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Hóa đơn ngày ${orders[index].createdDate.split(' ')[0]}',
+                          'Hóa đơn ngày ${orders[index].date}',
                           style: AppTypography.black['16_semiBold'],
                           overflow: TextOverflow.ellipsis,
                         ),
                         Text(
-                          'Giá trị đơn hàng: ${orders[index].totalPrice}đ',
+                          'Giá trị đơn hàng: ${orders[index].total}đ',
                           style: AppTypography.black['14_regular']?.copyWith(
                             color: AppColors.gray,
                           ),

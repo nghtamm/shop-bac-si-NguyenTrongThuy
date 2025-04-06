@@ -6,16 +6,70 @@ import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/formatters/password_formatter.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/auth_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/cubit/toggle_password_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 
-class SignInPage extends StatelessWidget {
-  SignInPage({super.key});
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
+  @override
+  State<SignInPage> createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  String? _emailError;
+  String? _passwordError;
+
+  bool get isFormValid =>
+      _emailController.text.trim().isNotEmpty &&
+      _emailError == null &&
+      _passwordController.text.trim().isNotEmpty &&
+      _passwordError == null;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(
+      () => setState(() {
+        final email = _emailController.text.trim();
+
+        if (email.isEmpty) {
+          _emailError = null;
+        } else if (!TextHelpers().validateEmail(email)) {
+          _emailError = 'Định dạng email không hợp lệ';
+        } else {
+          _emailError = null;
+        }
+      }),
+    );
+    _passwordController.addListener(
+      () => setState(() {
+        final password = _passwordController.text.trim();
+
+        if (password.isEmpty) {
+          _passwordError = null;
+        } else if (!TextHelpers().validatePassword(password)) {
+          _passwordError = 'Mật khẩu phải chứa ít nhất 8 ký tự';
+        } else {
+          _passwordError = null;
+        }
+      }),
+    );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +105,12 @@ class SignInPage extends StatelessWidget {
                 SizedBox(height: 20.h),
                 TextField(
                   controller: _emailController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Địa chỉ email',
-                    prefixIcon: Icon(
+                    prefixIcon: const Icon(
                       Icons.email_rounded,
                     ),
+                    errorText: _emailError,
                   ),
                 ),
                 SizedBox(height: 10.h),
@@ -82,6 +137,7 @@ class SignInPage extends StatelessWidget {
                                 : Icons.visibility_off_rounded,
                           ),
                         ),
+                        errorText: _passwordError,
                       ),
                     );
                   },
@@ -125,12 +181,16 @@ class SignInPage extends StatelessWidget {
                     }
 
                     return ElevatedButton(
-                      onPressed: () => context.read<AuthBloc>().add(
-                            SignInRequested(
-                              email: _emailController.text.trim(),
-                              password: _passwordController.text.trim(),
-                            ),
-                          ),
+                      onPressed: isFormValid
+                          ? () {
+                              context.read<AuthBloc>().add(
+                                    SignInRequested(
+                                      email: _emailController.text.trim(),
+                                      password: _passwordController.text.trim(),
+                                    ),
+                                  );
+                            }
+                          : null,
                       child: Text(
                         'TIẾP TỤC',
                         style: AppTypography.white['24_extraBold'],

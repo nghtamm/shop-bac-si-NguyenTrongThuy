@@ -5,7 +5,16 @@ abstract class OrdersEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class OrdersDisplayed extends OrdersEvent {}
+class DislayOrderHistory extends OrdersEvent {
+  final String customerID;
+
+  DislayOrderHistory({
+    required this.customerID,
+  });
+
+  @override
+  List<Object> get props => [customerID];
+}
 
 class OrderRegistered extends OrdersEvent {
   final OrderRegistrationReq requirements;

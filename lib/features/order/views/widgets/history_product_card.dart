@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/line_item_model.dart';
 
 class HistoryProductCard extends StatelessWidget {
-  final ProductOrderedEntity productOrderedEntity;
+  final LineItemModel product;
 
   const HistoryProductCard({
-    required this.productOrderedEntity,
+    required this.product,
     super.key,
   });
 
@@ -44,9 +43,7 @@ class HistoryProductCard extends StatelessWidget {
                       image: DecorationImage(
                         fit: BoxFit.fill,
                         image: NetworkImage(
-                          ImageHelpers.generateProductImageURL(
-                            productOrderedEntity.productImage,
-                          ),
+                          product.image,
                         ),
                       ),
                       borderRadius: BorderRadius.circular(4),
@@ -61,16 +58,16 @@ class HistoryProductCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        productOrderedEntity.productTitle,
+                        product.name,
                         overflow: TextOverflow.ellipsis,
                         style: AppTypography.black['20_semiBold'],
                       ),
                       Text(
-                        '${productOrderedEntity.totalPrice}đ',
+                        '${product.total}đ',
                         style: AppTypography.black['18_medium'],
                       ),
                       Text(
-                        'Số lượng: ${productOrderedEntity.productQuantity}',
+                        'Số lượng: ${product.quantity}',
                         style: AppTypography.black['16_regular'],
                       ),
                     ],

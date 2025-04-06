@@ -10,7 +10,7 @@ class OrderInitial extends OrdersState {}
 class OrdersLoading extends OrdersState {}
 
 class OrdersLoaded extends OrdersState {
-  final List<OrderEntity> orders;
+  final List<OrderModel> orders;
 
   OrdersLoaded({
     required this.orders,
