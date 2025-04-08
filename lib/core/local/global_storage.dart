@@ -1,5 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/user_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_model.dart';
 
 class StorageKey {
   const StorageKey._();
@@ -7,6 +8,7 @@ class StorageKey {
   static const String globalStorage = 'global_storage';
   static const String accessToken = 'access_token';
   static const String userModel = 'user_model';
+  static const String cartItems = 'cart_items';
 }
 
 abstract class GlobalStorage {
@@ -22,6 +24,12 @@ abstract class GlobalStorage {
   UserModel? get user;
   Future<void> saveUser(UserModel user);
   Future<void> clearUser();
+
+  // Cart
+  List<CartItemModel>? get cart;
+  Future<void> addToCart(CartItemModel item);
+  Future<void> removeFromCart(String productID);
+  Future<void> clearCart();
 }
 
 class GlobalStorageImpl implements GlobalStorage {
@@ -56,5 +64,58 @@ class GlobalStorageImpl implements GlobalStorage {
   @override
   Future<void> clearUser() async {
     await _box.delete(StorageKey.userModel);
+  }
+
+  @override
+  List<CartItemModel>? get cart {
+    final List<CartItemModel>? cart;
+    cart = (_box.get(StorageKey.cartItems) as List?)?.cast<CartItemModel>();
+    return cart ?? <CartItemModel>[];
+  }
+
+  @override
+  Future<void> addToCart(CartItemModel item) async {
+    final cart = this.cart ?? <CartItemModel>[];
+
+    final existingItemIndex = cart.indexWhere(
+      (cartItem) =>
+          cartItem.productID == item.productID &&
+          cartItem.optionsID == item.optionsID,
+    );
+    if (existingItemIndex != -1) {
+      cart[existingItemIndex] = CartItemModel(
+        productID: cart[existingItemIndex].productID,
+        title: cart[existingItemIndex].title,
+        image: cart[existingItemIndex].image,
+        price: cart[existingItemIndex].price,
+        options: cart[existingItemIndex].options,
+        optionsID: cart[existingItemIndex].optionsID,
+        quantity: cart[existingItemIndex].quantity + item.quantity,
+      );
+    } else {
+      cart.add(item);
+    }
+
+    await _box.put(StorageKey.cartItems, cart);
+  }
+
+  @override
+  Future<void> removeFromCart(String key) async {
+    final cart = this.cart ?? <CartItemModel>[];
+
+    final parts = key.split('-');
+    final productID = int.tryParse(parts[0]);
+    final optionsID = int.tryParse(parts[1]);
+
+    cart.removeWhere(
+      (item) => item.productID == productID && item.optionsID == optionsID,
+    );
+
+    await _box.put(StorageKey.cartItems, cart);
+  }
+
+  @override
+  Future<void> clearCart() async {
+    await _box.delete(StorageKey.cartItems);
   }
 }

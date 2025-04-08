@@ -3,12 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/cart_helpers.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_model.dart';
 
 class CheckoutSummary extends StatelessWidget {
-  final List<ProductOrderedEntity> products;
+  final List<CartItemModel> products;
 
   const CheckoutSummary({
     required this.products,
@@ -17,6 +18,10 @@ class CheckoutSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final num subtotal = CartHelpers.calculateSubtotal(products);
+    final num shipping = subtotal >= 1000000 ? 0 : 25000;
+    final num total = subtotal + shipping;
+
     return Container(
       padding: EdgeInsets.only(
         left: 40.w,
@@ -37,7 +42,7 @@ class CheckoutSummary extends StatelessWidget {
                 style: AppTypography.black['16_semiBold'],
               ),
               Text(
-                '${CartHelpers.calculateSubtotal(products).toString()}đ',
+                TextHelpers().formatVNCurrency(subtotal.toString()),
                 style: AppTypography.black['16_bold'],
               )
             ],
@@ -50,7 +55,7 @@ class CheckoutSummary extends StatelessWidget {
                 style: AppTypography.black['16_semiBold'],
               ),
               Text(
-                '25000đ',
+                TextHelpers().formatVNCurrency(shipping.toString()),
                 style: AppTypography.black['16_bold'],
               )
             ],
@@ -63,7 +68,7 @@ class CheckoutSummary extends StatelessWidget {
                 style: AppTypography.black['16_semiBold'],
               ),
               Text(
-                '${CartHelpers.calculateSubtotal(products) + 25000}đ',
+                TextHelpers().formatVNCurrency(total.toString()),
                 style: AppTypography.black['16_bold'],
               )
             ],
@@ -77,7 +82,10 @@ class CheckoutSummary extends StatelessWidget {
             onPressed: () {
               context.push(
                 RoutersName.checkout,
-                extra: products,
+                extra: {
+                  'products': products,
+                  'shipping': shipping,
+                },
               );
             },
           )

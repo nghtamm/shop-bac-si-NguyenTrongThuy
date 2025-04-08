@@ -30,25 +30,3 @@ class OrdersLoadFailure extends OrdersState {
   @override
   List<Object> get props => [message];
 }
-
-class OrdersRegisterSuccess extends OrdersState {
-  final String message;
-
-  OrdersRegisterSuccess({
-    required this.message,
-  });
-
-  @override
-  List<Object> get props => [message];
-}
-
-class OrdersRegisterFailure extends OrdersState {
-  final String message;
-
-  OrdersRegisterFailure({
-    required this.message,
-  });
-
-  @override
-  List<Object> get props => [message];
-}

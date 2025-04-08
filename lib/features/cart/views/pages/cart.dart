@@ -7,8 +7,9 @@ import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_bloc.da
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/checkout_summary.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/cart_products_card.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/widgets/empty_cart.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/shimmer_loading.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -23,7 +24,8 @@ class CartPage extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(
-              left: 40.w,
+              left: 30.w,
+              right: 30.w,
               top: 30.h,
               bottom: 20.h,
             ),
@@ -34,14 +36,25 @@ class CartPage extends StatelessWidget {
           ),
           Expanded(
             child: BlocProvider(
-              create: (context) => CartBloc()..add(CartDisplayed()),
+              create: (context) => CartBloc()
+                ..add(
+                  CartDisplayed(),
+                ),
               child: BlocBuilder<CartBloc, CartState>(
                 builder: (context, state) {
                   if (state is CartLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
+                    return Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.w,
+                      ),
+                      child: const Center(
+                        child: ShimmerLoading(
+                          itemCount: 6,
+                        ),
+                      ),
                     );
                   }
+
                   if (state is CartLoaded) {
                     Future.delayed(const Duration(milliseconds: 1500), () {
                       if (context.mounted) {
@@ -66,12 +79,14 @@ class CartPage extends StatelessWidget {
                             ],
                           );
                   }
+
                   if (state is CartLoadFailure) {
                     return Center(
                       child: Text(state.message),
                     );
                   }
-                  return Container();
+
+                  return const SizedBox.shrink();
                 },
               ),
             ),
@@ -81,23 +96,25 @@ class CartPage extends StatelessWidget {
     );
   }
 
-  Widget _cartProducts(List<ProductOrderedEntity> products) {
+  Widget _cartProducts(List<CartItemModel> products) {
     if (products.isEmpty) {
       return const EmptyCartPage();
     } else {
       return ListView.separated(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.symmetric(
+          horizontal: 20.w,
+        ),
         itemBuilder: (context, index) {
           return CartProductsCard(
-            productOrderedEntity: products[index],
+            item: products[index],
           );
         },
         separatorBuilder: (context, index) => Divider(
           color: AppColors.gray,
           thickness: 1,
-          height: 24.h,
+          height: 25.h,
           indent: 20.w,
-          endIndent: 12.w,
+          endIndent: 20.w,
         ),
         itemCount: products.length,
       );

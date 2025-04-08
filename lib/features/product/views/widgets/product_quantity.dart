@@ -17,12 +17,9 @@ class ProductQuantity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60.h,
+      height: 50.h,
       margin: EdgeInsets.symmetric(
-        horizontal: 16.w,
-      ),
-      padding: EdgeInsets.only(
-        left: 12.w,
+        horizontal: 28.w,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -50,7 +47,7 @@ class ProductQuantity extends StatelessWidget {
                     ),
                     child: const Center(
                       child: Icon(
-                        Icons.remove,
+                        Icons.remove_rounded,
                         size: 30,
                       ),
                     ),
@@ -76,7 +73,7 @@ class ProductQuantity extends StatelessWidget {
                     ),
                     child: const Center(
                       child: Icon(
-                        Icons.add,
+                        Icons.add_rounded,
                         size: 30,
                       ),
                     ),

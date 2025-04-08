@@ -17,12 +17,12 @@ class DislayOrderHistory extends OrdersEvent {
 }
 
 class OrderRegistered extends OrdersEvent {
-  final OrderRegistrationReq requirements;
+  final Map<String, dynamic> data;
 
   OrderRegistered({
-    required this.requirements,
+    required this.data,
   });
 
   @override
-  List<Object> get props => [requirements];
+  List<Object> get props => [data];
 }

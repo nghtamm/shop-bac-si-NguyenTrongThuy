@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
@@ -28,7 +29,7 @@ class ProductPrice extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
         ),
         child: Text(
-          '${productModel.price}đ',
+          TextHelpers().formatVNCurrency(productModel.price),
           style: AppTypography.black['22_extraBold'],
         ),
       ),

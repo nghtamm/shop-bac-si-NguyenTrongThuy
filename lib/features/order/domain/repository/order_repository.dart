@@ -1,13 +1,11 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_cart_req.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_registration_req.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_model.dart';
 
 abstract class OrderRepository {
   Future<Either> getOrderHistory(Map<String, dynamic> data);
-
-  Future<Either> addtoCart(AddToCartReq addToCartReq);
-  Future<Either> getCartProducts();
-  Future<Either> orderRegistration(OrderRegistrationReq order);
-  Future<Either> removeCartProduct(String id);
-  Future<Either> disposeCart();
+  Future<void> addToCart(CartItemModel item);
+  Future<Either<String, List<CartItemModel>>> displayCart();
+  Future<void> removeFromCart(String productID);
+  Future<Either> orderRegistration(Map<String, dynamic> data);
+  Future<void> disposeCart();
 }

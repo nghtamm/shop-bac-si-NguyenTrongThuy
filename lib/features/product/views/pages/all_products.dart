@@ -32,6 +32,7 @@ class AllProductPage extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 }
+
                 if (state is ProductsLoaded) {
                   return Column(
                     children: [

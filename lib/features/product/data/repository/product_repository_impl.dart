@@ -27,6 +27,13 @@ class ProductRepositoryImpl extends ProductRepository {
   }
 
   @override
+  Future<Either> getAllVariations(String productID) async {
+    return await serviceLocator<ProductWooService>().getAllVariations(
+      productID: productID,
+    );
+  }
+
+  @override
   Future<Either<String, bool>> toggleFavorite(ProductEntity product) async {
     var favoriteProductData =
         await serviceLocator<ProductWooService>().toggleFavorite(product);

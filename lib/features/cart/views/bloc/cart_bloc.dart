@@ -1,40 +1,80 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_cart_req.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/add_to_cart.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/local/global_storage.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/add_to_cart_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/dispose_cart_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/get_cart_products.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/display_cart_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/remove_cart_products.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/remove_from_cart_usecase.dart';
 
 part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(CartLoading()) {
+  CartBloc() : super(CartInitial()) {
+    on<CartProductAdded>(_onCartProductAdded);
     on<CartDisplayed>(_onCartDisplayed);
     on<CartProductRemoved>(_onCartProductRemoved);
     on<CartDisposed>(_onCartDisposed);
-    on<CartProductAdded>(_onCartProductAdded);
   }
 
-  Future<void> _onCartDisplayed(
-      CartDisplayed event, Emitter<CartState> emit) async {
+  Future<void> _onCartProductAdded(
+    CartProductAdded event,
+    Emitter<CartState> emit,
+  ) async {
     try {
       emit(CartLoading());
 
-      var data = await serviceLocator<GetCartProductsUseCase>().call();
+      await serviceLocator<AddToCartUseCase>().call(
+        params: event.item,
+      );
+
+      final cart = serviceLocator<GlobalStorage>().cart ?? [];
+      emit(
+        CartLoaded(
+          products: cart,
+        ),
+      );
+    } catch (error) {
+      emit(
+        CartLoadFailure(
+          message: error.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> _onCartDisplayed(
+    CartDisplayed event,
+    Emitter<CartState> emit,
+  ) async {
+    try {
+      emit(CartLoading());
+
+      final data = await serviceLocator<DisplayCartUseCase>().call();
       await data.fold(
         (left) async {
-          emit(CartLoadFailure(message: left));
+          emit(
+            CartLoadFailure(
+              message: left,
+            ),
+          );
         },
         (right) async {
-          emit(CartLoaded(products: right));
+          emit(
+            CartLoaded(
+              products: right,
+            ),
+          );
         },
       );
     } catch (error) {
-      emit(CartLoadFailure(message: error.toString()));
+      emit(
+        CartLoadFailure(
+          message: error.toString(),
+        ),
+      );
     }
   }
 
@@ -43,60 +83,43 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     try {
       emit(CartLoading());
 
-      var data = await serviceLocator<RemoveCartProductUseCase>().call(
-        params: event.productID,
+      await serviceLocator<RemoveFromCartUseCase>().call(
+        params: event.key,
       );
 
-      await data.fold(
-        (left) async {
-          emit(CartLoadFailure(message: left));
-        },
-        (right) async {
-          await _onCartDisplayed(CartDisplayed(), emit);
-        },
+      final cart = serviceLocator<GlobalStorage>().cart ?? [];
+      emit(
+        CartLoaded(
+          products: cart,
+        ),
       );
     } catch (error) {
-      emit(CartLoadFailure(message: error.toString()));
+      emit(
+        CartLoadFailure(
+          message: error.toString(),
+        ),
+      );
     }
   }
 
   Future<void> _onCartDisposed(
-      CartDisposed event, Emitter<CartState> emit) async {
+    CartDisposed event,
+    Emitter<CartState> emit,
+  ) async {
     try {
-      var data = await serviceLocator<DisposeCartUseCase>().call();
+      await serviceLocator<DisposeCartUseCase>().call();
 
-      await data.fold(
-        (left) async {
-          emit(CartLoadFailure(message: left));
-        },
-        (right) async {
-          emit(CartDisposedSuccess(displayName: event.displayName));
-        },
+      emit(
+        CartLoaded(
+          products: const [],
+        ),
       );
     } catch (error) {
-      emit(CartLoadFailure(message: error.toString()));
-    }
-  }
-
-  Future<void> _onCartProductAdded(
-      CartProductAdded event, Emitter<CartState> emit) async {
-    try {
-      emit(CartLoading());
-
-      var data = await serviceLocator<AddToCartUseCase>().call(
-        params: event.requirements,
+      emit(
+        CartLoadFailure(
+          message: error.toString(),
+        ),
       );
-
-      await data.fold(
-        (left) async {
-          emit(CartProductAddFailure(message: left));
-        },
-        (right) async {
-          emit(CartProductAddSuccess(message: right));
-        },
-      );
-    } catch (error) {
-      emit(CartProductAddFailure(message: error.toString()));
     }
   }
 }

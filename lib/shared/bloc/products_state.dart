@@ -30,3 +30,25 @@ class ProductsLoadFailure extends ProductsState {
   @override
   List<Object> get props => [message];
 }
+
+class VariationsLoaded extends ProductsState {
+  final List<VariationModel> variations;
+
+  VariationsLoaded({
+    required this.variations,
+  });
+
+  @override
+  List<Object> get props => [variations];
+}
+
+class VariationsLoadFailure extends ProductsState {
+  final String message;
+
+  VariationsLoadFailure({
+    required this.message,
+  });
+
+  @override
+  List<Object> get props => [message];
+}

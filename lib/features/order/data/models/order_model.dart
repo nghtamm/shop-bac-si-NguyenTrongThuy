@@ -8,6 +8,7 @@ class OrderModel {
   final String date;
   final String total;
   final String shippingTotal;
+  final String orderKey;
   final BillingModel billing;
   final ShippingModel shipping;
   final String paymentMethod;
@@ -19,6 +20,7 @@ class OrderModel {
     required this.date,
     required this.total,
     required this.shippingTotal,
+    required this.orderKey,
     required this.billing,
     required this.shipping,
     required this.paymentMethod,
@@ -32,6 +34,7 @@ class OrderModel {
       date: json['date_created'] ?? '',
       total: json['total'] ?? '0',
       shippingTotal: json['shipping_total'] ?? '0',
+      orderKey: json['order_key'] ?? '',
       billing:
           json['billing'] != null && json['billing'] is Map<String, dynamic>
               ? BillingModel.fromJson(json['billing'])
@@ -57,6 +60,7 @@ class OrderModel {
       'date_created': date,
       'total': total,
       'shipping_total': shippingTotal,
+      'order_key': orderKey,
       'billing': billing.toJson(),
       'shipping': shipping.toJson(),
       'payment_method': paymentMethod,

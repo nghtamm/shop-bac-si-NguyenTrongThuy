@@ -65,13 +65,14 @@ class HomeProductsCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            TextHelpers().formatHTML(productModel.shortDescription),
+                            TextHelpers()
+                                .formatHTML(productModel.shortDescription),
                             style: AppTypography.black['12_medium'],
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            '${productModel.price}đ',
+                            TextHelpers().formatVNCurrency(productModel.price),
                             style: AppTypography.black['28_extraBold'],
                           ),
                         ],

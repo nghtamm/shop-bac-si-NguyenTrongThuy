@@ -5,10 +5,12 @@ abstract class CartState extends Equatable {
   List<Object> get props => [];
 }
 
+class CartInitial extends CartState {}
+
 class CartLoading extends CartState {}
 
 class CartLoaded extends CartState {
-  final List<ProductOrderedEntity> products;
+  final List<CartItemModel> products;
 
   CartLoaded({
     required this.products,
@@ -22,39 +24,6 @@ class CartLoadFailure extends CartState {
   final String message;
 
   CartLoadFailure({
-    required this.message,
-  });
-
-  @override
-  List<Object> get props => [message];
-}
-
-class CartDisposedSuccess extends CartState {
-  final String displayName;
-
-  CartDisposedSuccess({
-    required this.displayName,
-  });
-
-  @override
-  List<Object> get props => [displayName];
-}
-
-class CartProductAddSuccess extends CartState {
-  final String message;
-
-  CartProductAddSuccess({
-    required this.message,
-  });
-
-  @override
-  List<Object> get props => [message];
-}
-
-class CartProductAddFailure extends CartState {
-  final String message;
-
-  CartProductAddFailure({
     required this.message,
   });
 

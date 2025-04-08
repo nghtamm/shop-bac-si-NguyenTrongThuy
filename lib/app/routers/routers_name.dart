@@ -20,6 +20,7 @@ class RoutersName {
   static const String cart = '/cart';
   static const String checkout = '/checkout';
   static const String orderPlaced = '/order-placed';
+  static const String checkoutPayment = '/checkout-payment';
 
   // Favorites
   static const String myFavorites = '/my-favorites';
