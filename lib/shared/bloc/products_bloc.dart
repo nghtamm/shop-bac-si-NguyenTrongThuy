@@ -14,7 +14,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc() : super(ProductsInitial()) {
     on<DoctorChoiceDisplayed>(_onDoctorChoiceDisplayed);
     on<SearchProductsDisplayed>(_onSearchProductsDisplayed);
-    on<FavoritesDisplayed>(_onFavoritesDisplayed);
+    // on<FavoritesDisplayed>(_onFavoritesDisplayed);
     on<AllProductsDisplayed>(_onAllProductsDisplayed);
   }
 
@@ -109,24 +109,24 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
   }
 
-  Future<void> _onFavoritesDisplayed(
-    FavoritesDisplayed event,
-    Emitter<ProductsState> emit,
-  ) async {
-    emit(ProductsLoading());
+//   Future<void> _onFavoritesDisplayed(
+//     FavoritesDisplayed event,
+//     Emitter<ProductsState> emit,
+//   ) async {
+//     emit(ProductsLoading());
 
-    var data = await serviceLocator<GetFavoriteProductsUseCase>().call();
-    await data.fold(
-      (left) async {
-        emit(
-          ProductsLoadFailure(
-            message: left.toString(),
-          ),
-        );
-      },
-      (right) async {
-        // emit(ProductsLoaded(products: right));
-      },
-    );
-  }
-}
+//     var data = await serviceLocator<GetFavoriteProductsUseCase>().call();
+//     await data.fold(
+//       (left) async {
+//         emit(
+//           ProductsLoadFailure(
+//             message: left.toString(),
+//           ),
+//         );
+//       },
+//       (right) async {
+//         emit(ProductsLoaded(products: right));
+//       },
+//     );
+//   }
+ }

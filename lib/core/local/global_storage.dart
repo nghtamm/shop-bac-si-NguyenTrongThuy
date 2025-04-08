@@ -7,6 +7,7 @@ class StorageKey {
   static const String globalStorage = 'global_storage';
   static const String accessToken = 'access_token';
   static const String userModel = 'user_model';
+  static const String shareKey = 'share_key';
 }
 
 abstract class GlobalStorage {
@@ -22,6 +23,11 @@ abstract class GlobalStorage {
   UserModel? get user;
   Future<void> saveUser(UserModel user);
   Future<void> clearUser();
+
+  //Sharekey
+  String? get shareKey;
+  Future<void> saveShareKey(String shareKey);
+  Future<void> clearShareKey();
 }
 
 class GlobalStorageImpl implements GlobalStorage {
@@ -46,6 +52,19 @@ class GlobalStorageImpl implements GlobalStorage {
   }
 
   @override
+  String? get shareKey => _box.get(StorageKey.shareKey);
+
+  @override
+  Future<void> saveShareKey(String shareKey) async{
+    await _box.put(StorageKey.shareKey, shareKey);
+  }
+
+  @override
+  Future<void> clearShareKey() async {
+    await _box.delete(StorageKey.shareKey);
+  }
+
+  @override
   UserModel? get user => _box.get(StorageKey.userModel);
 
   @override
@@ -57,4 +76,5 @@ class GlobalStorageImpl implements GlobalStorage {
   Future<void> clearUser() async {
     await _box.delete(StorageKey.userModel);
   }
+
 }

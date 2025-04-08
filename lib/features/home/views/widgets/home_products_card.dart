@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
@@ -62,10 +63,22 @@ class HomeProductsCard extends StatelessWidget {
                             productModel.title,
                             style: AppTypography.black['18_semiBold'],
                           ),
-                          Text(
-                            productModel.shortDescription,
-                            style: AppTypography.black['12_medium'],
-                          ),
+                          // Text(
+                          //   productModel.shortDescription,
+                          //   style: AppTypography.black['12_medium'],
+                          // ),
+                          
+                            //  Html(
+                            //   data: productModel.shortDescription,
+                            //   style: {
+                            //     "body": Style(
+                            //       fontSize: FontSize(12.sp),
+                            //       maxLines: 2, // Giới hạn số dòng
+                            //       textOverflow: TextOverflow.ellipsis, // Thêm "..."
+                            //     ),
+                            //   },
+                            // ),
+                          
                           Text(
                             '${productModel.price}đ',
                             style: AppTypography.black['28_extraBold'],

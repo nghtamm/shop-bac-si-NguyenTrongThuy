@@ -26,29 +26,39 @@ class ProductRepositoryImpl extends ProductRepository {
     );
   }
 
+  //   @override
+  // Future<Either> getDetailProduct(Map<String, dynamic> data) async {
+  //   return await serviceLocator<ProductWooService>().getAllProduct(
+  //     page: data['per_page'] ?? 1,
+  //   );
+  // }
+
   @override
-  Future<Either<String, bool>> toggleFavorite(ProductEntity product) async {
-    var favoriteProductData =
-        await serviceLocator<ProductWooService>().toggleFavorite(product);
-    return favoriteProductData.fold(
-      (l) => Left(l),
-      (r) => Right(r), //tra ve trang thai iu thic (true/false)
+  Future<Either> addToFavorites(Map<String, dynamic> data) async {
+    return await serviceLocator<ProductWooService>().addToFavorites(
+      productID: data['product_id'] ?? 0,
+    );
+  }
+
+    @override
+  Future<Either> removeFromFavorites(Map<String, dynamic> data) async {
+    return await serviceLocator<ProductWooService>().removeFromFavorites(
+      itemID: data['item_id'] ?? 0,
     );
   }
 
   @override
-  Future<bool> getFavoriteState(String productID) async {
+  Future<Either> getFavoriteState(Map<String, dynamic> data) async {
     return await serviceLocator<ProductWooService>()
-        .getFavoriteState(productID);
+        .getFavoriteState(
+      productID: data['product_id'].toString() ,
+        );
   }
 
   @override
-  Future<Either<String, List<ProductModel>>> getFavoriteProducts() async {
-    var favoriteProductData =
-        await serviceLocator<ProductWooService>().getFavoriteProducts();
-    return favoriteProductData.fold(
-      (l) => Left(l),
-      (r) => Right(r),
+  Future<Either> getFavoriteProducts(Map<String, dynamic> data) async {
+    return await serviceLocator<ProductWooService>().getFavoriteProducts(
+      page: data['per_page'] ?? 10,
     );
   }
 }

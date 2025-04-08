@@ -18,6 +18,6 @@ class SearchProductsDisplayed extends ProductsEvent {
   List<Object> get props => [query];
 }
 
-class FavoritesDisplayed extends ProductsEvent {}
+// class FavoritesDisplayed extends ProductsEvent {}
 
 class AllProductsDisplayed extends ProductsEvent {}

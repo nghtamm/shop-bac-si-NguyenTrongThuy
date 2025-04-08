@@ -1,5 +1,6 @@
 class ProductModel {
   final int productID;
+  // final int itemID;
   final String title;
   final String permalink;
   final String description;
@@ -14,6 +15,7 @@ class ProductModel {
 
   ProductModel({
     required this.productID,
+    // required this.itemID,
     required this.title,
     required this.permalink,
     required this.description,
@@ -30,6 +32,7 @@ class ProductModel {
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     return ProductModel(
       productID: json['id'] ?? 0,
+      // itemID: json['item_id'] ?? 0,
       title: json['name'] ?? '',
       permalink: json['permalink'] ?? '',
       description: json['description'] ?? '',
@@ -67,6 +70,7 @@ class ProductModel {
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'id': productID,
+      // 'item_id' : itemID,
       'name': title,
       'permalink': permalink,
       'description': description,

@@ -6,6 +6,8 @@ import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/repository/product_repository.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/views/bloc/favorite_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/toggle_favorite_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_app_bar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_image.dart';
@@ -30,10 +32,16 @@ class ProductDetailPage extends StatelessWidget {
         BlocProvider(
           create: (context) => CartBloc(),
         ),
-        // BlocProvider(
-        //   create: (context) =>
-        //       ToggleFavoriteCubit()..isFavorite(productModel.productID),
-        // ),
+        BlocProvider(
+          create: (context) =>
+              ToggleFavoriteCubit()..isFavorite(productModel.productID.toString(), context.read<FavoriteBloc>()
+              ),
+        ),
+        BlocProvider(
+          create: (context) => FavoriteBloc(
+            productRepository: context.read<ProductRepository>(),
+          ),
+        ),
       ],
       child: _productDetailsContent(
         productModel: productModel,
@@ -45,9 +53,9 @@ class ProductDetailPage extends StatelessWidget {
     return Builder(builder: (context) {
       return Scaffold(
         backgroundColor: AppColors.white,
-        // appBar: ProductAppbar(
-        //   productModel: productModel,
-        // ),
+        appBar: ProductAppbar(
+          productModel: productModel,
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.only(

@@ -33,7 +33,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_d
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_products_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_state_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/search_product_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/toggle_favorite_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/add_favorite_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_repo.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_repo_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_service.dart';
@@ -152,8 +152,8 @@ Future<void> initializeDependencies() async {
     GetAllProductUseCase(),
   );
 
-  serviceLocator.registerSingleton<ToggleFavoriteUseCase>(
-    ToggleFavoriteUseCase(),
+  serviceLocator.registerSingleton<AddFavoriteUseCase>(
+    AddFavoriteUseCase(),
   );
 
   serviceLocator.registerSingleton<GetFavoriteStateUseCase>(
