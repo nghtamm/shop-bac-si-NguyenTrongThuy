@@ -269,7 +269,10 @@ class AuthenticationFirebaseServiceImpl extends AuthenticationFirebaseService {
         final userData = {
           'email': googleUser?.email,
           'display_name': googleUser?.displayName ?? '',
-          'first_name': googleUser?.displayName?.split(' ').last ?? '',
+          'first_name': (googleUser?.displayName != null &&
+                  googleUser!.displayName!.split(' ').length > 1)
+              ? googleUser.displayName!.split(' ').sublist(1).join(' ')
+              : '',
           'last_name': googleUser?.displayName?.split(' ').first ?? '',
           'user_login': googleUser?.email.split('@').first,
           'user_nicename': googleUser?.email.split('@').first,

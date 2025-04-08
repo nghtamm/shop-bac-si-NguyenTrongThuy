@@ -1,67 +1,47 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/add_to_cart_req.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_registration_req.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/product_ordered.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/local/global_storage.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/data/sources/order_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 
 class OrderRepositoryImpl extends OrderRepository {
   @override
-  Future<Either> addtoCart(AddToCartReq addToCartReq) async {
-    return serviceLocator<OrderFirebaseService>().addtoCart(addToCartReq);
+  Future<Either> getOrderHistory(Map<String, dynamic> data) async {
+    return serviceLocator<OrderFirebaseService>().getOrderHistory(
+      customerID: data['customer'] ?? '',
+    );
   }
 
   @override
-  Future<Either> getCartProducts() async {
-    var returnedData =
-        await serviceLocator<OrderFirebaseService>().getCartProducts();
-    return returnedData.fold((error) {
-      return Left(error);
-    }, (data) {
-      return Right(List.from(data)
-          .map((e) => ProductOrderedModel.fromMap(e).toEntity())
-          .toList());
-    });
+  Future<void> addToCart(CartItemModel item) async {
+    return serviceLocator<GlobalStorage>().addToCart(item);
   }
 
   @override
-  Future<Either> removeCartProduct(String id) async {
-    var returnedData =
-        await serviceLocator<OrderFirebaseService>().removeCartProduct(id);
-    return returnedData.fold((error) {
-      return Left(error);
-    }, (message) {
-      return Right(message);
-    });
+  Future<Either<String, List<CartItemModel>>> displayCart() async {
+    try {
+      final cart = serviceLocator<GlobalStorage>().cart ?? [];
+      return Right(cart);
+    } catch (error) {
+      return Left('Không thể hiển thị giỏ hàng: ${error.toString()}');
+    }
   }
 
   @override
-  Future<Either> orderRegistration(OrderRegistrationReq order) async {
-    var returnedData =
-        await serviceLocator<OrderFirebaseService>().orderRegistration(order);
-    return returnedData.fold((error) {
-      return Left(error);
-    }, (message) {
-      return Right(message);
-    });
+  Future<void> removeFromCart(String productID) async {
+    return serviceLocator<GlobalStorage>().removeFromCart(productID);
   }
 
   @override
-  Future<Either> disposeCart() async {
-    return await serviceLocator<OrderFirebaseService>().disposeCart();
+  Future<Either> orderRegistration(Map<String, dynamic> data) async {
+    return await serviceLocator<OrderFirebaseService>().orderRegistration(
+      data: data,
+    );
   }
 
   @override
-  Future<Either> getOrders() async {
-    var returnedData = await serviceLocator<OrderFirebaseService>().getOrders();
-    return returnedData.fold((left) {
-      return Left(left);
-    }, (right) {
-      return Right(List.from(right)
-          .map((e) => OrderModel.fromMap(e).toEntity())
-          .toList());
-    });
+  Future<void> disposeCart() async {
+    return serviceLocator<GlobalStorage>().clearCart();
   }
 }

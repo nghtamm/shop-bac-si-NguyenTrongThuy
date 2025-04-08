@@ -4,14 +4,14 @@ import 'package:go_router/go_router.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/order.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 
 class OrderDetailsPage extends StatelessWidget {
-  final OrderEntity orderEntity;
+  final OrderModel orderModel;
 
   const OrderDetailsPage({
-    required this.orderEntity,
+    required this.orderModel,
     super.key,
   });
 
@@ -53,7 +53,7 @@ class OrderDetailsPage extends StatelessWidget {
           onTap: () {
             context.push(
               RoutersName.orderItems,
-              extra: orderEntity.products,
+              extra: orderModel,
             );
           },
           child: Container(
@@ -76,7 +76,7 @@ class OrderDetailsPage extends StatelessWidget {
                     ),
                     SizedBox(width: 20.w),
                     Text(
-                      '${orderEntity.products.length} sản phẩm',
+                      '${orderModel.lineItems.length} sản phẩm',
                       style: AppTypography.black['16_semiBold'],
                     )
                   ],
@@ -118,7 +118,7 @@ class OrderDetailsPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
-            orderEntity.name,
+            '${orderModel.billing.firstName} ${orderModel.billing.lastName}',
             style: AppTypography.black['18_medium'],
           ),
         ),
@@ -139,7 +139,7 @@ class OrderDetailsPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
-            orderEntity.phoneNumber,
+            orderModel.billing.phone,
             style: AppTypography.black['18_medium'],
           ),
         ),
@@ -160,7 +160,7 @@ class OrderDetailsPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
           child: Text(
-            orderEntity.shippingAddress,
+            '${orderModel.shipping.address1}, ${orderModel.shipping.address2}, ${orderModel.shipping.city}, ${orderModel.shipping.state}, ${orderModel.shipping.country}',
             style: AppTypography.black['18_medium'],
           ),
         ),

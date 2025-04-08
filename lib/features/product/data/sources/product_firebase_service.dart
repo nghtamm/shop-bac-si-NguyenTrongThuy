@@ -7,6 +7,7 @@ import 'package:shop_bacsi_nguyentrongthuy/core/network/api_client.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/network/api_endpoints.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/network/api_methods.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/variation_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/entities/product_entity.dart';
 
 abstract class ProductWooService {
@@ -18,6 +19,9 @@ abstract class ProductWooService {
   });
   Future<Either> getAllProduct({
     required int page,
+  });
+  Future<Either> getAllVariations({
+    required String productID,
   });
 
   Future<Either<String, bool>> toggleFavorite(ProductEntity product);
@@ -106,6 +110,30 @@ class ProductWooServiceImpl implements ProductWooService {
           products.add(ProductModel.fromJson(item));
         }
         return Right(products);
+      } else {
+        return const Left("Định dạng dữ liệu không hợp lệ");
+      }
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either> getAllVariations({
+    required String productID,
+  }) async {
+    try {
+      final response = await serviceLocator<ApiClient>().request(
+        endpoint: '${ApiEndpoints.woocommerce}products/$productID/variations',
+        method: ApiMethods.get,
+      );
+
+      if (response is List) {
+        List<VariationModel> variations = [];
+        for (var item in response) {
+          variations.add(VariationModel.fromJson(item));
+        }
+        return Right(variations.reversed.toList());
       } else {
         return const Left("Định dạng dữ liệu không hợp lệ");
       }

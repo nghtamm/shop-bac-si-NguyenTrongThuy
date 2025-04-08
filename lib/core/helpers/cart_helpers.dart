@@ -1,11 +1,12 @@
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_model.dart';
 
 class CartHelpers {
-  static num calculateSubtotal(List<ProductOrderedEntity> products) {
-    num subtotalPrice = 0;
+  static num calculateSubtotal(List<CartItemModel> products) {
+    num subtotal = 0;
+
     for (var item in products) {
-      subtotalPrice = subtotalPrice + item.totalPrice;
+      subtotal = subtotal + item.subtotal;
     }
-    return subtotalPrice;
+    return subtotal;
   }
 }

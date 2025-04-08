@@ -21,3 +21,14 @@ class SearchProductsDisplayed extends ProductsEvent {
 class FavoritesDisplayed extends ProductsEvent {}
 
 class AllProductsDisplayed extends ProductsEvent {}
+
+class VariationsDisplayed extends ProductsEvent {
+  final String productID;
+
+  VariationsDisplayed({
+    required this.productID,
+  });
+
+  @override
+  List<Object> get props => [productID];
+}

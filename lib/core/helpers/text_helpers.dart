@@ -1,4 +1,6 @@
 import 'package:diacritic/diacritic.dart';
+import 'package:html/parser.dart' as html_parser;
+import 'package:intl/intl.dart';
 
 class TextHelpers {
   String formatUserLogin(String text) {
@@ -24,5 +26,16 @@ class TextHelpers {
 
   bool validatePassword(String password) {
     return password.length >= 8;
+  }
+
+  String formatHTML(String text) {
+    final document = html_parser.parse(text);
+    return document.body?.text.trim() ?? '';
+  }
+
+  String formatVNCurrency(dynamic price) {
+    final numberFormat = NumberFormat.decimalPattern('vi_VN');
+    final value = double.tryParse(price.toString()) ?? 0;
+    return '${numberFormat.format(value)}₫';
   }
 }

@@ -6,6 +6,7 @@ abstract class ProductRepository {
   Future<Either> getDoctorChoice(Map<String, dynamic> data);
   Future<Either> searchProduct(Map<String, dynamic> data);
   Future<Either> getAllProduct(Map<String, dynamic> data);
+  Future<Either> getAllVariations(String productID);
   Future<Either<String, bool>> toggleFavorite(ProductEntity product);
   Future<bool> getFavoriteState(String productID);
   Future<Either<String, List<ProductModel>>> getFavoriteProducts();

@@ -40,10 +40,16 @@ class OrderPlacedPage extends StatelessWidget {
                 SizedBox(height: 30.h),
                 BlocConsumer<CartBloc, CartState>(
                   listener: (context, state) {
-                    if (state is CartDisposedSuccess) {
-                      context.push(
+                    if (state is CartLoaded) {
+                      String displayName = '';
+                      final state = context.read<AuthBloc>().state;
+                      if (state is Authenticated) {
+                        displayName = state.displayName;
+                      }
+
+                      context.go(
                         RoutersName.homepage,
-                        extra: state.displayName,
+                        extra: displayName,
                       );
                     } else if (state is CartLoadFailure) {
                       ScaffoldMessenger.of(context).showMaterialBanner(
@@ -68,19 +74,10 @@ class OrderPlacedPage extends StatelessWidget {
                     }
                   },
                   builder: (context, state) {
-                    String displayName = '';
-
-                    final state = context.read<AuthBloc>().state;
-                    if (state is Authenticated) {
-                      displayName = state.displayName;
-                    }
-
                     return ElevatedButton(
                       onPressed: () {
                         context.read<CartBloc>().add(
-                              CartDisposed(
-                                displayName: displayName,
-                              ),
+                              CartDisposed(),
                             );
                       },
                       child: Text(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
@@ -61,13 +62,17 @@ class HomeProductsCard extends StatelessWidget {
                           Text(
                             productModel.title,
                             style: AppTypography.black['18_semiBold'],
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            productModel.shortDescription,
+                            TextHelpers()
+                                .formatHTML(productModel.shortDescription),
                             style: AppTypography.black['12_medium'],
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           Text(
-                            '${productModel.price}đ',
+                            TextHelpers().formatVNCurrency(productModel.price),
                             style: AppTypography.black['28_extraBold'],
                           ),
                         ],
@@ -83,7 +88,7 @@ class HomeProductsCard extends StatelessWidget {
                     left: 20.w,
                   ),
                   child: Image.network(
-                      productModel.images[0],                 
+                    productModel.images[0],
                     height: 150.h,
                   ),
                 ),

@@ -1,7 +1,6 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/entities/news.dart';
@@ -66,20 +65,18 @@ class HomeNewsCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
-                      ),
-                      child: Image.network(
-                        ImageHelpers.generateNewsImageURL(
-                          newEntity.images,
-                        ),
-                        fit: BoxFit.cover,
-                        width: 300.w,
-                        height: 180.h,
-                      ),
-                    ),
+                    // ClipRRect(
+                    //   borderRadius: const BorderRadius.only(
+                    //     topLeft: Radius.circular(20),
+                    //     topRight: Radius.circular(20),
+                    //   ),
+                    //   child: Image.network(
+                    //     newEntity.images,
+                    //     fit: BoxFit.cover,
+                    //     width: 300.w,
+                    //     height: 180.h,
+                    //   ),
+                    // ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.w,

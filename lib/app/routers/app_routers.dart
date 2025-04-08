@@ -6,13 +6,14 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/google_sign
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_in.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_up.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/cart.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/checkout_payment.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/favorites/views/pages/my_favorites.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/medical_chatbot/views/pages/chatbot.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/checkout.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/onboarding/views/pages/onboarding.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/order.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_details.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_history.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_items.dart';
@@ -51,7 +52,7 @@ class AppRouters {
       ),
       GoRoute(
         path: RoutersName.signIn,
-        builder: (context, state) => SignInPage(),
+        builder: (context, state) => const SignInPage(),
       ),
       GoRoute(
         path: RoutersName.forgotPassword,
@@ -86,15 +87,28 @@ class AppRouters {
       GoRoute(
         path: RoutersName.checkout,
         builder: (context, state) {
-          final products = state.extra as List<ProductOrderedEntity>;
+          final data = state.extra as Map<String, dynamic>;
+          final products = data['products'] as List<CartItemModel>;
+          final shipping = data['shipping'] as num;
+
           return CheckoutPage(
             products: products,
+            shipping: shipping,
           );
         },
       ),
       GoRoute(
         path: RoutersName.orderPlaced,
         builder: (context, state) => const OrderPlacedPage(),
+      ),
+      GoRoute(
+        path: RoutersName.checkoutPayment,
+        builder: (context, state) {
+          final url = state.extra as String;
+          return CheckoutPaymentPage(
+            url: url,
+          );
+        },
       ),
 
       // Favorites
@@ -132,7 +146,7 @@ class AppRouters {
       GoRoute(
         path: RoutersName.orderItems,
         builder: (context, state) {
-          final products = state.extra as List<ProductOrderedEntity>;
+          final products = state.extra as OrderModel;
           return OrderItemsPage(
             products: products,
           );
@@ -141,9 +155,9 @@ class AppRouters {
       GoRoute(
         path: RoutersName.orderDetails,
         builder: (context, state) {
-          final orderEntity = state.extra as OrderEntity;
+          final orderModel = state.extra as OrderModel;
           return OrderDetailsPage(
-            orderEntity: orderEntity,
+            orderModel: orderModel,
           );
         },
       ),

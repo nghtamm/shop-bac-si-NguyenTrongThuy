@@ -2,28 +2,26 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/bloc/cart_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/entities/product_ordered.dart';
-import 'package:shop_bacsi_nguyentrongthuy/core/helpers/image_helpers.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_model.dart';
 
 class CartProductsCard extends StatelessWidget {
-  final ProductOrderedEntity productOrderedEntity;
+  final CartItemModel item;
 
   const CartProductsCard({
-    required this.productOrderedEntity,
+    required this.item,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120.h,
-      padding: const EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: AppColors.white,
-        borderRadius: BorderRadius.circular(8),
+      height: 130.h,
+      padding: EdgeInsets.only(
+        right: 20.w,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -41,11 +39,9 @@ class CartProductsCard extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.white,
                       image: DecorationImage(
-                        fit: BoxFit.fill,
+                        fit: BoxFit.contain,
                         image: NetworkImage(
-                          ImageHelpers.generateProductImageURL(
-                            productOrderedEntity.productImage,
-                          ),
+                          item.image,
                         ),
                       ),
                       borderRadius: BorderRadius.circular(4),
@@ -60,16 +56,28 @@ class CartProductsCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        productOrderedEntity.productTitle,
-                        overflow: TextOverflow.ellipsis,
+                        item.title,
                         style: AppTypography.black['20_extraBold'],
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
-                        '${productOrderedEntity.totalPrice}đ',
+                        TextHelpers().formatVNCurrency(item.subtotal),
                         style: AppTypography.black['20_semiBold'],
                       ),
+                      item.options!.isNotEmpty
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Liệu trình: ${item.options}',
+                                  style: AppTypography.black['16_medium'],
+                                ),
+                                SizedBox(height: 2.h),
+                              ],
+                            )
+                          : const SizedBox.shrink(),
                       Text(
-                        'Số lượng: ${productOrderedEntity.productQuantity}',
+                        'Số lượng: ${item.quantity}',
                         style: AppTypography.black['16_medium'],
                       )
                     ],
@@ -82,7 +90,8 @@ class CartProductsCard extends StatelessWidget {
             onTap: () {
               context.read<CartBloc>().add(
                     CartProductRemoved(
-                      productID: productOrderedEntity.id,
+                      key:
+                          '${item.productID.toString()}-${item.optionsID.toString()}',
                     ),
                   );
 
@@ -101,22 +110,23 @@ class CartProductsCard extends StatelessWidget {
                 ),
               );
             },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  height: 23.h,
-                  width: 23.w,
+            child: Transform.translate(
+              offset: Offset(0, -14.h),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Container(
+                  height: 24.h,
+                  width: 24.w,
                   decoration: const BoxDecoration(
                     color: AppColors.redSoft,
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(
                     Icons.remove,
-                    size: 15,
+                    size: 16,
                   ),
                 ),
-              ],
+              ),
             ),
           ),
         ],

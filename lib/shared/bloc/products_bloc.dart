@@ -2,7 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/variation_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_all_product_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_all_variations_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_products_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/search_product_usecase.dart';
@@ -14,6 +16,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
   ProductsBloc() : super(ProductsInitial()) {
     on<DoctorChoiceDisplayed>(_onDoctorChoiceDisplayed);
     on<SearchProductsDisplayed>(_onSearchProductsDisplayed);
+    on<VariationsDisplayed>(_onVariationDisplayed);
     on<FavoritesDisplayed>(_onFavoritesDisplayed);
     on<AllProductsDisplayed>(_onAllProductsDisplayed);
   }
@@ -103,6 +106,32 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
         emit(
           ProductsLoaded(
             products: right,
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _onVariationDisplayed(
+    VariationsDisplayed event,
+    Emitter<ProductsState> emit,
+  ) async {
+    var data = await serviceLocator<GetAllVariationsUseCase>().call(
+      params: event.productID,
+    );
+
+    await data.fold(
+      (left) async {
+        emit(
+          VariationsLoadFailure(
+            message: left.toString(),
+          ),
+        );
+      },
+      (right) async {
+        emit(
+          VariationsLoaded(
+            variations: right,
           ),
         );
       },
