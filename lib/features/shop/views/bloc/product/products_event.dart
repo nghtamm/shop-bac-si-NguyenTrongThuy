@@ -5,7 +5,16 @@ abstract class ProductsEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AllProductsDisplayed extends ProductsEvent {}
+class AllProductsDisplayed extends ProductsEvent {
+  final int page;
+
+  AllProductsDisplayed({
+    this.page = 1,
+  });
+
+  @override
+  List<Object> get props => [page];
+}
 
 class DoctorChoiceDisplayed extends ProductsEvent {}
 

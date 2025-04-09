@@ -109,7 +109,6 @@ class HomeNewsCard extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: 20.w),
       ],
     );
   }

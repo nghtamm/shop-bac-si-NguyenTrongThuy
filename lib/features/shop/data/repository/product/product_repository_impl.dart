@@ -20,7 +20,8 @@ class ProductRepositoryImpl extends ProductRepository {
   @override
   Future<Either> getProducts(Map<String, dynamic> data) async {
     return await serviceLocator<ProductService>().getProducts(
-      page: data['per_page'] ?? 10,
+      perPage: data['per_page'] ?? 8,
+      page: data['page'] ?? 1,
     );
   }
 

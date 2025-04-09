@@ -33,7 +33,7 @@ class ForYourHealth extends StatelessWidget {
   Widget _fyhNews(List<NewEntity> news) {
     return SizedBox(
       height: 330.h,
-      child: ListView.builder(
+      child: ListView.separated(
         padding: EdgeInsets.symmetric(
           horizontal: 40.w,
         ),
@@ -42,6 +42,11 @@ class ForYourHealth extends StatelessWidget {
         itemBuilder: (context, index) {
           return HomeNewsCard(
             newEntity: news[index],
+          );
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            width: 20.w,
           );
         },
       ),

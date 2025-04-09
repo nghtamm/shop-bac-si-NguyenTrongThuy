@@ -87,7 +87,7 @@ class _DoctorChoiceState extends State<DoctorChoice> with RouteAware {
   Widget _dcProducts(List<ProductModel> products) {
     return SizedBox(
       height: 300.h,
-      child: ListView.builder(
+      child: ListView.separated(
         padding: EdgeInsets.symmetric(
           horizontal: 40.w,
         ),
@@ -96,6 +96,11 @@ class _DoctorChoiceState extends State<DoctorChoice> with RouteAware {
         itemBuilder: (context, index) {
           return HomeProductsCard(
             productModel: products[index],
+          );
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            width: 20.w,
           );
         },
       ),

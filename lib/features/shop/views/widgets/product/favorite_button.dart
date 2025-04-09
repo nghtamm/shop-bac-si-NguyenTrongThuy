@@ -37,9 +37,6 @@ class FavoriteButton extends StatelessWidget {
             isFavorited = true;
           }
         }
-        print(state);
-        print(isFavorited);
-        print(itemID);
 
         return IconButton(
           icon: Icon(

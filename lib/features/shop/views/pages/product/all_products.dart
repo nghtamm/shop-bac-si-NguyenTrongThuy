@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/app_routers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/bloc/product/products_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/product_card.dart';
@@ -17,6 +16,7 @@ class AllProductPage extends StatefulWidget {
 }
 
 class _AllProductPageState extends State<AllProductPage> with RouteAware {
+  final ScrollController _scrollController = ScrollController();
   bool _hasSyncedFavorites = false;
 
   @override
@@ -24,8 +24,27 @@ class _AllProductPageState extends State<AllProductPage> with RouteAware {
     super.initState();
 
     context.read<ProductsBloc>().add(
-          AllProductsDisplayed(),
+          AllProductsDisplayed(
+            page: 1,
+          ),
         );
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final bloc = context.read<ProductsBloc>();
+    final state = bloc.state;
+
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 100) {
+      if (state is ProductsLoaded && !state.hasReachedMax) {
+        bloc.add(
+          AllProductsDisplayed(
+            page: bloc.currentPage + 1,
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -41,6 +60,7 @@ class _AllProductPageState extends State<AllProductPage> with RouteAware {
   @override
   void dispose() {
     observer.unsubscribe(this);
+    _scrollController.dispose();
 
     super.dispose();
   }
@@ -78,33 +98,53 @@ class _AllProductPageState extends State<AllProductPage> with RouteAware {
                 child: CircularProgressIndicator(),
               );
             }
-            
+
             if (state is ProductsLoaded) {
-              return Column(
-                children: [
-                  Container(
-                    decoration: const BoxDecoration(
-                      color: AppColors.grayLight,
-                    ),
+              return CustomScrollView(
+                controller: _scrollController,
+                slivers: [
+                  SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 25.w,
                         vertical: 5.h,
                       ),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'TẤT CẢ SẢN PHẨM',
-                          style: AppTypography.black['32_extraBold'],
-                        ),
+                      child: Text(
+                        'TẤT CẢ SẢN PHẨM',
+                        style: AppTypography.black['32_extraBold'],
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: _products(
-                      state.products,
+                  SliverPadding(
+                    padding: const EdgeInsets.all(16),
+                    sliver: SliverGrid(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          return ProductCard(
+                            productModel: state.products[index],
+                          );
+                        },
+                        childCount: state.products.length,
+                      ),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10.h,
+                        crossAxisSpacing: 10.w,
+                        childAspectRatio: 0.6,
+                      ),
                     ),
                   ),
+                  if (!state.hasReachedMax)
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 30.h,
+                        ),
+                        child: const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ),
+                    ),
                 ],
               );
             }
@@ -114,27 +154,6 @@ class _AllProductPageState extends State<AllProductPage> with RouteAware {
             );
           },
         ),
-      ),
-    );
-  }
-
-  Widget _products(List<ProductModel> products) {
-    return Container(
-      color: AppColors.grayLight,
-      child: GridView.builder(
-        itemCount: products.length,
-        padding: const EdgeInsets.all(16),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 10.w,
-          mainAxisSpacing: 10.h,
-          childAspectRatio: 0.6,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return ProductCard(
-            productModel: products[index],
-          );
-        },
       ),
     );
   }

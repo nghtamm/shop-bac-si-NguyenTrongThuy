@@ -16,6 +16,7 @@ abstract class ProductService {
     required String title,
   });
   Future<Either> getProducts({
+    required int perPage,
     required int page,
   });
   Future<Either> getVariations({
@@ -92,11 +93,13 @@ class ProductServiceImpl implements ProductService {
 
   @override
   Future<Either> getProducts({
+    required int perPage,
     required int page,
   }) async {
     try {
       final params = {
-        'per_page': page,
+        'per_page': perPage,
+        'page': page,
       };
 
       final response = await serviceLocator<ApiClient>().request(
@@ -156,7 +159,10 @@ class ProductServiceImpl implements ProductService {
         final favorites =
             response.map((e) => WishlistItemModel.fromJson(e)).toList();
         final favoriteIDs = favorites.map((e) => e.productID).toSet();
-        final products = await getProducts(page: 100);
+        final products = await getProducts(
+          page: 1,
+          perPage: 100,
+        );
         return await products.fold(
           (left) => Left(left),
           (right) {
