@@ -5,6 +5,8 @@ abstract class ProductsEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class AllProductsDisplayed extends ProductsEvent {}
+
 class DoctorChoiceDisplayed extends ProductsEvent {}
 
 class SearchProductsDisplayed extends ProductsEvent {
@@ -18,10 +20,6 @@ class SearchProductsDisplayed extends ProductsEvent {
   List<Object> get props => [query];
 }
 
-class FavoritesDisplayed extends ProductsEvent {}
-
-class AllProductsDisplayed extends ProductsEvent {}
-
 class VariationsDisplayed extends ProductsEvent {
   final String productID;
 
@@ -31,4 +29,30 @@ class VariationsDisplayed extends ProductsEvent {
 
   @override
   List<Object> get props => [productID];
+}
+
+class FavoritesDisplayed extends ProductsEvent {}
+
+class FavoritesSynced extends ProductsEvent {}
+
+class FavoriteProductAdded extends ProductsEvent {
+  final int productID;
+
+  FavoriteProductAdded({
+    required this.productID,
+  });
+
+  @override
+  List<Object> get props => [productID];
+}
+
+class FavoriteProductRemoved extends ProductsEvent {
+  final int itemID;
+
+  FavoriteProductRemoved({
+    required this.itemID,
+  });
+
+  @override
+  List<Object> get props => [itemID];
 }

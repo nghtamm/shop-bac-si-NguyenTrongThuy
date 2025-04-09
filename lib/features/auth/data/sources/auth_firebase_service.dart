@@ -160,6 +160,22 @@ class AuthenticationFirebaseServiceImpl extends AuthenticationFirebaseService {
           final parsed = UserModel.fromJson(data);
           await serviceLocator<GlobalStorage>().saveUser(parsed);
 
+          final shareKeyResponse = await serviceLocator<ApiClient>().request(
+            endpoint: '${ApiEndpoints.tiWishlist}get_by_user/${parsed.id}',
+            method: ApiMethods.get,
+          );
+
+          if (shareKeyResponse is List) {
+            final firstItem =
+                shareKeyResponse.isNotEmpty ? shareKeyResponse.first : null;
+
+            if (firstItem is Map<String, dynamic> &&
+                firstItem.containsKey('share_key')) {
+              final shareKey = firstItem['share_key'];
+              await serviceLocator<GlobalStorage>().saveShareKey(shareKey);
+            }
+          }
+
           return Right(parsed);
         }
       }
@@ -181,6 +197,8 @@ class AuthenticationFirebaseServiceImpl extends AuthenticationFirebaseService {
 
       await serviceLocator<GlobalStorage>().clearToken();
       await serviceLocator<GlobalStorage>().clearUser();
+      await serviceLocator<GlobalStorage>().clearShareKey();
+      await serviceLocator<GlobalStorage>().clearCart();
 
       return const Right('Đăng xuất thành công!');
     } catch (error) {

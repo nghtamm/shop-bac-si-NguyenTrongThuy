@@ -4,17 +4,25 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/app_routers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_theme.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/auth_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBloc()
-        ..add(
-          UserValidated(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => AuthBloc()
+            ..add(
+              UserValidated(),
+            ),
         ),
+        BlocProvider(
+          create: (context) => ProductsBloc(),
+        ),
+      ],
       child: ScreenUtilInit(
         designSize: const Size(390, 844),
         minTextAdapt: true,

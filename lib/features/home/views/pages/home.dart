@@ -25,13 +25,14 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with RouteAware {
   late ScrollController _scrollController;
 
   @override
   void initState() {
-    _scrollController = ScrollController();
     super.initState();
+
+    _scrollController = ScrollController();
   }
 
   void resetScroll() {
@@ -47,6 +48,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _scrollController.dispose();
+
     super.dispose();
   }
 

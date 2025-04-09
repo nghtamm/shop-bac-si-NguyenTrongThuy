@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/authentication.dart';
@@ -24,9 +25,13 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/product_
 import 'package:shop_bacsi_nguyentrongthuy/features/profile/views/pages/profile.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/search/views/pages/search.dart';
 
+final RouteObserver<ModalRoute<void>> observer =
+    RouteObserver<ModalRoute<void>>();
+
 class AppRouters {
   static final GoRouter router = GoRouter(
     initialLocation: RoutersName.root,
+    observers: [observer],
     routes: [
       // ROOT
       GoRoute(

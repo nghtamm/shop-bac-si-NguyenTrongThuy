@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/app_routers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/search_field.dart';
@@ -8,48 +9,85 @@ import 'package:shop_bacsi_nguyentrongthuy/features/search/views/widgets/search_
 import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/product_card.dart';
 
-class SearchPage extends StatelessWidget {
-  SearchPage({super.key});
+class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
 
+  @override
+  State<SearchPage> createState() => _SearchPageState();
+}
+
+class _SearchPageState extends State<SearchPage> with RouteAware {
   final TextEditingController _searchController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ProductsBloc()
-        ..add(
+  void initState() {
+    super.initState();
+
+    context.read<ProductsBloc>().add(
           SearchProductsDisplayed(query: ''),
+        );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    observer.subscribe(
+      this,
+      ModalRoute.of(context)!,
+    );
+  }
+
+  @override
+  void dispose() {
+    observer.unsubscribe(this);
+
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProductsBloc>().add(
+            SearchProductsDisplayed(query: ''),
+          );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // final productsBloc = context.read<ProductsBloc>();
+    // productsBloc.add(
+    //   SearchProductsDisplayed(query: ''),
+    // );
+
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.transparent,
+        elevation: 0,
+        toolbarHeight: 80.h,
+        title: SearchField(
+          searchController: _searchController,
         ),
-      child: Builder(
-        builder: (context) {
-          return Scaffold(
-            appBar: AppBar(
-              backgroundColor: AppColors.transparent,
-              elevation: 0,
-              toolbarHeight: 80.h,
-              title: SearchField(
-                searchController: _searchController,
-              ),
-            ),
-            body: BlocBuilder<ProductsBloc, ProductsState>(
-              builder: (context, state) {
-                if (state is ProductsLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+      ),
+      body: BlocBuilder<ProductsBloc, ProductsState>(
+        builder: (context, state) {
+          if (state is ProductsLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (state is ProductsLoaded) {
+            return state.products.isEmpty
+                ? const SearchNotFound()
+                : _searchProducts(
+                    state.products,
                   );
-                }
-                if (state is ProductsLoaded) {
-                  return state.products.isEmpty
-                      ? const SearchNotFound()
-                      : _searchProducts(
-                          state.products,
-                        );
-                }
-                return Container(
-                  color: AppColors.grayLight,
-                );
-              },
-            ),
+          }
+          return Container(
+            color: AppColors.grayLight,
           );
         },
       ),
