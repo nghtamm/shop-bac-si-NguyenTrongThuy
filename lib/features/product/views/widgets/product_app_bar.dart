@@ -5,36 +5,43 @@ import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/favorite_button.dart';
 
-class ProductAppbar extends StatelessWidget implements PreferredSizeWidget {
+class ProductAppBar extends StatelessWidget implements PreferredSizeWidget {
   final ProductModel productModel;
+  // final int? itemID;
 
-  const ProductAppbar({
+  const ProductAppBar({
     super.key,
     required this.productModel,
+    // this.itemID,
   });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Positioned(
-          top: 10.h,
-          left: 15.w,
-          right: 15.w,
-          child: AppBar(
-            backgroundColor: AppColors.white,
-            actions: <Widget>[
-              FavoriteButton(
+        AppBar(
+          backgroundColor: AppColors.white,
+          actions: <Widget>[
+            Transform.translate(
+              offset: Offset(-8.w, 12.h),
+              child: FavoriteButton(
                 productModel: productModel,
+                // itemID: itemID,
               ),
-              IconButton(
+            ),
+            Transform.translate(
+              offset: Offset(-8.w, 12.h),
+              child: IconButton(
                 icon: const Icon(
                   Icons.share,
                 ),
                 onPressed: () {},
               ),
-            ],
-            leading: IconButton(
+            ),
+          ],
+          leading: Transform.translate(
+            offset: Offset(8.w, 12.h),
+            child: IconButton(
               icon: const Icon(
                 Icons.arrow_back_ios_new_rounded,
               ),

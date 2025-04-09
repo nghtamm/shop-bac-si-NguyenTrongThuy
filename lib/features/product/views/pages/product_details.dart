@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/app_routers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
@@ -12,7 +14,6 @@ import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_
 import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/add_to_cart_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/product_option_cubit.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/toggle_favorite_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_app_bar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_image.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/product_price.dart';
@@ -22,7 +23,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/product/views/widgets/produc
 import 'package:shop_bacsi_nguyentrongthuy/features/product/views/cubit/product_quantity_cubit.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
 
-class ProductDetailPage extends StatelessWidget {
+class ProductDetailPage extends StatefulWidget {
   final ProductModel productModel;
 
   const ProductDetailPage({
@@ -31,28 +32,89 @@ class ProductDetailPage extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => CartBloc(),
-        ),
-        BlocProvider(
-          lazy: false,
-          create: (context) => ProductsBloc()
-            ..add(
-              VariationsDisplayed(
-                productID: productModel.productID.toString(),
-              ),
+  State<ProductDetailPage> createState() => _ProductDetailPageState();
+}
+
+class _ProductDetailPageState extends State<ProductDetailPage> with RouteAware {
+  @override
+  void initState() {
+    super.initState();
+
+    context.read<ProductsBloc>().add(
+          VariationsDisplayed(
+            productID: widget.productModel.productID.toString(),
+          ),
+        );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    observer.subscribe(
+      this,
+      ModalRoute.of(context)!,
+    );
+  }
+
+  @override
+  void dispose() {
+    observer.unsubscribe(this);
+
+    super.dispose();
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ProductsBloc>().add(
+            VariationsDisplayed(
+              productID: widget.productModel.productID.toString(),
             ),
+          );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // int? itemID;
+    // final state = context.read<ProductsBloc>().state;
+    // if (state is ProductsLoaded) {
+    //   final match = state.favorites.firstWhere(
+    //     (item) => item.productID == productModel.productID,
+    //     orElse: () => WishlistItemModel(
+    //       itemID: 0,
+    //       productID: 0,
+    //     ),
+    //   );
+    //   if (match.itemID != 0) {
+    //     itemID = match.itemID;
+    //   }
+    // }
+
+    // final productsBloc = context.read<ProductsBloc>();
+    // productsBloc.add(VariationsDisplayed(
+    //   productID: widget.productModel.productID.toString(),
+    // ));
+
+    return LoaderOverlay(
+      child: BlocProvider(
+        create: (context) => CartBloc(),
+        child: BlocBuilder<ProductsBloc, ProductsState>(
+          builder: (context, state) {
+            if (state is ProductsLoading) {
+              context.loaderOverlay.show();
+            } else {
+              context.loaderOverlay.hide();
+            }
+
+            return _productDetailsContent(
+              productModel: widget.productModel,
+            );
+          },
         ),
-        // BlocProvider(
-        //   create: (context) =>
-        //       ToggleFavoriteCubit()..isFavorite(productModel.productID),
-        // ),
-      ],
-      child: _productDetailsContent(
-        productModel: productModel,
       ),
     );
   }
@@ -64,9 +126,9 @@ class ProductDetailPage extends StatelessWidget {
       builder: (context) {
         return Scaffold(
           backgroundColor: AppColors.white,
-          // appBar: ProductAppbar(
-          //   productModel: productModel,
-          // ),
+          appBar: ProductAppBar(
+            productModel: productModel,
+          ),
           body: Stack(
             children: [
               SingleChildScrollView(
@@ -110,13 +172,13 @@ class ProductDetailPage extends StatelessWidget {
                   child: ElevatedButton(
                     onPressed: () {
                       final cartBloc = context.read<CartBloc>();
-                      final productBloc = context.read<ProductsBloc>();
+                      final productsBloc = context.read<ProductsBloc>();
 
                       showModalBottomSheet<void>(
                         context: context,
                         builder: (BuildContext context) {
                           return BlocProvider.value(
-                            value: productBloc,
+                            value: productsBloc,
                             child: BlocProvider.value(
                               value: cartBloc,
                               child: MultiBlocProvider(
@@ -202,7 +264,7 @@ class ProductDetailPage extends StatelessWidget {
                                         .read<ProductOptionCubit>()
                                         .state;
 
-                                    if (state is VariationsLoaded &&
+                                    if (state is ProductsLoaded &&
                                         state.variations.isNotEmpty) {
                                       final variation =
                                           state.variations[selectedIndex];
@@ -324,7 +386,7 @@ class ProductDetailPage extends StatelessWidget {
 
                       final productsState = context.read<ProductsBloc>().state;
                       String currentPrice = productModel.price;
-                      if (productsState is VariationsLoaded &&
+                      if (productsState is ProductsLoaded &&
                           productsState.variations.length >
                               selectedOptionIndex) {
                         final variation =

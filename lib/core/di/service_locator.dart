@@ -28,13 +28,13 @@ import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/remove
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/repository/product_repository_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/data/sources/product_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/repository/product_repository.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_all_product_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_all_variations_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/add_to_favorites_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorites_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_products_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_variations_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_products_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorite_state_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/remove_from_favorites_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/search_product_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/toggle_favorite_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_repo.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_repo_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_service.dart';
@@ -149,20 +149,8 @@ Future<void> initializeDependencies() async {
     SearchProductUseCase(),
   );
 
-  serviceLocator.registerSingleton<GetAllProductUseCase>(
-    GetAllProductUseCase(),
-  );
-
-  serviceLocator.registerSingleton<ToggleFavoriteUseCase>(
-    ToggleFavoriteUseCase(),
-  );
-
-  serviceLocator.registerSingleton<GetFavoriteStateUseCase>(
-    GetFavoriteStateUseCase(),
-  );
-
-  serviceLocator.registerSingleton<GetFavoriteProductsUseCase>(
-    GetFavoriteProductsUseCase(),
+  serviceLocator.registerSingleton<GetProductsUseCase>(
+    GetProductsUseCase(),
   );
 
   serviceLocator.registerSingleton<DisplayCartUseCase>(
@@ -185,7 +173,19 @@ Future<void> initializeDependencies() async {
     GetOrderHistoryUseCase(),
   );
 
-  serviceLocator.registerSingleton<GetAllVariationsUseCase>(
-    GetAllVariationsUseCase(),
+  serviceLocator.registerSingleton<GetVariationsUseCase>(
+    GetVariationsUseCase(),
+  );
+
+  serviceLocator.registerSingleton<GetFavoritesUseCase>(
+    GetFavoritesUseCase(),
+  );
+
+  serviceLocator.registerSingleton<AddToFavoritesUseCase>(
+    AddToFavoritesUseCase(),
+  );
+
+  serviceLocator.registerSingleton<RemoveFromFavoritesUseCase>(
+    RemoveFromFavoritesUseCase(),
   );
 }

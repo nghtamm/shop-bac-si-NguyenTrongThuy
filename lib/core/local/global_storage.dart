@@ -9,6 +9,7 @@ class StorageKey {
   static const String accessToken = 'access_token';
   static const String userModel = 'user_model';
   static const String cartItems = 'cart_items';
+  static const String shareKey = 'share_key';
 }
 
 abstract class GlobalStorage {
@@ -30,6 +31,11 @@ abstract class GlobalStorage {
   Future<void> addToCart(CartItemModel item);
   Future<void> removeFromCart(String productID);
   Future<void> clearCart();
+
+  // TI Wishlist ShareKey
+  String? get shareKey;
+  Future<void> saveShareKey(String shareKey);
+  Future<void> clearShareKey();
 }
 
 class GlobalStorageImpl implements GlobalStorage {
@@ -117,5 +123,18 @@ class GlobalStorageImpl implements GlobalStorage {
   @override
   Future<void> clearCart() async {
     await _box.delete(StorageKey.cartItems);
+  }
+
+  @override
+  String? get shareKey => _box.get(StorageKey.shareKey);
+
+  @override
+  Future<void> saveShareKey(String shareKey) async {
+    await _box.put(StorageKey.shareKey, shareKey);
+  }
+
+  @override
+  Future<void> clearShareKey() async {
+    await _box.delete(StorageKey.shareKey);
   }
 }

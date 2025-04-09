@@ -10,7 +10,10 @@ class ProductListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ProductBloc()..add(FetchProductsEvent()),
+      create: (context) => ProductBloc()
+        ..add(
+          FetchProductsEvent(),
+        ),
       child: Scaffold(
         appBar: const CustomAppBar(
           title: Text('Sản phẩm'),
