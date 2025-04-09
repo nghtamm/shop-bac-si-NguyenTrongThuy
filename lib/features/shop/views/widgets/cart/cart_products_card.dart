@@ -2,6 +2,7 @@ import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
@@ -34,17 +35,21 @@ class CartProductsCard extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 3,
-                  child: Container(
-                    width: 90.w,
-                    decoration: BoxDecoration(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Container(
+                      width: 90.w,
                       color: AppColors.white,
-                      image: DecorationImage(
+                      child: CachedNetworkImage(
+                        imageUrl: item.image,
                         fit: BoxFit.contain,
-                        image: NetworkImage(
-                          item.image,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
                         ),
                       ),
-                      borderRadius: BorderRadius.circular(4),
                     ),
                   ),
                 ),

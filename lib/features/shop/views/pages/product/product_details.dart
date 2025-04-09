@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/app_routers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
@@ -239,10 +240,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> with RouteAware {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Image.network(
-                        productModel.images[0],
+                      CachedNetworkImage(
+                        imageUrl: productModel.images[0],
                         width: 100.w,
                         height: 100.h,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
+                        ),
                       ),
                       SizedBox(width: 16.w),
                       Expanded(

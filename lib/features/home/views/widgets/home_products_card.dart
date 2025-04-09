@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
@@ -87,9 +88,15 @@ class HomeProductsCard extends StatelessWidget {
                   padding: EdgeInsets.only(
                     left: 20.w,
                   ),
-                  child: Image.network(
-                    productModel.images[0],
+                  child: CachedNetworkImage(
+                    imageUrl: productModel.images[0],
                     height: 150.h,
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.error,
+                    ),
                   ),
                 ),
               ),

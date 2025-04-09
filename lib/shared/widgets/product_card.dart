@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
@@ -38,18 +39,22 @@ class ProductCard extends StatelessWidget {
           children: [
             Expanded(
               flex: 3,
-              child: Container(
-                decoration: BoxDecoration(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+                child: Container(
                   color: AppColors.white,
-                  image: DecorationImage(
+                  child: CachedNetworkImage(
+                    imageUrl: productModel.images[0],
                     fit: BoxFit.contain,
-                    image: NetworkImage(
-                      productModel.images[0],
+                    placeholder: (context, url) => const Center(
+                      child: CircularProgressIndicator(),
                     ),
-                  ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.error,
+                    ),
                   ),
                 ),
               ),
