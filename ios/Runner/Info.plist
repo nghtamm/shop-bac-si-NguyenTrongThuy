@@ -41,6 +41,26 @@
 			<string>UIInterfaceOrientationLandscapeLeft</string>
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
+		<key>NSLocalNetworkUsageDescription</key>
+		<string>This app needs access to the local network for debugging.</string>
+
+		<key>NSBonjourServices</key>
+		<array>
+			<string>_dartobservatory._tcp</string>
+		</array>
+		<key>GIDClientID</key>
+		<string>154125565356-tp26pl6c46kbjqc2edbbo4pp06a89onj.apps.googleusercontent.com</string>
+
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>com.googleusercontent.apps.154125565356-tp26pl6c46kbjqc2edbbo4pp06a89onj</string>
+				</array>
+			</dict>
+		</array>
+		
 		<key>CADisableMinimumFrameDurationOnPhone</key>
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
