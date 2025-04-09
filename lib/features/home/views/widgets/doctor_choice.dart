@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/app_routers.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
-import 'package:shop_bacsi_nguyentrongthuy/shared/bloc/products_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/product_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/bloc/product/products_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/home_products_card.dart';
 
 class DoctorChoice extends StatefulWidget {

@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/local/global_storage.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/network/api_client.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/repository/auth_repository_impl.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/sources/auth_firebase_service.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/sources/auth_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/repository/auth_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/authenticate_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/user_validate_usecase.dart';
@@ -12,33 +12,29 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/reset_p
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_out_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_up_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/domain/usecases/sign_in_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/repository/order_repository_impl.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/sources/order_firebase_service.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/repository/order_repository.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/add_to_cart_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/repository/order/order_repository_impl.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/sources/order/order_service.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/repository/order/order_repository.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/order/add_to_cart_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/data/repository/news_repository_impl.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/data/sources/news_firebase_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/repository/news_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/usecase/get_news_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/dispose_cart_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/display_cart_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/get_order_history_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/order_registration_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/domain/usecases/remove_from_cart_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/repository/product_repository_impl.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/sources/product_firebase_service.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/repository/product_repository.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/add_to_favorites_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_favorites_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_products_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_variations_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/get_doctor_choice_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/remove_from_favorites_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/domain/usecase/search_product_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_repo.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_repo_impl.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_service.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/api_client_example/product_use_case.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/order/dispose_cart_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/order/display_cart_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/order/get_order_history_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/order/order_registration_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/order/remove_from_cart_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/repository/product/product_repository_impl.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/sources/product/product_service.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/repository/product/product_repository.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/product/add_to_favorites_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/product/get_favorites_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/product/get_products_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/product/get_variations_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/product/get_doctor_choice_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/product/remove_from_favorites_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/product/search_product_usecase.dart';
 
 final serviceLocator = GetIt.instance;
 final hive = GlobalStorageImpl();
@@ -59,28 +55,42 @@ Future<void> initializeDependencies() async {
     ),
   );
 
-  // DI FOR APICLIENT EXAMPLES
-  serviceLocator.registerSingleton<ProductRepo>(
-    ProductRepoImpl(),
+  /* FEATURES */
+  // REPOSITORIES
+  serviceLocator.registerSingleton<AuthenticationRepository>(
+    AuthenticationRepositoryImpl(),
+  );
+
+  serviceLocator.registerSingleton<OrderRepository>(
+    OrderRepositoryImpl(),
+  );
+
+  serviceLocator.registerSingleton<ProductRepository>(
+    ProductRepositoryImpl(),
+  );
+
+  serviceLocator.registerSingleton<NewRepository>(
+    NewRepositoryImpl(),
+  );
+
+  // SERVICES
+  serviceLocator.registerSingleton<AuthenticationService>(
+    AuthenticationServiceImpl(),
   );
 
   serviceLocator.registerSingleton<ProductService>(
     ProductServiceImpl(),
   );
 
-  serviceLocator.registerSingleton<ProductUseCase>(
-    ProductUseCase(),
+  serviceLocator.registerSingleton<OrderService>(
+    OrderServiceImpl(),
   );
 
-  // SERVICES
-  serviceLocator.registerSingleton<AuthenticationFirebaseService>(
-    AuthenticationFirebaseServiceImpl(),
+  serviceLocator.registerSingleton<NewFirebaseService>(
+    NewFirebaseServiceImpl(),
   );
 
-  serviceLocator.registerSingleton<AuthenticationRepository>(
-    AuthenticationRepositoryImpl(),
-  );
-
+  // USECASES
   serviceLocator.registerSingleton<SignUpUseCase>(
     SignUpUseCase(),
   );
@@ -95,22 +105,6 @@ Future<void> initializeDependencies() async {
 
   serviceLocator.registerSingleton<UserValidateUseCase>(
     UserValidateUseCase(),
-  );
-
-  serviceLocator.registerSingleton<ProductWooService>(
-    ProductWooServiceImpl(),
-  );
-
-  serviceLocator.registerSingleton<OrderFirebaseService>(
-    OrderFirebaseServiceImpl(),
-  );
-
-  serviceLocator.registerSingleton<OrderRepository>(
-    OrderRepositoryImpl(),
-  );
-
-  serviceLocator.registerSingleton<ProductRepository>(
-    ProductRepositoryImpl(),
   );
 
   serviceLocator.registerSingleton<GetDoctorChoiceUseCase>(
@@ -131,14 +125,6 @@ Future<void> initializeDependencies() async {
 
   serviceLocator.registerSingleton<GoogleSignInUseCase>(
     GoogleSignInUseCase(),
-  );
-
-  serviceLocator.registerSingleton<NewFirebaseService>(
-    NewFirebaseServiceImpl(),
-  );
-
-  serviceLocator.registerSingleton<NewRepository>(
-    NewRepositoryImpl(),
   );
 
   serviceLocator.registerSingleton<GetNewsUseCase>(

@@ -5,7 +5,7 @@ import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/product_model.dart';
 
 class HomeProductsCard extends StatelessWidget {
   final ProductModel productModel;

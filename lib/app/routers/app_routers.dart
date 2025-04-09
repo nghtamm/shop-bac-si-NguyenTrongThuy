@@ -6,24 +6,24 @@ import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/forgot_pass
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/google_sign_in.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_in.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/pages/sign_up.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/cart.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/checkout_payment.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/favorites/views/pages/my_favorites.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/cart/cart.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/cart/checkout_payment.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/favorites/my_favorites.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/medical_chatbot/views/pages/chatbot.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/checkout.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/cart/checkout.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/onboarding/views/pages/onboarding.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/pages/home.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/cart_item_model.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/data/models/order_model.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_details.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_history.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/order/views/pages/order_items.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/cart/views/pages/order_placed.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/data/models/product_model.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/all_products.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/product/views/pages/product_details.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/order/cart_item_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/order/order_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/order/order_details.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/order/order_history.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/order/order_items.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/cart/order_placed.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/product_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/product/all_products.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/product/product_details.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/profile/views/pages/profile.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/search/views/pages/search.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/search/search.dart';
 
 final RouteObserver<ModalRoute<void>> observer =
     RouteObserver<ModalRoute<void>>();
