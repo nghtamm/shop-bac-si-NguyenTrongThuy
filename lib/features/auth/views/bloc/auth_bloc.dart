@@ -76,7 +76,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             message: left,
           ),
         );
-        event.completer!.complete();
       },
       (right) async {
         emit(Unauthenticated());

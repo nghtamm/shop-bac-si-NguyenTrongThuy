@@ -49,7 +49,7 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
     final data = await serviceLocator<GetProductsUseCase>().call(
       params: {
-        "per_page": 8,
+        "per_page": 10,
         "page": event.page,
       },
     );

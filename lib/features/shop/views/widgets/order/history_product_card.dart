@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/order/line_item_model.dart';
@@ -36,17 +37,21 @@ class HistoryProductCard extends StatelessWidget {
               children: [
                 Expanded(
                   flex: 3,
-                  child: Container(
-                    width: 90.w,
-                    decoration: BoxDecoration(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(4),
+                    child: Container(
+                      width: 90.w,
                       color: AppColors.white,
-                      image: DecorationImage(
+                      child: CachedNetworkImage(
+                        imageUrl: product.image,
                         fit: BoxFit.fill,
-                        image: NetworkImage(
-                          product.image,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
                         ),
                       ),
-                      borderRadius: BorderRadius.circular(4),
                     ),
                   ),
                 ),
