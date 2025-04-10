@@ -1,10 +1,10 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:dio/dio.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/constants/app_assets.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/medical_chatbot/views/widgets/chatbot_app_bar.dart';
+import 'dart:math';
 
 class Chatbot extends StatefulWidget {
   const Chatbot({super.key});
@@ -14,13 +14,15 @@ class Chatbot extends StatefulWidget {
 }
 
 class ChatbotState extends State<Chatbot> {
-  final _openAI = OpenAI.instance.build(
-    token: dotenv.env['OPENAI_API_KEY']!,
-    baseOption: HttpSetup(
-      receiveTimeout: const Duration(seconds: 20),
-    ),
-    enableLog: true,
-  );
+  final Dio _dio = Dio(BaseOptions(
+    validateStatus: (status) => true, // Cho phép mọi trạng thái HTTP không ném ngoại lệ
+    receiveTimeout: const Duration(seconds: 60),
+    sendTimeout: const Duration(seconds: 60),
+  ));
+  final String _webhookUrl = 'https://fianetcele.app.n8n.cloud/webhook/cf3cfd9f-6c81-4a30-b736-39d58f3245d6/chat';
+  
+  // Tạo sessionId đơn giản bằng timestamp và số ngẫu nhiên
+  final String _sessionId = '${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(10000)}';
 
   final ChatUser _currentUser = ChatUser(
     id: '1',
@@ -47,6 +49,24 @@ class ChatbotState extends State<Chatbot> {
           getChatResponse(m);
         },
         messages: _messages,
+        typingUsers: _typingUsers,
+        inputOptions: InputOptions(
+          inputDecoration: InputDecoration(
+            hintText: 'Nhập câu hỏi của bạn...',
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              borderSide: BorderSide.none,
+            ),
+            
+            fillColor: Theme.of(context).brightness == Brightness.dark 
+                ? Colors.grey[800] 
+                : Colors.grey[200],
+            filled: true,
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          ),
+          inputToolbarPadding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+          inputToolbarMargin: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+        ),
       ),
     );
   }
@@ -58,52 +78,87 @@ class ChatbotState extends State<Chatbot> {
         _typingUsers.add(_gptChatUser);
       });
 
-      List<Map<String, dynamic>> messagesHistory = _messages.reversed.map((m) {
-        if (m.user == _currentUser) {
-          return {'role': 'user', 'content': m.text};
-        } else {
-          return {'role': 'assistant', 'content': m.text};
-        }
-      }).toList();
-
-      final request = ChatCompleteText(
-        model: Gpt4ChatModel(),
-        messages: messagesHistory,
-        maxToken: 200,
+      // Sử dụng chatInputKey và chatSessionKey theo cấu hình n8n
+      final response = await _dio.post(
+        _webhookUrl,
+        data: {
+          'chatInput': m.text,
+          'sessionId': _sessionId,
+          'metadata': {}
+        },
       );
 
-      final response = await _openAI.onChatCompletion(request: request);
+      print('Trạng thái phản hồi: ${response.statusCode}');
+      print('Dữ liệu phản hồi: ${response.data}');
 
-      if (response != null) {
-        for (var element in response.choices) {
-          if (element.message != null) {
-            setState(() {
-              _messages.insert(
-                0,
-                ChatMessage(
-                  user: _gptChatUser,
-                  createdAt: DateTime.now(),
-                  text: element.message!.content,
-                ),
-              );
-            });
+      if (response.statusCode == 200) {
+        // Trích xuất nội dung từ phản hồi
+        final dynamic responseData = response.data;
+        String content = '';
+        
+        if (responseData is Map) {
+          if (responseData.containsKey('output')) {
+            final outputData = responseData['output'];
+            if (outputData is Map && outputData.containsKey('text')) {
+              content = outputData['text'];
+            } else if (outputData is String) {
+              content = outputData;
+            }
+          } else {
+            // Thử các trường phổ biến khác
+            content = responseData['content'] ?? 
+                      responseData['text'] ?? 
+                      responseData['response'] ??
+                      responseData['message'] ?? '';
           }
+        } else if (responseData is String) {
+          content = responseData;
         }
+        
+        // Nếu vẫn không tìm thấy nội dung
+        if (content.isEmpty) {
+          content = 'Không thể xử lý phản hồi từ máy chủ. Vui lòng thử lại.';
+        }
+        
+        setState(() {
+          _messages.insert(
+            0,
+            ChatMessage(
+              user: _gptChatUser,
+              createdAt: DateTime.now(),
+              text: content,
+            ),
+          );
+          _typingUsers.remove(_gptChatUser);
+        });
+      } else {
+        // Xử lý lỗi HTTP
+        print('Lỗi: ${response.statusCode} - ${response.statusMessage}');
+        print('Phản hồi: ${response.data}');
+        
+        setState(() {
+          _typingUsers.remove(_gptChatUser);
+        });
+        
+        throw Exception('Lỗi từ server: ${response.statusCode}');
       }
-      // setState(() {
-      //   _typingUsers.remove(_gptChatUser);
     } catch (e) {
+      setState(() {
+        _typingUsers.remove(_gptChatUser);
+      });
+      
       if (mounted) {
+        print(e.toString());
         ScaffoldMessenger.of(context).showMaterialBanner(
-          const MaterialBanner(
+          MaterialBanner(
             forceActionsBelow: true,
             content: AwesomeSnackbarContent(
               title: 'Đã xảy ra lỗi',
-              message: 'Vui lòng thử lại sau.',
+              message: 'Vui lòng thử lại sau. Lỗi: Không thể kết nối đến máy chủ.',
               contentType: ContentType.failure,
               inMaterialBanner: true,
             ),
-            actions: [
+            actions: const [
               SizedBox.shrink(),
             ],
           ),
