@@ -16,10 +16,10 @@ import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/repository/order/o
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/sources/order/order_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/repository/order/order_repository.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/order/add_to_cart_usecase.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/data/repository/news_repository_impl.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/data/sources/news_firebase_service.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/repository/news_repository.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/usecase/get_news_usecase.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/data/repository/videos_repository_impl.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/data/sources/videos_service.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/repository/videos_repository.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/usecase/get_videos_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/order/dispose_cart_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/order/display_cart_usecase.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/domain/usecase/order/get_order_history_usecase.dart';
@@ -69,8 +69,8 @@ Future<void> initializeDependencies() async {
     ProductRepositoryImpl(),
   );
 
-  serviceLocator.registerSingleton<NewRepository>(
-    NewRepositoryImpl(),
+  serviceLocator.registerSingleton<VideosRepository>(
+    VideosRepositoryImpl(),
   );
 
   // SERVICES
@@ -86,8 +86,8 @@ Future<void> initializeDependencies() async {
     OrderServiceImpl(),
   );
 
-  serviceLocator.registerSingleton<NewFirebaseService>(
-    NewFirebaseServiceImpl(),
+  serviceLocator.registerSingleton<VideosService>(
+    VideosServiceImpl(),
   );
 
   // USECASES
@@ -127,8 +127,8 @@ Future<void> initializeDependencies() async {
     GoogleSignInUseCase(),
   );
 
-  serviceLocator.registerSingleton<GetNewsUseCase>(
-    GetNewsUseCase(),
+  serviceLocator.registerSingleton<GetVideosUseCase>(
+    GetVideosUseCase(),
   );
 
   serviceLocator.registerSingleton<SearchProductUseCase>(

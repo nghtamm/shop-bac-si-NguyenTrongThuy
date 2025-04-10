@@ -86,41 +86,13 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const Icon(
-                                  Icons.medication_liquid_rounded,
+                                  Icons.medical_services_rounded,
                                   color: AppColors.black,
                                   size: 26,
                                 ),
                                 SizedBox(width: 14.w),
                                 Text(
                                   'Tất cả sản phẩm',
-                                  style: AppTypography.black['18_medium'],
-                                ),
-                              ],
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                              overlayColor: AppColors.grayNeutral,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.zero,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                vertical: 12.h,
-                                horizontal: 30.w,
-                              ),
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.newspaper_rounded,
-                                  color: AppColors.black,
-                                  size: 26,
-                                ),
-                                SizedBox(width: 14.w),
-                                Text(
-                                  'Chăm sóc sức khỏe',
                                   style: AppTypography.black['18_medium'],
                                 ),
                               ],
@@ -148,7 +120,7 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const Icon(
-                                  Icons.shopping_bag_rounded,
+                                  Icons.local_mall_rounded,
                                   color: AppColors.black,
                                   size: 26,
                                 ),
@@ -178,7 +150,7 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const Icon(
-                                  Icons.shopping_cart_rounded,
+                                  Icons.shopping_cart_outlined,
                                   color: AppColors.black,
                                   size: 26,
                                 ),
@@ -238,7 +210,7 @@ class ProfilePage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 const Icon(
-                                  Icons.chat_bubble_rounded,
+                                  Icons.chat_outlined,
                                   color: AppColors.black,
                                   size: 26,
                                 ),

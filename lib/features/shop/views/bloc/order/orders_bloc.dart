@@ -9,7 +9,7 @@ part 'orders_event.dart';
 part 'orders_state.dart';
 
 class OrdersBloc extends Bloc<OrdersEvent, OrdersState> {
-  OrdersBloc() : super(OrdersLoading()) {
+  OrdersBloc() : super(OrderInitial()) {
     on<DislayOrderHistory>(_onDisplayOrderHistory);
     on<OrderRegistered>(_onOrderRegistered);
   }

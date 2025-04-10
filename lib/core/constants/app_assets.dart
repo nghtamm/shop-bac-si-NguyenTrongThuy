@@ -22,6 +22,10 @@ class AppAssets {
   // General
   static const String capybara = '$imagesPath/capybara.png';
   static const String saleBanner = '$imagesPath/sale_banner.jpg';
+  static const String saleBanner2 = '$imagesPath/sale_banner_2.jpg';
+  static const String saleBanner3 = '$imagesPath/sale_banner_3.jpg';
+  static const String saleBanner4 = '$imagesPath/sale_banner_4.jpg';
+  static const String saleBanner5 = '$imagesPath/sale_banner_5.jpg';
 
   // SECTION: SVGs
   static const String googleIcon = '$svgPath/google_icon.svg';
@@ -30,4 +34,5 @@ class AppAssets {
   static const String search = '$svgPath/search.svg';
   static const String emptyCart = '$svgPath/empty_cart.svg';
   static const String delivered = '$svgPath/delivered.svg';
+  static const String casso = '$svgPath/casso.svg';
 }

@@ -1,17 +1,18 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/entities/news.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/data/models/videos_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class HomeNewsCard extends StatelessWidget {
-  final NewEntity newEntity;
+class HomeVideosCard extends StatelessWidget {
+  final VideosModel videosModel;
 
-  const HomeNewsCard({
+  const HomeVideosCard({
     super.key,
-    required this.newEntity,
+    required this.videosModel,
   });
 
   @override
@@ -24,8 +25,11 @@ class HomeNewsCard extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () async {
-              final Uri url = Uri.parse(newEntity.url);
-              if (!await launchUrl(url)) {
+              final Uri url = Uri.parse(videosModel.url);
+              if (!await launchUrl(
+                url,
+                mode: LaunchMode.externalApplication,
+              )) {
                 if (context.mounted) {
                   ScaffoldMessenger.of(context).showMaterialBanner(
                     const MaterialBanner(
@@ -65,18 +69,24 @@ class HomeNewsCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ClipRRect(
-                    //   borderRadius: const BorderRadius.only(
-                    //     topLeft: Radius.circular(20),
-                    //     topRight: Radius.circular(20),
-                    //   ),
-                    //   child: Image.network(
-                    //     newEntity.images,
-                    //     fit: BoxFit.cover,
-                    //     width: 300.w,
-                    //     height: 180.h,
-                    //   ),
-                    // ),
+                    ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: videosModel.thumbnailURL,
+                        fit: BoxFit.cover,
+                        width: 300.w,
+                        height: 180.h,
+                        placeholder: (context, url) => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        errorWidget: (context, url, error) => const Icon(
+                          Icons.error,
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: 20.w,
@@ -87,8 +97,10 @@ class HomeNewsCard extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              newEntity.title,
+                              videosModel.title,
                               style: AppTypography.black['16_semiBold'],
+                              maxLines: 4,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           SizedBox(width: 20.w),

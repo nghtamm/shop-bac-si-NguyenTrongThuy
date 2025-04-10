@@ -20,7 +20,7 @@ class CustomBottomNavbar extends StatelessWidget {
     } else if (index == 1) {
       context.push(RoutersName.cart);
     } else if (index == 2) {
-      debugPrint('Appointments');
+      context.push(RoutersName.orderHistory);
     } else if (index == 3) {
       context.push(RoutersName.profile);
     }
@@ -44,17 +44,17 @@ class CustomBottomNavbar extends StatelessWidget {
         children: [
           _buildNavbarTab(
             context,
-            Icons.home_rounded,
+            Icons.home_outlined,
             0,
           ),
           _buildNavbarTab(
             context,
-            Icons.shopping_cart_rounded,
+            Icons.shopping_cart_outlined,
             1,
           ),
           _buildNavbarTab(
             context,
-            Icons.receipt_rounded,
+            Icons.local_mall_outlined,
             2,
           ),
           _buildNavbarTab(

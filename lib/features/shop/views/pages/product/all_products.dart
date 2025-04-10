@@ -80,80 +80,94 @@ class _AllProductPageState extends State<AllProductPage> with RouteAware {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        backgroundColor: AppColors.grayLight,
+        backgroundColor: AppColors.white,
       ),
-      body: BlocListener<ProductsBloc, ProductsState>(
-        listenWhen: (previous, current) =>
-            current is ProductsLoaded && !_hasSyncedFavorites,
-        listener: (context, state) {
-          if (state is ProductsLoaded) {
-            _hasSyncedFavorites = true;
-            context.read<ProductsBloc>().add(FavoritesSynced());
-          }
-        },
-        child: BlocBuilder<ProductsBloc, ProductsState>(
-          builder: (context, state) {
-            if (state is ProductsLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            color: AppColors.white,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 30.w,
+                vertical: 20.h,
+              ),
+              child: Text(
+                'TẤT CẢ SẢN PHẨM',
+                style: AppTypography.black['32_extraBold'],
+              ),
+            ),
+          ),
+          Expanded(
+            child: BlocListener<ProductsBloc, ProductsState>(
+              listenWhen: (previous, current) =>
+                  current is ProductsLoaded && !_hasSyncedFavorites,
+              listener: (context, state) {
+                if (state is ProductsLoaded) {
+                  _hasSyncedFavorites = true;
+                  context.read<ProductsBloc>().add(FavoritesSynced());
+                }
+              },
+              child: BlocBuilder<ProductsBloc, ProductsState>(
+                builder: (context, state) {
+                  final isLoading = state is ProductsLoading;
+                  final products =
+                      state is ProductsLoaded ? state.products : [];
 
-            if (state is ProductsLoaded) {
-              return CustomScrollView(
-                controller: _scrollController,
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 25.w,
-                        vertical: 5.h,
-                      ),
-                      child: Text(
-                        'TẤT CẢ SẢN PHẨM',
-                        style: AppTypography.black['32_extraBold'],
-                      ),
-                    ),
-                  ),
-                  SliverPadding(
-                    padding: const EdgeInsets.all(16),
-                    sliver: SliverGrid(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) {
-                          return ProductCard(
-                            productModel: state.products[index],
-                          );
-                        },
-                        childCount: state.products.length,
-                      ),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 10.h,
-                        crossAxisSpacing: 10.w,
-                        childAspectRatio: 0.6,
-                      ),
-                    ),
-                  ),
-                  if (!state.hasReachedMax)
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 30.h,
+                  return CustomScrollView(
+                    controller: _scrollController,
+                    slivers: [
+                      if (!isLoading || products.isNotEmpty)
+                        SliverToBoxAdapter(
+                          child: Container(
+                            color: AppColors.grayLight,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: products.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 10.h,
+                                  crossAxisSpacing: 10.w,
+                                  childAspectRatio: 0.6,
+                                ),
+                                itemBuilder: (BuildContext context, int index) {
+                                  return ProductCard(
+                                    productModel: products[index],
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                         ),
-                        child: const Center(
-                          child: CircularProgressIndicator(),
+                      if (state is ProductsLoaded && !state.hasReachedMax)
+                        SliverToBoxAdapter(
+                          child: Container(
+                            color: AppColors.grayLight,
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 30.h),
+                              child: const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                ],
-              );
-            }
-
-            return Container(
-              color: AppColors.grayLight,
-            );
-          },
-        ),
+                      if (isLoading && products.isEmpty)
+                        const SliverFillRemaining(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
