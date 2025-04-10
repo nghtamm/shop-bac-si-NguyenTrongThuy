@@ -8,12 +8,10 @@ import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/bloc/product/prod
 
 class FavoriteButton extends StatelessWidget {
   final ProductModel productModel;
-  // final int? itemID;
 
   const FavoriteButton({
     super.key,
     required this.productModel,
-    // this.itemID,
   });
 
   @override
@@ -65,8 +63,11 @@ class FavoriteButton extends StatelessWidget {
                 forceActionsBelow: true,
                 content: AwesomeSnackbarContent(
                   title: 'Yêu thích',
-                  message: 'Đã thêm sản phẩm vào danh sách yêu thích.',
-                  contentType: ContentType.success,
+                  message: isFavorited
+                      ? 'Đã xóa sản phẩm khỏi danh sách yêu thích.'
+                      : 'Đã thêm sản phẩm vào danh sách yêu thích.',
+                  contentType:
+                      isFavorited ? ContentType.warning : ContentType.success,
                   inMaterialBanner: true,
                 ),
                 actions: const [

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -27,12 +29,25 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with RouteAware {
   late ScrollController _scrollController;
+  final PageController _pageController = PageController();
+
+  final List<String> bannerImages = [
+    AppAssets.saleBanner,
+    AppAssets.saleBanner2,
+    AppAssets.saleBanner3,
+    AppAssets.saleBanner4,
+    AppAssets.saleBanner5,
+  ];
+
+  int _currentPage = 0;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
 
     _scrollController = ScrollController();
+    _startAutoScroll();
   }
 
   void resetScroll() {
@@ -45,8 +60,30 @@ class _HomePageState extends State<HomePage> with RouteAware {
     }
   }
 
+  void _startAutoScroll() {
+    _timer = Timer.periodic(
+      const Duration(seconds: 4),
+      (Timer timer) {
+        if (_currentPage < bannerImages.length - 1) {
+          _currentPage++;
+        } else {
+          _currentPage = 0;
+        }
+        if (_pageController.hasClients) {
+          _pageController.animateToPage(
+            _currentPage,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        }
+      },
+    );
+  }
+
   @override
   void dispose() {
+    _timer?.cancel();
+    _pageController.dispose();
     _scrollController.dispose();
 
     super.dispose();
@@ -127,12 +164,19 @@ NGÀY TỐT LÀNH!''',
                         horizontal: 40.w,
                       ),
                       child: SizedBox(
-                        width: double.infinity,
+                        height: 180.h,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            AppAssets.saleBanner,
-                            fit: BoxFit.cover,
+                          child: PageView.builder(
+                            controller: _pageController,
+                            itemCount: bannerImages.length,
+                            itemBuilder: (context, index) {
+                              return Image.asset(
+                                bannerImages[index],
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              );
+                            },
                           ),
                         ),
                       ),
@@ -193,7 +237,7 @@ NGÀY TỐT LÀNH!''',
           flex: 2,
           child: ElevatedButton(
             onPressed: () {
-              context.push(RoutersName.cart);
+              context.push(RoutersName.allProducts);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primaryLight,
@@ -205,13 +249,13 @@ NGÀY TỐT LÀNH!''',
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.shopping_cart_outlined,
+                  Icons.medical_services_outlined,
                   color: AppColors.black,
                   size: 26,
                 ),
                 SizedBox(width: 10.w),
                 Text(
-                  'Giỏ hàng',
+                  'Sản phẩm',
                   style: AppTypography.black['20_bold'],
                 ),
               ],
@@ -223,7 +267,7 @@ NGÀY TỐT LÀNH!''',
           flex: 1,
           child: ElevatedButton(
             onPressed: () {
-              context.push(RoutersName.allProducts);
+              context.push(RoutersName.cart);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.goldSoft,
@@ -232,7 +276,7 @@ NGÀY TỐT LÀNH!''',
               ),
             ),
             child: const Icon(
-              Icons.medication_liquid_sharp,
+              Icons.shopping_cart_outlined,
               color: AppColors.black,
               size: 30,
             ),
@@ -249,7 +293,7 @@ NGÀY TỐT LÀNH!''',
           flex: 1,
           child: ElevatedButton(
             onPressed: () {
-              context.push(RoutersName.chatbot);
+              context.push(RoutersName.orderHistory);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.magentaSoft,
@@ -258,7 +302,7 @@ NGÀY TỐT LÀNH!''',
               ),
             ),
             child: const Icon(
-              Icons.chat_bubble_outline_rounded,
+              Icons.local_mall_outlined,
               color: AppColors.black,
               size: 30,
             ),
@@ -269,7 +313,7 @@ NGÀY TỐT LÀNH!''',
           flex: 2,
           child: ElevatedButton(
             onPressed: () {
-              context.push(RoutersName.orderHistory);
+              context.push(RoutersName.chatbot);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.cyanSoft,
@@ -281,13 +325,13 @@ NGÀY TỐT LÀNH!''',
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.receipt_outlined,
+                  Icons.chat_outlined,
                   color: AppColors.black,
                   size: 26,
                 ),
-                SizedBox(width: 10.w),
+                SizedBox(width: 8.w),
                 Text(
-                  'Hóa đơn',
+                  'Chat với AI',
                   style: AppTypography.black['20_bold'],
                 ),
               ],

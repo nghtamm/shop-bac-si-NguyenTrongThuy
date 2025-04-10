@@ -131,7 +131,9 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
     await _debouncer.asynchronousDebounce(() async {
       final data = await serviceLocator<SearchProductUseCase>().call(
-        params: {"search": event.query},
+        params: {
+          "search": event.query,
+        },
       );
 
       await data.fold(

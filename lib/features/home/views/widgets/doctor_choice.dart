@@ -5,6 +5,7 @@ import 'package:shop_bacsi_nguyentrongthuy/app/routers/app_routers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/bloc/product/products_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/home_products_card.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/shimmer_loading.dart';
 
 class DoctorChoice extends StatefulWidget {
   const DoctorChoice({super.key});
@@ -67,8 +68,16 @@ class _DoctorChoiceState extends State<DoctorChoice> with RouteAware {
       child: BlocBuilder<ProductsBloc, ProductsState>(
         builder: (context, state) {
           if (state is ProductsLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 40.w,
+                  vertical: 24.h,
+                ),
+                child: const ShimmerLoading(
+                  itemCount: 2,
+                ),
+              ),
             );
           }
 

@@ -28,6 +28,10 @@ class TextHelpers {
     return password.length >= 8;
   }
 
+  bool validatePhoneNumber(String phoneNumber) {
+    return phoneNumber.length == 10;
+  }
+
   String formatHTML(String text) {
     final document = html_parser.parse(text);
     return document.body?.text.trim() ?? '';

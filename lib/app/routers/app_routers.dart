@@ -17,7 +17,6 @@ import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/order/cart_
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/order/order_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/order/order_details.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/order/order_history.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/order/order_items.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/cart/order_placed.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/pages/product/all_products.dart';
@@ -149,15 +148,6 @@ class AppRouters {
         builder: (context, state) => const OrderHistoryPage(),
       ),
       GoRoute(
-        path: RoutersName.orderItems,
-        builder: (context, state) {
-          final products = state.extra as OrderModel;
-          return OrderItemsPage(
-            products: products,
-          );
-        },
-      ),
-      GoRoute(
         path: RoutersName.orderDetails,
         builder: (context, state) {
           final orderModel = state.extra as OrderModel;
@@ -170,7 +160,7 @@ class AppRouters {
       // Search
       GoRoute(
         path: RoutersName.search,
-        builder: (context, state) => SearchPage(),
+        builder: (context, state) => const SearchPage(),
       ),
 
       // Profile

@@ -20,18 +20,75 @@ class ProductPrice extends StatelessWidget {
         horizontal: 30.w,
       ),
       child: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: 8.h,
-          horizontal: 16.w,
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.grayNeutral,
-          borderRadius: BorderRadius.circular(14),
-        ),
-        child: Text(
-          TextHelpers().formatVNCurrency(productModel.price),
-          style: AppTypography.black['22_extraBold'],
-        ),
+        child: productModel.salePrice != ''
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Giá gốc:',
+                        style: AppTypography.black['18_medium'],
+                      ),
+                      SizedBox(width: 6.w),
+                      Text(
+                        TextHelpers()
+                            .formatVNCurrency(productModel.regularPrice),
+                        style: AppTypography.black['18_bold']?.copyWith(
+                          decoration: TextDecoration.lineThrough,
+                          color: AppColors.black.withOpacity(0.6),
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 12.w,
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 8.w,
+                          vertical: 4.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Text(
+                          'Tiết kiệm ${(100 - (double.parse(productModel.salePrice!) / double.parse(productModel.regularPrice!) * 100)).toStringAsFixed(0)}%',
+                          style: AppTypography.white['16_medium'],
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 8.h),
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 8.h,
+                      horizontal: 16.w,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.grayNeutral,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Text(
+                      TextHelpers().formatVNCurrency(productModel.salePrice),
+                      style: AppTypography.black['22_extraBold'],
+                    ),
+                  ),
+                ],
+              )
+            : Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 8.h,
+                  horizontal: 16.w,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.grayNeutral,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: Text(
+                  TextHelpers().formatVNCurrency(productModel.price),
+                  style: AppTypography.black['22_extraBold'],
+                ),
+              ),
       ),
     );
   }

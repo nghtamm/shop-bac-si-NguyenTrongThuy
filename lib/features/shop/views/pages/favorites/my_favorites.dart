@@ -56,57 +56,46 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> with RouteAware {
 
   @override
   Widget build(BuildContext context) {
-    // final productsBloc = context.read<ProductsBloc>();
-    // productsBloc.add(
-    //   FavoritesDisplayed(),
-    // );
-
     return Scaffold(
-      appBar: const CustomAppBar(
-        backgroundColor: AppColors.grayLight,
-      ),
-      body: BlocBuilder<ProductsBloc, ProductsState>(
-        builder: (context, state) {
-          if (state is ProductsLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          if (state is ProductsLoaded) {
-            return Column(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: AppColors.grayLight,
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 25.w,
-                      vertical: 5.h,
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'SẢN PHẨM YÊU THÍCH CỦA BẠN',
-                        style: AppTypography.black['32_extraBold'],
-                      ),
-                    ),
-                  ),
+      appBar: const CustomAppBar(),
+      body: Column(
+        children: [
+          Container(
+            decoration: const BoxDecoration(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 30.w,
+                vertical: 20.h,
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'SẢN PHẨM YÊU THÍCH CỦA BẠN',
+                  style: AppTypography.black['32_extraBold'],
                 ),
-                Expanded(
-                  child: _favorites(
-                    state.products,
-                  ),
-                ),
-              ],
-            );
-          }
+              ),
+            ),
+          ),
+          Expanded(
+            child: BlocBuilder<ProductsBloc, ProductsState>(
+              builder: (context, state) {
+                if (state is ProductsLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-          return Container(
-            color: AppColors.grayLight,
-          );
-        },
+                if (state is ProductsLoaded) {
+                  return _favorites(state.products);
+                }
+
+                return Container(
+                  color: AppColors.grayLight,
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

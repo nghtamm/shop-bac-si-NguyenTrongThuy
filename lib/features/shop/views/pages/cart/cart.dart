@@ -9,7 +9,6 @@ import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/widgets/cart/cart
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/widgets/cart/empty_cart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/order/cart_item_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
-import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/shimmer_loading.dart';
 
 class CartPage extends StatelessWidget {
   const CartPage({super.key});
@@ -43,15 +42,8 @@ class CartPage extends StatelessWidget {
               child: BlocBuilder<CartBloc, CartState>(
                 builder: (context, state) {
                   if (state is CartLoading) {
-                    return Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16.w,
-                      ),
-                      child: const Center(
-                        child: ShimmerLoading(
-                          itemCount: 6,
-                        ),
-                      ),
+                    return const Center(
+                      child: CircularProgressIndicator(),
                     );
                   }
 
