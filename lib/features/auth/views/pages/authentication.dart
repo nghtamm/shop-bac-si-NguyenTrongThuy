@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/constants/privacy_policy.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/widgets/google_login_button.dart';
 
@@ -93,49 +94,61 @@ class AuthenticationPage extends StatelessWidget {
                 onPressed: () {
                   showModalBottomSheet(
                     context: context,
+                    isScrollControlled: true,
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(20),
                       ),
                     ),
                     builder: (BuildContext context) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 40.w,
-                          vertical: 30.h,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'ĐIỀU KHOẢN VÀ THỎA THUẬN NGƯỜI DÙNG',
-                              style: AppTypography.black['20_bold'],
+                      return DraggableScrollableSheet(
+                        expand: false,
+                        initialChildSize: 0.75,
+                        minChildSize: 0.5,
+                        maxChildSize: 0.9,
+                        builder: (context, scrollController) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 40.w,
+                              vertical: 30.h,
                             ),
-                            SizedBox(height: 15.h),
-                            Text(
-                              'Chỗ này bao gồm nội dung của điều khoản và thỏa thuận người dùng. Người dùng cần đọc kỹ trước khi sử dụng ứng dụng.',
-                              style: AppTypography.black['16_regular'],
-                              textAlign: TextAlign.justify,
-                            ),
-                            SizedBox(height: 20.h),
-                            Align(
-                              alignment: Alignment.centerRight,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  context.pop();
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  minimumSize: Size(100.w, 50.h),
-                                ),
-                                child: Text(
-                                  'TÔI ĐÃ HIỂU',
-                                  style: AppTypography.white['18_extraBold'],
-                                ),
+                            child: SingleChildScrollView(
+                              controller: scrollController,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'ĐIỀU KHOẢN VÀ THỎA THUẬN NGƯỜI DÙNG',
+                                    style: AppTypography.black['20_bold'],
+                                  ),
+                                  SizedBox(height: 15.h),
+                                  Text(
+                                    PrivacyPolicy.content,
+                                    style: AppTypography.black['16_regular'],
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                  SizedBox(height: 20.h),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        context.pop();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        minimumSize: Size(100.w, 50.h),
+                                      ),
+                                      child: Text(
+                                        'TÔI ĐÃ HIỂU',
+                                        style:
+                                            AppTypography.white['18_extraBold'],
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
+                          );
+                        },
                       );
                     },
                   );

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/bloc/product/products_bloc.dart';
 
-class SearchField extends StatelessWidget {
+class SearchField extends StatefulWidget {
   const SearchField({
     super.key,
     required TextEditingController searchController,
@@ -12,9 +12,26 @@ class SearchField extends StatelessWidget {
   final TextEditingController _searchController;
 
   @override
+  State<SearchField> createState() => _SearchFieldState();
+}
+
+class _SearchFieldState extends State<SearchField> {
+  bool _hasText = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget._searchController.addListener(() {
+      setState(() {
+        _hasText = widget._searchController.text.isNotEmpty;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: _searchController,
+      controller: widget._searchController,
       onChanged: (searchValue) {
         if (searchValue.isEmpty) {
           context.read<ProductsBloc>().add(
@@ -32,7 +49,23 @@ class SearchField extends StatelessWidget {
       },
       decoration: InputDecoration(
         hintText: 'Nhập tên sản phẩm',
-        suffixIcon: const Icon(Icons.search_rounded),
+        suffixIcon: _hasText
+            ? IconButton(
+                icon: const Icon(
+                  Icons.close_rounded,
+                ),
+                onPressed: () {
+                  widget._searchController.clear();
+                  context.read<ProductsBloc>().add(
+                        SearchProductsDisplayed(
+                          query: '',
+                        ),
+                      );
+                },
+              )
+            : const Icon(
+                Icons.search_rounded,
+              ),
         contentPadding: EdgeInsets.symmetric(
           vertical: 10.h,
           horizontal: 15.w,

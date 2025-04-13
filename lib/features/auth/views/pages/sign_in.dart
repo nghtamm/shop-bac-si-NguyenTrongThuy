@@ -24,17 +24,16 @@ class _SignInPageState extends State<SignInPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   String? _emailError;
-  String? _passwordError;
 
   bool get isFormValid =>
       _emailController.text.trim().isNotEmpty &&
       _emailError == null &&
-      _passwordController.text.trim().isNotEmpty &&
-      _passwordError == null;
+      _passwordController.text.trim().isNotEmpty;
 
   @override
   void initState() {
     super.initState();
+
     _emailController.addListener(
       () => setState(() {
         final email = _emailController.text.trim();
@@ -49,17 +48,7 @@ class _SignInPageState extends State<SignInPage> {
       }),
     );
     _passwordController.addListener(
-      () => setState(() {
-        final password = _passwordController.text.trim();
-
-        if (password.isEmpty) {
-          _passwordError = null;
-        } else if (!TextHelpers().validatePassword(password)) {
-          _passwordError = 'Mật khẩu phải chứa ít nhất 8 ký tự';
-        } else {
-          _passwordError = null;
-        }
-      }),
+      () => setState(() {}),
     );
   }
 
@@ -137,7 +126,6 @@ class _SignInPageState extends State<SignInPage> {
                                 : Icons.visibility_off_rounded,
                           ),
                         ),
-                        errorText: _passwordError,
                       ),
                     );
                   },

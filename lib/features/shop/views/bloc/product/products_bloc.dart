@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/debouncer.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/variation_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/favorites/wishlist_item_model.dart';
@@ -16,6 +17,15 @@ part 'products_event.dart';
 part 'products_state.dart';
 
 class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
+  final Debouncer _debouncer = Debouncer(
+    delay: const Duration(
+      milliseconds: 500,
+    ),
+  );
+
+  int currentPage = 1;
+  bool _isFetching = false;
+
   ProductsBloc() : super(ProductsInitial()) {
     on<AllProductsDisplayed>(_onAllProductsDisplayed);
     on<DoctorChoiceDisplayed>(_onDoctorChoiceDisplayed);
@@ -31,25 +41,53 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     AllProductsDisplayed event,
     Emitter<ProductsState> emit,
   ) async {
+    if (_isFetching) return;
+    _isFetching = true;
+
     final currentState = state;
-    emit(ProductsLoading());
+    if (event.page == 1) emit(ProductsLoading());
 
     final data = await serviceLocator<GetProductsUseCase>().call(
-      params: {"per_page": 10},
+      params: {
+        "per_page": 10,
+        "page": event.page,
+      },
     );
 
     await data.fold(
-      (left) async => emit(ProductsLoadFailure(message: left.toString())),
-      (right) async => emit(
-        ProductsLoaded(
-          products: right,
-          favorites:
-              currentState is ProductsLoaded ? currentState.favorites : [],
-          variations:
-              currentState is ProductsLoaded ? currentState.variations : [],
+      (left) async => emit(
+        ProductsLoadFailure(
+          message: left.toString(),
         ),
       ),
+      (right) async {
+        final hasReachedMax = right.isEmpty;
+
+        if (currentState is ProductsLoaded && event.page > 1) {
+          emit(
+            currentState.copyWith(
+              products: currentState.products + right,
+              hasReachedMax: hasReachedMax,
+            ),
+          );
+        } else {
+          emit(
+            ProductsLoaded(
+              products: right,
+              favorites:
+                  currentState is ProductsLoaded ? currentState.favorites : [],
+              variations:
+                  currentState is ProductsLoaded ? currentState.variations : [],
+              hasReachedMax: hasReachedMax,
+            ),
+          );
+        }
+
+        currentPage = event.page;
+      },
     );
+
+    _isFetching = false;
   }
 
   Future<void> _onDoctorChoiceDisplayed(
@@ -67,7 +105,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
 
     await data.fold(
-      (left) async => emit(ProductsLoadFailure(message: left.toString())),
+      (left) async => emit(
+        ProductsLoadFailure(
+          message: left.toString(),
+        ),
+      ),
       (right) async => emit(
         ProductsLoaded(
           products: right,
@@ -87,22 +129,30 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     final currentState = state;
     emit(ProductsLoading());
 
-    final data = await serviceLocator<SearchProductUseCase>().call(
-      params: {"search": event.query},
-    );
+    await _debouncer.asynchronousDebounce(() async {
+      final data = await serviceLocator<SearchProductUseCase>().call(
+        params: {
+          "search": event.query,
+        },
+      );
 
-    await data.fold(
-      (left) async => emit(ProductsLoadFailure(message: left.toString())),
-      (right) async => emit(
-        ProductsLoaded(
-          products: right,
-          favorites:
-              currentState is ProductsLoaded ? currentState.favorites : [],
-          variations:
-              currentState is ProductsLoaded ? currentState.variations : [],
+      await data.fold(
+        (left) async => emit(
+          ProductsLoadFailure(
+            message: left.toString(),
+          ),
         ),
-      ),
-    );
+        (right) async => emit(
+          ProductsLoaded(
+            products: right,
+            favorites:
+                currentState is ProductsLoaded ? currentState.favorites : [],
+            variations:
+                currentState is ProductsLoaded ? currentState.variations : [],
+          ),
+        ),
+      );
+    });
   }
 
   Future<void> _onVariationDisplayed(
@@ -116,7 +166,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
 
     await data.fold(
-      (left) async => emit(ProductsLoadFailure(message: left.toString())),
+      (left) async => emit(
+        ProductsLoadFailure(
+          message: left.toString(),
+        ),
+      ),
       (right) async => emit(
         ProductsLoaded(
           products: currentState is ProductsLoaded ? currentState.products : [],
@@ -137,7 +191,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     final data = await serviceLocator<GetFavoritesUseCase>().call();
 
     await data.fold(
-      (left) async => emit(ProductsLoadFailure(message: left.toString())),
+      (left) async => emit(
+        ProductsLoadFailure(
+          message: left.toString(),
+        ),
+      ),
       (right) async {
         final favorites = right['favorites'] as List<WishlistItemModel>;
 
@@ -164,7 +222,11 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     final data = await serviceLocator<GetFavoritesUseCase>().call();
 
     await data.fold(
-      (left) async => emit(ProductsLoadFailure(message: left.toString())),
+      (left) async => emit(
+        ProductsLoadFailure(
+          message: left.toString(),
+        ),
+      ),
       (right) async {
         final products = right['products'] as List<ProductModel>;
         final favorites = right['favorites'] as List<WishlistItemModel>;
@@ -189,15 +251,20 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     emit(ProductsLoading());
 
     final data = await serviceLocator<AddToFavoritesUseCase>().call(
-      params: {"product_id": event.productID},
+      params: {
+        "product_id": event.productID,
+      },
     );
 
     await data.fold(
-      (left) async => emit(ProductsLoadFailure(message: left.toString())),
+      (left) async => emit(
+        ProductsLoadFailure(
+          message: left.toString(),
+        ),
+      ),
       (right) async {
-        final favoritesData =
-            await serviceLocator<GetFavoritesUseCase>().call();
-        final favorites = favoritesData.fold(
+        final favData = await serviceLocator<GetFavoritesUseCase>().call();
+        final favorites = favData.fold(
           (left) =>
               currentState is ProductsLoaded ? currentState.favorites : [],
           (right) => right['favorites'] as List<WishlistItemModel>,
@@ -228,11 +295,14 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     );
 
     await data.fold(
-      (left) async => emit(ProductsLoadFailure(message: left.toString())),
+      (left) async => emit(
+        ProductsLoadFailure(
+          message: left.toString(),
+        ),
+      ),
       (right) async {
-        final favoritesData =
-            await serviceLocator<GetFavoritesUseCase>().call();
-        final favorites = favoritesData.fold(
+        final favData = await serviceLocator<GetFavoritesUseCase>().call();
+        final favorites = favData.fold(
           (left) =>
               currentState is ProductsLoaded ? currentState.favorites : [],
           (right) => right['favorites'] as List<WishlistItemModel>,

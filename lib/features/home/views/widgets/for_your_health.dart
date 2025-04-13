@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/home_news_bloc.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/home_news_card.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/home/domain/entities/news.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/data/models/videos_model.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/views/bloc/videos_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/home_videos_card.dart';
+import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/shimmer_loading.dart';
 
 class ForYourHealth extends StatelessWidget {
   const ForYourHealth({super.key});
@@ -11,37 +12,55 @@ class ForYourHealth extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HomeNewsBloc()..add(NewsDisplayed()),
-      child: BlocBuilder<HomeNewsBloc, HomeNewsState>(
+      create: (context) => VideosBloc()
+        ..add(
+          VideosDisplayed(),
+        ),
+      child: BlocBuilder<VideosBloc, VideosState>(
         builder: (context, state) {
-          if (state is NewsLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
+          if (state is VideosLoading) {
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 40.w,
+                  vertical: 24.h,
+                ),
+                child: const ShimmerLoading(
+                  itemCount: 2,
+                ),
+              ),
             );
           }
-          if (state is NewsLoaded) {
+
+          if (state is VideosLoaded) {
             return _fyhNews(
-              state.news,
+              state.videos,
             );
           }
+
           return const SizedBox.shrink();
         },
       ),
     );
   }
 
-  Widget _fyhNews(List<NewEntity> news) {
+  Widget _fyhNews(List<VideosModel> videos) {
     return SizedBox(
       height: 330.h,
-      child: ListView.builder(
+      child: ListView.separated(
         padding: EdgeInsets.symmetric(
           horizontal: 40.w,
         ),
         scrollDirection: Axis.horizontal,
-        itemCount: news.length,
+        itemCount: videos.length,
         itemBuilder: (context, index) {
-          return HomeNewsCard(
-            newEntity: news[index],
+          return HomeVideosCard(
+            videosModel: videos[index],
+          );
+        },
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            width: 20.w,
           );
         },
       ),

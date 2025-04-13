@@ -106,7 +106,6 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             child: Column(
               children: [
-                const Spacer(),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
