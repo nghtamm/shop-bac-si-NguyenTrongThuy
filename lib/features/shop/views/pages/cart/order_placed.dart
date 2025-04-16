@@ -56,7 +56,7 @@ class OrderPlacedPage extends StatelessWidget {
                         MaterialBanner(
                           forceActionsBelow: true,
                           content: AwesomeSnackbarContent(
-                            title: 'Đã xảy ra lỗi',
+                            title: 'Thanh toán đơn hàng',
                             message: state.message,
                             contentType: ContentType.failure,
                             inMaterialBanner: true,
@@ -66,7 +66,8 @@ class OrderPlacedPage extends StatelessWidget {
                           ],
                         ),
                       );
-                      Future.delayed(const Duration(milliseconds: 1500), () {
+
+                      Future.delayed(const Duration(milliseconds: 2000), () {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).clearMaterialBanners();
                         }

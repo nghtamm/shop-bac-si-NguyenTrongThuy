@@ -1,4 +1,3 @@
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,28 +17,7 @@ class GoogleLoginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state is AuthFailure) {
-          ScaffoldMessenger.of(context).showMaterialBanner(
-            MaterialBanner(
-              forceActionsBelow: true,
-              content: AwesomeSnackbarContent(
-                title: 'Đã xảy ra lỗi',
-                message: state.message,
-                contentType: ContentType.failure,
-                inMaterialBanner: true,
-              ),
-              actions: const [
-                SizedBox.shrink(),
-              ],
-            ),
-          );
-
-          Future.delayed(const Duration(milliseconds: 1500), () {
-            if (context.mounted) {
-              ScaffoldMessenger.of(context).clearMaterialBanners();
-            }
-          });
-        } else if (state is Unauthenticated) {
+        if (state is Unauthenticated) {
           if (state.userData != null) {
             context.go(
               RoutersName.googleLogin,

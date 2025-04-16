@@ -85,6 +85,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> with RouteAware {
         create: (context) => CartBloc(),
         child: BlocBuilder<ProductsBloc, ProductsState>(
           builder: (context, state) {
+            Future.delayed(const Duration(milliseconds: 2000), () {
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).clearMaterialBanners();
+              }
+            });
+
             if (state is ProductsLoading) {
               context.loaderOverlay.show();
             } else {
@@ -430,12 +436,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> with RouteAware {
                             ],
                           ),
                         );
-                        Future.delayed(const Duration(milliseconds: 1500), () {
-                          if (context.mounted) {
-                            ScaffoldMessenger.of(context)
-                                .clearMaterialBanners();
-                          }
-                        });
                       }
                     },
                   ),

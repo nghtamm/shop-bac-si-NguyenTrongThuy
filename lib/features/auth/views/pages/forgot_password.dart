@@ -4,14 +4,53 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/auth_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 
-class ForgotPasswordPage extends StatelessWidget {
-  ForgotPasswordPage({super.key});
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
 
+  @override
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+}
+
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final TextEditingController _emailController = TextEditingController();
+
+  String? _emailError;
+
+  bool get isFormValid =>
+      _emailController.text.trim().isNotEmpty &&
+      _emailError == null &&
+      TextHelpers().validateEmail(_emailController.text);
+
+  @override
+  void initState() {
+    super.initState();
+
+    _emailController.addListener(
+      () => setState(() {
+        final email = _emailController.text.trim();
+
+        if (email.isEmpty) {
+          _emailError = null;
+        } else if (!TextHelpers().validateEmail(email)) {
+          _emailError = 'Định dạng email không hợp lệ';
+        } else {
+          _emailError = null;
+        }
+      }),
+    );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +84,12 @@ class ForgotPasswordPage extends StatelessWidget {
               SizedBox(height: 20.h),
               TextField(
                 controller: _emailController,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   hintText: 'Địa chỉ Email',
-                  prefixIcon: Icon(Icons.email_rounded),
+                  prefixIcon: const Icon(
+                    Icons.email_rounded,
+                  ),
+                  errorText: _emailError,
                 ),
               ),
               SizedBox(height: 40.h),
@@ -58,7 +100,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       MaterialBanner(
                         forceActionsBelow: true,
                         content: AwesomeSnackbarContent(
-                          title: 'Đã xảy ra lỗi',
+                          title: 'Đặt lại mật khẩu',
                           message: state.message,
                           contentType: ContentType.failure,
                           inMaterialBanner: true,
@@ -69,7 +111,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       ),
                     );
 
-                    Future.delayed(const Duration(milliseconds: 1500), () {
+                    Future.delayed(const Duration(milliseconds: 2000), () {
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).clearMaterialBanners();
                       }
@@ -79,7 +121,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       MaterialBanner(
                         forceActionsBelow: true,
                         content: AwesomeSnackbarContent(
-                          title: 'Quên mật khẩu',
+                          title: 'Đặt lại mật khẩu',
                           message: state.message,
                           contentType: ContentType.success,
                           inMaterialBanner: true,
@@ -89,13 +131,7 @@ class ForgotPasswordPage extends StatelessWidget {
                         ],
                       ),
                     );
-
-                    Future.delayed(const Duration(milliseconds: 1500), () {
-                      if (context.mounted) {
-                        ScaffoldMessenger.of(context).clearMaterialBanners();
-                        context.pop();
-                      }
-                    });
+                    context.pop();
                   }
                 },
                 builder: (context, state) {
@@ -106,11 +142,15 @@ class ForgotPasswordPage extends StatelessWidget {
                   }
 
                   return ElevatedButton(
-                    onPressed: () => context.read<AuthBloc>().add(
-                          ForgotPasswordRequested(
-                            email: _emailController.text.trim(),
-                          ),
-                        ),
+                    onPressed: isFormValid
+                        ? () {
+                            context.read<AuthBloc>().add(
+                                  ForgotPasswordRequested(
+                                    email: _emailController.text.trim(),
+                                  ),
+                                );
+                          }
+                        : null,
                     child: Text(
                       'TIẾP TỤC',
                       style: AppTypography.white['24_extraBold'],

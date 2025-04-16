@@ -202,7 +202,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         MaterialBanner(
                           forceActionsBelow: true,
                           content: AwesomeSnackbarContent(
-                            title: 'Đã xảy ra lỗi',
+                            title: 'Đăng ký tài khoản',
                             message: state.message,
                             contentType: ContentType.failure,
                             inMaterialBanner: true,
@@ -213,7 +213,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       );
 
-                      Future.delayed(const Duration(milliseconds: 1500), () {
+                      Future.delayed(const Duration(milliseconds: 2000), () {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).clearMaterialBanners();
                         }
@@ -223,7 +223,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         const MaterialBanner(
                           forceActionsBelow: true,
                           content: AwesomeSnackbarContent(
-                            title: 'Đăng ký thành công',
+                            title: 'Đăng ký tài khoản',
                             message:
                                 'Vui lòng đăng nhập để tiếp tục sử dụng ứng dụng!',
                             contentType: ContentType.success,
@@ -235,13 +235,15 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                       );
 
-                      Future.delayed(const Duration(milliseconds: 1500), () {
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).clearMaterialBanners();
-                          context.loaderOverlay.hide();
-                          context.replace(RoutersName.signIn);
-                        }
-                      });
+                      context.loaderOverlay.hide();
+                      context.replace(
+                        RoutersName.signIn,
+                        extra: {
+                          'showBanner': true,
+                          'message':
+                              'Vui lòng đăng nhập để tiếp tục sử dụng ứng dụng!',
+                        },
+                      );
                     }
                   },
                   builder: (context, state) {

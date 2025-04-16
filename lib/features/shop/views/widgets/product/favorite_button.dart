@@ -62,7 +62,7 @@ class FavoriteButton extends StatelessWidget {
               MaterialBanner(
                 forceActionsBelow: true,
                 content: AwesomeSnackbarContent(
-                  title: 'Yêu thích',
+                  title: 'Yêu thích sản phẩm',
                   message: isFavorited
                       ? 'Đã xóa sản phẩm khỏi danh sách yêu thích.'
                       : 'Đã thêm sản phẩm vào danh sách yêu thích.',
@@ -75,7 +75,8 @@ class FavoriteButton extends StatelessWidget {
                 ],
               ),
             );
-            Future.delayed(const Duration(milliseconds: 1500), () {
+
+            Future.delayed(const Duration(milliseconds: 2000), () {
               if (context.mounted) {
                 ScaffoldMessenger.of(context).clearMaterialBanners();
               }

@@ -230,7 +230,7 @@ class _GoogleSignInPageState extends State<GoogleSignInPage> {
                         MaterialBanner(
                           forceActionsBelow: true,
                           content: AwesomeSnackbarContent(
-                            title: 'Đã xảy ra lỗi',
+                            title: 'Đăng nhập bằng Google',
                             message: state.message,
                             contentType: ContentType.failure,
                             inMaterialBanner: true,
@@ -241,7 +241,7 @@ class _GoogleSignInPageState extends State<GoogleSignInPage> {
                         ),
                       );
 
-                      Future.delayed(const Duration(milliseconds: 1500), () {
+                      Future.delayed(const Duration(milliseconds: 2000), () {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).clearMaterialBanners();
                         }

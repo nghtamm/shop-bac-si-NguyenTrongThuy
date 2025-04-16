@@ -45,7 +45,7 @@ class ProductAppBar extends StatelessWidget implements PreferredSizeWidget {
                     const MaterialBanner(
                       forceActionsBelow: true,
                       content: AwesomeSnackbarContent(
-                        title: 'Chia sẻ',
+                        title: 'Chia sẻ sản phẩm',
                         message:
                             'Đã sao chép liên kết sản phẩm vào bộ nhớ tạm!',
                         contentType: ContentType.success,
@@ -56,7 +56,8 @@ class ProductAppBar extends StatelessWidget implements PreferredSizeWidget {
                       ],
                     ),
                   );
-                  Future.delayed(const Duration(milliseconds: 1500), () {
+
+                  Future.delayed(const Duration(milliseconds: 2000), () {
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).clearMaterialBanners();
                     }

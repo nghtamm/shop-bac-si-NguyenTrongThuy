@@ -30,6 +30,8 @@ class _SignInPageState extends State<SignInPage> {
       _emailError == null &&
       _passwordController.text.trim().isNotEmpty;
 
+  bool _hasHandledExtra = false;
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +52,40 @@ class _SignInPageState extends State<SignInPage> {
     _passwordController.addListener(
       () => setState(() {}),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_hasHandledExtra) return;
+
+    final extra = GoRouterState.of(context).extra as Map?;
+    if (extra != null && extra['showBanner'] == true) {
+      _hasHandledExtra = true;
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showMaterialBanner(
+          MaterialBanner(
+            forceActionsBelow: true,
+            content: AwesomeSnackbarContent(
+              title: 'Đăng ký tài khoản',
+              message: extra['message'],
+              contentType: ContentType.success,
+              inMaterialBanner: true,
+            ),
+            actions: const [
+              SizedBox.shrink(),
+            ],
+          ),
+        );
+
+        Future.delayed(const Duration(milliseconds: 2000), () {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).clearMaterialBanners();
+        });
+      });
+    }
   }
 
   @override
@@ -133,12 +169,18 @@ class _SignInPageState extends State<SignInPage> {
                 SizedBox(height: 40.h),
                 BlocConsumer<AuthBloc, AuthState>(
                   listener: (context, state) {
+                    Future.delayed(const Duration(milliseconds: 2000), () {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).clearMaterialBanners();
+                      }
+                    });
+
                     if (state is AuthFailure) {
                       ScaffoldMessenger.of(context).showMaterialBanner(
                         MaterialBanner(
                           forceActionsBelow: true,
                           content: AwesomeSnackbarContent(
-                            title: 'Đã xảy ra lỗi',
+                            title: 'Đăng nhập',
                             message: state.message,
                             contentType: ContentType.failure,
                             inMaterialBanner: true,
@@ -149,7 +191,7 @@ class _SignInPageState extends State<SignInPage> {
                         ),
                       );
 
-                      Future.delayed(const Duration(milliseconds: 1500), () {
+                      Future.delayed(const Duration(milliseconds: 2000), () {
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).clearMaterialBanners();
                         }

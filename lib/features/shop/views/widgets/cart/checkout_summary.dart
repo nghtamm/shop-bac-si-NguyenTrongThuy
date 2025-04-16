@@ -76,8 +76,8 @@ class CheckoutSummary extends StatelessWidget {
           SizedBox(height: 20.h),
           ElevatedButton(
             child: Text(
-              'THÊM VÀO GIỎ HÀNG',
-              style: AppTypography.white['22_extraBold'],
+              'THANH TOÁN',
+              style: AppTypography.white['26_extraBold'],
             ),
             onPressed: () {
               context.push(

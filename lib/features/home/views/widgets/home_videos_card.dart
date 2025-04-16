@@ -35,8 +35,8 @@ class HomeVideosCard extends StatelessWidget {
                     const MaterialBanner(
                       forceActionsBelow: true,
                       content: AwesomeSnackbarContent(
-                        title: 'Đã xảy ra lỗi',
-                        message: 'Tin tức bị lỗi hoặc không tồn tại.',
+                        title: 'Khởi động YouTuybe',
+                        message: 'Đã có lỗi xảy ra khi mở video trên YouTube.',
                         contentType: ContentType.failure,
                         inMaterialBanner: true,
                       ),
@@ -45,7 +45,8 @@ class HomeVideosCard extends StatelessWidget {
                       ],
                     ),
                   );
-                  Future.delayed(const Duration(milliseconds: 1500), () {
+
+                  Future.delayed(const Duration(milliseconds: 2000), () {
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).clearMaterialBanners();
                     }

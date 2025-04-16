@@ -48,7 +48,7 @@ class CartPage extends StatelessWidget {
                   }
 
                   if (state is CartLoaded) {
-                    Future.delayed(const Duration(milliseconds: 1500), () {
+                    Future.delayed(const Duration(milliseconds: 2000), () {
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).clearMaterialBanners();
                       }

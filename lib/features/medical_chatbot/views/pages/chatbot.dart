@@ -155,8 +155,9 @@ class ChatbotState extends State<Chatbot> {
           const MaterialBanner(
             forceActionsBelow: true,
             content: AwesomeSnackbarContent(
-              title: 'Đã xảy ra lỗi',
-              message: 'Không thể kết nối đến máy chủ. Vui lòng thử lại sau.',
+              title: 'Chat với AI',
+              message:
+                  'Đã có lỗi xảy ra trong quá trình kết nối đến máy chủ. Vui lòng thử lại sau.',
               contentType: ContentType.failure,
               inMaterialBanner: true,
             ),
@@ -166,7 +167,7 @@ class ChatbotState extends State<Chatbot> {
           ),
         );
 
-        Future.delayed(const Duration(milliseconds: 1500), () {
+        Future.delayed(const Duration(milliseconds: 2000), () {
           if (mounted) {
             ScaffoldMessenger.of(context).clearMaterialBanners();
           }
