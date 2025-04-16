@@ -59,6 +59,7 @@ class ApiClient {
     dynamic data,
     Map<String, dynamic>? headers,
     bool useJWT = false,
+    CancelToken? cancelToken,
   }) async {
     Response response;
     headers ??= {};
@@ -84,6 +85,7 @@ class ApiClient {
           endpoint,
           queryParameters: queryParameters,
           options: options,
+          cancelToken: cancelToken,
         );
         break;
       case ApiMethods.post:
@@ -92,6 +94,7 @@ class ApiClient {
           data: data,
           queryParameters: queryParameters,
           options: options,
+          cancelToken: cancelToken,
         );
         break;
       case ApiMethods.put:
@@ -100,6 +103,7 @@ class ApiClient {
           data: data,
           queryParameters: queryParameters,
           options: options,
+          cancelToken: cancelToken,
         );
         break;
       case ApiMethods.patch:
@@ -108,6 +112,7 @@ class ApiClient {
           data: data,
           queryParameters: queryParameters,
           options: options,
+          cancelToken: cancelToken,
         );
         break;
       case ApiMethods.delete:
@@ -116,6 +121,7 @@ class ApiClient {
           data: data,
           queryParameters: queryParameters,
           options: options,
+          cancelToken: cancelToken,
         );
         break;
     }

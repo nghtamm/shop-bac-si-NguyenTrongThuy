@@ -6,10 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/constants/app_assets.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/views/bloc/auth_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/sources/product/product_service.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/doctor_choice.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/home/views/widgets/for_your_health.dart';
@@ -128,6 +130,7 @@ NGÀY TỐT LÀNH!''',
                       ),
                       child: TextField(
                         onTap: () {
+                          serviceLocator<ProductService>().cancelRequest();
                           context.push(RoutersName.search);
                         },
                         readOnly: true,
@@ -237,6 +240,7 @@ NGÀY TỐT LÀNH!''',
           flex: 2,
           child: ElevatedButton(
             onPressed: () {
+              serviceLocator<ProductService>().cancelRequest();
               context.push(RoutersName.allProducts);
             },
             style: ElevatedButton.styleFrom(

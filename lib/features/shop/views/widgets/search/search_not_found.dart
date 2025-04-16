@@ -23,7 +23,7 @@ class SearchNotFound extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             child: Text(
-              "Sản phẩm bạn tìm kiếm hiện không tồn tại!",
+              'Sản phẩm bạn tìm kiếm hiện không tồn tại!',
               textAlign: TextAlign.center,
               style: AppTypography.black['24_semiBold'],
             ),

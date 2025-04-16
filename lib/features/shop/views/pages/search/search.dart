@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:shop_bacsi_nguyentrongthuy/app/routers/app_routers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/widgets/search/search_field.dart';
@@ -17,7 +16,7 @@ class SearchPage extends StatefulWidget {
   State<SearchPage> createState() => _SearchPageState();
 }
 
-class _SearchPageState extends State<SearchPage> with RouteAware {
+class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -25,36 +24,13 @@ class _SearchPageState extends State<SearchPage> with RouteAware {
     super.initState();
 
     context.read<ProductsBloc>().add(
-          SearchProductsDisplayed(query: ''),
+          SearchProductsDisplayed(query: 'null'),
         );
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    observer.subscribe(
-      this,
-      ModalRoute.of(context)!,
-    );
-  }
-
-  @override
   void dispose() {
-    observer.unsubscribe(this);
-
     super.dispose();
-  }
-
-  @override
-  void didPopNext() {
-    super.didPopNext();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<ProductsBloc>().add(
-            SearchProductsDisplayed(query: ''),
-          );
-    });
   }
 
   @override

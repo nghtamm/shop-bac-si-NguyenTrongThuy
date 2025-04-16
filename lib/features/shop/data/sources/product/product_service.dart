@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/local/global_storage.dart';
@@ -9,6 +10,7 @@ import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/var
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/favorites/wishlist_item_model.dart';
 
 abstract class ProductService {
+  void cancelRequest();
   Future<Either> getDoctorChoice({
     required int page,
   });
@@ -32,11 +34,21 @@ abstract class ProductService {
 }
 
 class ProductServiceImpl implements ProductService {
+  CancelToken? _cancelToken;
+
+  @override
+  void cancelRequest() {
+    _cancelToken?.cancel();
+  }
+
   @override
   Future<Either> getDoctorChoice({
     required int page,
   }) async {
     try {
+      _cancelToken?.cancel();
+      _cancelToken = CancelToken();
+
       final params = {
         'orderby': 'popularity',
         'per_page': page,
@@ -46,6 +58,7 @@ class ProductServiceImpl implements ProductService {
         endpoint: '${ApiEndpoints.woocommerce}products',
         method: ApiMethods.get,
         queryParameters: params,
+        cancelToken: _cancelToken,
       );
 
       if (response is List) {
@@ -57,6 +70,11 @@ class ProductServiceImpl implements ProductService {
       } else {
         return const Left("Định dạng dữ liệu không hợp lệ");
       }
+    } on DioException catch (e) {
+      if (CancelToken.isCancel(e)) {
+        return const Left('❌ Request đã bị huỷ!');
+      }
+      return Left(e.toString());
     } catch (e) {
       return Left(e.toString());
     }
@@ -67,6 +85,9 @@ class ProductServiceImpl implements ProductService {
     required String title,
   }) async {
     try {
+      _cancelToken?.cancel();
+      _cancelToken = CancelToken();
+
       final params = {
         'search': title,
       };
@@ -86,6 +107,11 @@ class ProductServiceImpl implements ProductService {
       } else {
         return const Left("Định dạng dữ liệu không hợp lệ");
       }
+    } on DioException catch (e) {
+      if (CancelToken.isCancel(e)) {
+        return const Left('❌ Request đã bị huỷ!');
+      }
+      return Left(e.toString());
     } catch (e) {
       return Left(e.toString());
     }
@@ -117,6 +143,11 @@ class ProductServiceImpl implements ProductService {
       } else {
         return const Left("Định dạng dữ liệu không hợp lệ");
       }
+    } on DioException catch (e) {
+      if (CancelToken.isCancel(e)) {
+        return const Left('❌ Request đã bị huỷ!');
+      }
+      return Left(e.toString());
     } catch (e) {
       return Left(e.toString());
     }

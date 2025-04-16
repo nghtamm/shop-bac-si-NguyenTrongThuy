@@ -14,28 +14,29 @@ class Chatbot extends StatefulWidget {
 }
 
 class ChatbotState extends State<Chatbot> {
-  final Dio _dio = Dio(BaseOptions(
-    validateStatus: (status) => true, // Cho phép mọi trạng thái HTTP không ném ngoại lệ
-    receiveTimeout: const Duration(seconds: 60),
-    sendTimeout: const Duration(seconds: 60),
-  ));
-  final String _webhookUrl = 'https://fianetcele.app.n8n.cloud/webhook/cf3cfd9f-6c81-4a30-b736-39d58f3245d6/chat';
-  
-  // Tạo sessionId đơn giản bằng timestamp và số ngẫu nhiên
-  final String _sessionId = '${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(10000)}';
+  final Dio _dio = Dio(
+    BaseOptions(
+      validateStatus: (status) => true,
+      receiveTimeout: const Duration(seconds: 60),
+      sendTimeout: const Duration(seconds: 60),
+    ),
+  );
 
+  final String _webhookUrl =
+      'https://fianetcele.app.n8n.cloud/webhook/cf3cfd9f-6c81-4a30-b736-39d58f3245d6/chat';
+  final String _sessionId =
+      '${DateTime.now().millisecondsSinceEpoch}_${Random().nextInt(10000)}';
   final ChatUser _currentUser = ChatUser(
     id: '1',
     firstName: 'Người',
-    lastName: 'Dùng',
+    lastName: 'dùng',
   );
   final ChatUser _gptChatUser = ChatUser(
     id: '2',
-    firstName: 'Chuột',
-    lastName: 'Lang Nước',
+    firstName: 'Bác sĩ',
+    lastName: 'Chuột Lang Nước',
     profileImage: AppAssets.capybara,
   );
-
   final List<ChatMessage> _messages = <ChatMessage>[];
   final List<ChatUser> _typingUsers = <ChatUser>[];
 
@@ -57,15 +58,24 @@ class ChatbotState extends State<Chatbot> {
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide.none,
             ),
-            
-            fillColor: Theme.of(context).brightness == Brightness.dark 
-                ? Colors.grey[800] 
+            fillColor: Theme.of(context).brightness == Brightness.dark
+                ? Colors.grey[800]
                 : Colors.grey[200],
             filled: true,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 8,
+            ),
           ),
-          inputToolbarPadding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
-          inputToolbarMargin: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+          inputToolbarPadding: const EdgeInsets.symmetric(
+            horizontal: 14,
+            vertical: 8,
+          ),
+          inputToolbarMargin: const EdgeInsets.only(
+            top: 8,
+            left: 8,
+            right: 8,
+          ),
         ),
       ),
     );
@@ -78,24 +88,19 @@ class ChatbotState extends State<Chatbot> {
         _typingUsers.add(_gptChatUser);
       });
 
-      // Sử dụng chatInputKey và chatSessionKey theo cấu hình n8n
       final response = await _dio.post(
         _webhookUrl,
         data: {
           'chatInput': m.text,
           'sessionId': _sessionId,
-          'metadata': {}
+          'metadata': {},
         },
       );
 
-      print('Trạng thái phản hồi: ${response.statusCode}');
-      print('Dữ liệu phản hồi: ${response.data}');
-
       if (response.statusCode == 200) {
-        // Trích xuất nội dung từ phản hồi
         final dynamic responseData = response.data;
         String content = '';
-        
+
         if (responseData is Map) {
           if (responseData.containsKey('output')) {
             final outputData = responseData['output'];
@@ -105,21 +110,21 @@ class ChatbotState extends State<Chatbot> {
               content = outputData;
             }
           } else {
-            // Thử các trường phổ biến khác
-            content = responseData['content'] ?? 
-                      responseData['text'] ?? 
-                      responseData['response'] ??
-                      responseData['message'] ?? '';
+            content = responseData['content'] ??
+                responseData['text'] ??
+                responseData['response'] ??
+                responseData['message'] ??
+                '';
           }
         } else if (responseData is String) {
           content = responseData;
         }
-        
-        // Nếu vẫn không tìm thấy nội dung
+
         if (content.isEmpty) {
-          content = 'Không thể xử lý phản hồi từ máy chủ. Vui lòng thử lại.';
+          content =
+              'Không thể xử lý phản hồi từ máy chủ. Vui lòng thử lại sau.';
         }
-        
+
         setState(() {
           _messages.insert(
             0,
@@ -132,33 +137,30 @@ class ChatbotState extends State<Chatbot> {
           _typingUsers.remove(_gptChatUser);
         });
       } else {
-        // Xử lý lỗi HTTP
-        print('Lỗi: ${response.statusCode} - ${response.statusMessage}');
-        print('Phản hồi: ${response.data}');
-        
         setState(() {
           _typingUsers.remove(_gptChatUser);
         });
-        
-        throw Exception('Lỗi từ server: ${response.statusCode}');
+
+        throw Exception(
+          'Đã xảy ra lỗi từ server: ${response.statusCode}',
+        );
       }
     } catch (e) {
       setState(() {
         _typingUsers.remove(_gptChatUser);
       });
-      
+
       if (mounted) {
-        print(e.toString());
         ScaffoldMessenger.of(context).showMaterialBanner(
-          MaterialBanner(
+          const MaterialBanner(
             forceActionsBelow: true,
             content: AwesomeSnackbarContent(
               title: 'Đã xảy ra lỗi',
-              message: 'Vui lòng thử lại sau. Lỗi: Không thể kết nối đến máy chủ.',
+              message: 'Không thể kết nối đến máy chủ. Vui lòng thử lại sau.',
               contentType: ContentType.failure,
               inMaterialBanner: true,
             ),
-            actions: const [
+            actions: [
               SizedBox.shrink(),
             ],
           ),
