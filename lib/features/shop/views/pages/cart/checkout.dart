@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +12,7 @@ import 'package:shop_bacsi_nguyentrongthuy/core/constants/app_assets.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/di/service_locator.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/helpers/text_helpers.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/local/global_storage.dart';
+import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/order/cart_item_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/bloc/order/orders_bloc.dart';
@@ -34,6 +38,13 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
+  // Địa chỉ giao hàng
+  Map<String, dynamic> addresses = {};
+  String? selectedState;
+  String? selectedCity;
+  String? selectedAddress;
+
+  // Phương thức thanh toán
   final ValueNotifier<String> _selectedPayment = ValueNotifier<String>('cod');
   final List<Map<String, String>> paymentMethods = [
     {
@@ -46,6 +57,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
     },
   ];
 
+  // TextEditingControllers
   final TextEditingController _nameController = TextEditingController(
     text: serviceLocator<GlobalStorage>().user?.displayName ?? '',
   );
@@ -56,6 +68,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
+  // TextField validations
   String? _emailError;
   String? _phoneError;
 
@@ -65,11 +78,23 @@ class _CheckoutPageState extends State<CheckoutPage> {
       _phoneError == null &&
       _emailController.text.trim().isNotEmpty &&
       _emailError == null &&
-      _addressController.text.trim().isNotEmpty;
+      _addressController.text.trim().isNotEmpty &&
+      selectedState != null &&
+      selectedCity != null &&
+      selectedAddress != null;
 
+  // CHECKOUT PAGE
   @override
   void initState() {
     super.initState();
+
+    rootBundle
+        .loadString('assets/json/vietnam_addresses.json')
+        .then((jsonString) {
+      setState(() {
+        addresses = json.decode(jsonString);
+      });
+    });
 
     _nameController.addListener(
       () => setState(() {}),
@@ -204,8 +229,102 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         2,
                       ),
 
-                      // Ghi chú
+                      // Dropdown: Tỉnh/Thành phố, Quận/Huyện, Xã/Phường/Thị trấn
+                      // Tỉnh/Thành phố
                       SizedBox(height: 10.h),
+                      _pickerTile(
+                        label: 'Tỉnh/Thành phố',
+                        value: selectedState != null
+                            ? addresses[selectedState]!['name']
+                            : null,
+                        onTap: () async {
+                          final keys = addresses.keys.toList();
+                          final result = await _showFlatPicker(
+                            context: context,
+                            title: 'Tỉnh/Thành phố',
+                            items: keys
+                                .map(
+                                  (key) => addresses[key]['name'] as String,
+                                )
+                                .toList(),
+                          );
+                          if (result != null) {
+                            setState(() {
+                              selectedState = keys[result];
+                              selectedCity = null;
+                              selectedAddress = null;
+                            });
+                          }
+                        },
+                      ),
+                      // Quận/Huyện
+                      SizedBox(height: 20.h),
+                      _pickerTile(
+                        label: 'Quận/Huyện',
+                        value: selectedCity != null && selectedState != null
+                            ? addresses[selectedState]!['districts']
+                                [selectedCity]!['name']
+                            : null,
+                        onTap: selectedState == null
+                            ? null
+                            : () async {
+                                final districts =
+                                    addresses[selectedState]!['districts']
+                                        as Map<String, dynamic>;
+                                final keys = districts.keys.toList();
+                                final result = await _showFlatPicker(
+                                  context: context,
+                                  title: 'Quận/Huyện',
+                                  items: keys
+                                      .map(
+                                        (key) =>
+                                            districts[key]['name'] as String,
+                                      )
+                                      .toList(),
+                                );
+                                if (result != null) {
+                                  setState(() {
+                                    selectedCity = keys[result];
+                                    selectedAddress = null;
+                                  });
+                                }
+                              },
+                      ),
+                      // Xã/Phường/Thị trấn
+                      SizedBox(height: 20.h),
+                      _pickerTile(
+                        label: 'Xã/Phường/Thị trấn',
+                        value: selectedAddress != null && selectedCity != null
+                            ? addresses[selectedState]!['districts']
+                                [selectedCity]!['wards'][selectedAddress]
+                            : null,
+                        onTap: selectedCity == null
+                            ? null
+                            : () async {
+                                final wards =
+                                    addresses[selectedState]!['districts']
+                                            [selectedCity]!['wards']
+                                        as Map<String, dynamic>;
+                                final keys = wards.keys.toList();
+                                final result = await _showFlatPicker(
+                                  context: context,
+                                  title: 'Xã/Phường/Thị trấn',
+                                  items: keys
+                                      .map(
+                                        (key) => wards[key] as String,
+                                      )
+                                      .toList(),
+                                );
+                                if (result != null) {
+                                  setState(() {
+                                    selectedAddress = keys[result];
+                                  });
+                                }
+                              },
+                      ),
+
+                      // Ghi chú
+                      SizedBox(height: 20.h),
                       Text(
                         'Ghi chú (tùy chọn)',
                         style: AppTypography.black['20_semiBold'],
@@ -307,9 +426,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                               _nameController.text.trim(),
                                           "address_1":
                                               _addressController.text.trim(),
-                                          "address_2": "",
-                                          "city": "",
-                                          "state": "",
+                                          "address_2": selectedAddress,
+                                          "city": selectedCity,
+                                          "state": selectedState,
                                           "postcode": "",
                                           "country": "",
                                           "email": _emailController.text.trim(),
@@ -321,9 +440,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                               _nameController.text.trim(),
                                           "address_1":
                                               _addressController.text.trim(),
-                                          "address_2": "",
-                                          "city": "",
-                                          "state": "",
+                                          "address_2": selectedAddress,
+                                          "city": selectedCity,
+                                          "state": selectedState,
                                           "postcode": "",
                                           "country": "",
                                           "email": _emailController.text.trim(),
@@ -404,6 +523,70 @@ class _CheckoutPageState extends State<CheckoutPage> {
     );
   }
 
+  Widget _pickerTile({
+    required String label,
+    required String? value,
+    required VoidCallback? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AbsorbPointer(
+        child: TextField(
+          enabled: false,
+          controller: TextEditingController(
+            text: value,
+          ),
+          style: AppTypography.black['16_regular'],
+          decoration: InputDecoration(
+            hintText: 'Lựa chọn $label',
+            hintStyle: AppTypography.black['16_medium']!.copyWith(
+              color: AppColors.gray,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<int?> _showFlatPicker({
+    required BuildContext context,
+    required String title,
+    required List<String> items,
+  }) async {
+    return await showModalBottomSheet<int>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+      ),
+      builder: (context) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(height: 15.h),
+            Text(
+              title,
+              style: AppTypography.black['20_semiBold'],
+            ),
+            SizedBox(height: 5.h),
+            const Divider(),
+            Flexible(
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: items.length,
+                itemBuilder: (context, index) => ListTile(
+                  title: Text(
+                    items[index],
+                  ),
+                  onTap: () => context.pop(index),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _checkoutInputField(
     BuildContext context,
     String hint,
@@ -419,6 +602,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
         controller: controller,
         decoration: InputDecoration(
           hintText: hint,
+          hintStyle: AppTypography.black['16_medium']!.copyWith(
+            color: AppColors.gray,
+          ),
           errorText: error,
         ),
         maxLines: maxLines,
