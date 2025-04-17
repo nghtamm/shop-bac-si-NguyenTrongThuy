@@ -6,6 +6,7 @@ import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/bloc/product/products_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/widgets/favorites/empty_favorites.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/product_card.dart';
 
@@ -86,7 +87,9 @@ class _MyFavoritesPageState extends State<MyFavoritesPage> with RouteAware {
                 }
 
                 if (state is ProductsLoaded) {
-                  return _favorites(state.products);
+                  return state.products.isEmpty
+                      ? const EmptyFavorites()
+                      : _favorites(state.products);
                 }
 
                 return Container(

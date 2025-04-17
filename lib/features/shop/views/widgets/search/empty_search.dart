@@ -5,13 +5,13 @@ import 'package:shop_bacsi_nguyentrongthuy/core/constants/app_assets.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 
-class SearchNotFound extends StatelessWidget {
-  const SearchNotFound({super.key});
+class EmptySearch extends StatelessWidget {
+  const EmptySearch({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.grayLight,
+      color: AppColors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

@@ -11,6 +11,7 @@ import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/order/order_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/bloc/order/orders_bloc.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/widgets/order/empty_order_history.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 
 class OrderHistoryPage extends StatelessWidget {
@@ -27,49 +28,49 @@ class OrderHistoryPage extends StatelessWidget {
               customerID: serviceLocator<GlobalStorage>().user!.id ?? '',
             ),
           ),
-        child: BlocBuilder<OrdersBloc, OrdersState>(
-          builder: (context, state) {
-            if (state is OrdersLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                top: 20.h,
+                bottom: 10.h,
+                left: 30.w,
+                right: 30.w,
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'LỊCH SỬ ĐƠN MUA',
+                  style: AppTypography.black['32_extraBold'],
+                ),
+              ),
+            ),
+            Expanded(
+              child: BlocBuilder<OrdersBloc, OrdersState>(
+                builder: (context, state) {
+                  if (state is OrdersLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
 
-            if (state is OrdersLoaded) {
-              return Column(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 20.h,
-                      bottom: 10.h,
-                      left: 30.w,
-                      right: 30.w,
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'LỊCH SỬ ĐƠN MUA',
-                        style: AppTypography.black['32_extraBold'],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: _orders(
-                      state.orders,
-                    ),
-                  ),
-                ],
-              );
-            }
+                  if (state is OrdersLoaded) {
+                    return state.orders.isNotEmpty
+                        ? _orders(state.orders)
+                        : const EmptyOrderHistory();
+                  }
 
-            if (state is OrdersLoadFailure) {
-              return Center(
-                child: Text(state.message),
-              );
-            }
+                  if (state is OrdersLoadFailure) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  }
 
-            return Container();
-          },
+                  return Container();
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );

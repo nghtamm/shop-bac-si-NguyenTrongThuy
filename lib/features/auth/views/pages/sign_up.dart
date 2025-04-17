@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +23,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  final completer = Completer<void>();
+
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
@@ -253,7 +257,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
                     return ElevatedButton(
                       onPressed: isFormValid
-                          ? () {
+                          ? () async {
                               context.read<AuthBloc>().add(
                                     SignUpRequested(
                                       firstName:
@@ -270,8 +274,10 @@ class _SignUpPageState extends State<SignUpPage> {
                                           TextHelpers().formatUserNicename(
                                         _displayNameController.text.trim(),
                                       ),
+                                      completer: completer,
                                     ),
                                   );
+                              await completer.future;
                             }
                           : null,
                       child: Text(

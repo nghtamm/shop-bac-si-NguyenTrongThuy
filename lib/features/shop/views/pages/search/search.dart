@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/product/product_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/widgets/search/search_field.dart';
-import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/widgets/search/search_not_found.dart';
+import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/widgets/search/empty_search.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/views/bloc/product/products_bloc.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/product_card.dart';
 
@@ -64,7 +64,7 @@ class _SearchPageState extends State<SearchPage> {
           }
           if (state is ProductsLoaded) {
             return state.products.isEmpty
-                ? const SearchNotFound()
+                ? const EmptySearch()
                 : _searchProducts(
                     state.products,
                   );

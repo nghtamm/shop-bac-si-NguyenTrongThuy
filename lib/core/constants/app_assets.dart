@@ -35,4 +35,6 @@ class AppAssets {
   static const String emptyCart = '$svgPath/empty_cart.svg';
   static const String delivered = '$svgPath/delivered.svg';
   static const String casso = '$svgPath/casso.svg';
+  static const String favorites = '$svgPath/favorites.svg';
+  static const String orderHistory = '$svgPath/order_history.svg';
 }
