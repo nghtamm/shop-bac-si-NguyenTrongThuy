@@ -1,3 +1,4 @@
+import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/auth/data/models/user_model.dart';
 import 'package:shop_bacsi_nguyentrongthuy/features/shop/data/models/order/cart_item_model.dart';
@@ -10,6 +11,7 @@ class StorageKey {
   static const String userModel = 'user_model';
   static const String cartItems = 'cart_items';
   static const String shareKey = 'share_key';
+  static const String chatHistory = 'chat_history';
 }
 
 abstract class GlobalStorage {
@@ -36,6 +38,11 @@ abstract class GlobalStorage {
   String? get shareKey;
   Future<void> saveShareKey(String shareKey);
   Future<void> clearShareKey();
+
+  // Chat History
+  List<ChatMessage> get chatHistory;
+  Future<void> addChatMessage(ChatMessage message);
+  Future<void> clearChatHistory();
 }
 
 class GlobalStorageImpl implements GlobalStorage {
@@ -136,5 +143,22 @@ class GlobalStorageImpl implements GlobalStorage {
   @override
   Future<void> clearShareKey() async {
     await _box.delete(StorageKey.shareKey);
+  }
+
+  @override
+  List<ChatMessage> get chatHistory {
+    final history = _box.get(StorageKey.chatHistory);
+    return (history as List?)?.cast<ChatMessage>() ?? [];
+  }
+
+  @override
+  Future<void> addChatMessage(ChatMessage message) async {
+    final updatedHistory = [...chatHistory, message];
+    await _box.put(StorageKey.chatHistory, updatedHistory);
+  }
+
+  @override
+  Future<void> clearChatHistory() async {
+    await _box.delete(StorageKey.chatHistory);
   }
 }

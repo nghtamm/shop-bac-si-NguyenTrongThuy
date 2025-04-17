@@ -199,6 +199,7 @@ class AuthenticationServiceImpl extends AuthenticationService {
       await serviceLocator<GlobalStorage>().clearUser();
       await serviceLocator<GlobalStorage>().clearShareKey();
       await serviceLocator<GlobalStorage>().clearCart();
+      await serviceLocator<GlobalStorage>().clearChatHistory();
 
       return const Right('Đăng xuất thành công!');
     } catch (error) {

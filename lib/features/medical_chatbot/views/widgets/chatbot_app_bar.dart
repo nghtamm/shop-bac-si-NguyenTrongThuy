@@ -5,28 +5,28 @@ import 'package:shop_bacsi_nguyentrongthuy/core/constants/app_assets.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/app_colors.dart';
 import 'package:shop_bacsi_nguyentrongthuy/core/theme/typography.dart';
 
-class ChatbotAppbar extends StatelessWidget implements PreferredSizeWidget {
-  const ChatbotAppbar({super.key});
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
+class ChatbotAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const ChatbotAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.white,
-        elevation: 1,
-        leading: IconButton(
+    return AppBar(
+      backgroundColor: AppColors.white,
+      elevation: 0,
+      toolbarHeight: 80.h,
+      leading: Transform.translate(
+        offset: Offset(8.w, 12.h),
+        child: IconButton(
           icon: const Icon(
-            Icons.arrow_back,
-            color: AppColors.black,
+            Icons.arrow_back_ios_new_rounded,
+            size: 24,
           ),
-          onPressed: () {
-            context.pop();
-          },
+          onPressed: () => context.pop(),
         ),
-        title: Row(
+      ),
+      title: Transform.translate(
+        offset: Offset(0.w, 12.h),
+        child: Row(
           children: [
             const CircleAvatar(
               radius: 22,
@@ -37,11 +37,11 @@ class ChatbotAppbar extends StatelessWidget implements PreferredSizeWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Tư vấn sức khoẻ',
+                  'Bác sĩ Capybara',
                   style: AppTypography.black['18_bold'],
                 ),
                 Text(
-                  'Chuột lang nước',
+                  'Tư vấn sức khỏe cơ - xương - khớp',
                   style: AppTypography.black['12_regular']?.copyWith(
                     color: AppColors.gray,
                   ),
@@ -53,4 +53,7 @@ class ChatbotAppbar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
   }
+
+  @override
+  Size get preferredSize => Size.fromHeight(80.h);
 }

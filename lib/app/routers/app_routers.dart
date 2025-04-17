@@ -124,7 +124,7 @@ class AppRouters {
       // Medical Chatbot
       GoRoute(
         path: RoutersName.chatbot,
-        builder: (context, state) => const Chatbot(),
+        builder: (context, state) => const ChatbotPage(),
       ),
 
       // Product
