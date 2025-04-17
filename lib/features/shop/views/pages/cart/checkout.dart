@@ -236,28 +236,26 @@ class _CheckoutPageState extends State<CheckoutPage> {
                                     vertical: 2.h,
                                     horizontal: 0.w,
                                   ),
-                                  title: Expanded(
-                                    child: method['method'] == 'cod'
-                                        ? Text(
-                                            'Thanh toán khi nhận hàng',
-                                            style: AppTypography
-                                                .black['16_medium'],
-                                          )
-                                        : Row(
-                                            children: [
-                                              Text(
-                                                'Chuyển khoản qua',
-                                                style: AppTypography
-                                                    .black['16_medium'],
-                                              ),
-                                              SizedBox(width: 6.w),
-                                              SvgPicture.asset(
-                                                AppAssets.casso,
-                                                height: 32.h,
-                                              )
-                                            ],
-                                          ),
-                                  ),
+                                  title: method['method'] == 'cod'
+                                      ? Text(
+                                          'Thanh toán khi nhận hàng',
+                                          style:
+                                              AppTypography.black['16_medium'],
+                                        )
+                                      : Row(
+                                          children: [
+                                            Text(
+                                              'Chuyển khoản qua',
+                                              style: AppTypography
+                                                  .black['16_medium'],
+                                            ),
+                                            SizedBox(width: 6.w),
+                                            SvgPicture.asset(
+                                              AppAssets.casso,
+                                              height: 32.h,
+                                            )
+                                          ],
+                                        ),
                                   value: method['method']!,
                                   groupValue: selected,
                                   onChanged: (value) {
