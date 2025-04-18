@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shop_bacsi_nguyentrongthuy/app/routers/routers_name.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:shop_bacsi_nguyentrongthuy/shared/widgets/app_bar.dart';
 
@@ -38,15 +40,17 @@ class _CheckoutPaymentPageState extends State<CheckoutPaymentPage> {
               ''');
             });
 
-            // 🛠️ TBD (Casso isn't working at the moment): Navigate to 'order_placed' after order is paid 🛠️
-            /* final exists = await _controller.runJavaScriptReturningResult('''
-            document.querySelector('.woocommerce-casso-wordpress-plugin-qr-scan') !== null
+            final result = await _controller.runJavaScriptReturningResult('''
+            (function() {
+            const btn = document.querySelector('#input_casso');
+            return btn && btn.innerText.trim() === 'BẠN ĐÃ THANH TOÁN THÀNH CÔNG';
+            })()
             ''');
-            if (exists == false || exists.toString() == 'false') {
+            if (result == true || result.toString() == 'true') {
               if (mounted) {
                 context.go(RoutersName.orderPlaced);
               }
-            } */
+            }
 
             setState(() {
               _isLoading = false;
