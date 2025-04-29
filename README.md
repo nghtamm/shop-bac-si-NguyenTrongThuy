@@ -23,7 +23,7 @@ Bài tập lớn: Lập trình di động (Học kì 1 - Năm 4 - Học viện N
 - Cập nhật kịp thời toàn bộ clip mới nhất của [Bác sĩ Nguyễn Trọng Thủy](https://www.youtube.com/@bacsinguyentrongthuystarsmec) sử dụng [Youtube Data API v3](https://developers.google.com/youtube/v3)
 - Hệ quản trị nội dung (CMS) quản lý toàn bộ dữ liệu liên quan tới _accounts, customers, orders, products,..._ sử dụng dashboard quản trị viên của WooCommerce và [Pancake POS](https://pos.pancake.vn/dashboard)
 
-### Disclaimer: Toàn bộ dữ liệu, thông tin và hình ảnh của dự án thuộc quyền sở hữu của doanh nghiệp Shop Bác sĩ Nguyễn Trọng Thủy và Trung tâm Y học Thể thao STARSEMC, vui lòng không sử dụng với mục đích cá nhân!
+### Disclaimer: Toàn bộ dữ liệu, thông tin và hình ảnh của dự án thuộc quyền sở hữu của doanh nghiệp Shop Bác sĩ Nguyễn Trọng Thủy và Trung tâm Y học Thể thao STARSMEC, vui lòng không sử dụng với mục đích cá nhân!
 
 **Nhóm tác giả**
 
